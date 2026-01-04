@@ -29,9 +29,9 @@ import DirectoryTree from '../../components/DirectoryTree.astro';
     ├── session-end.md
     └── monthly-review.md
 
-~/dev/CLAUDE.md                   # Workspace Level (Conventions)
+~/workspace/CLAUDE.md             # Workspace Level (Conventions)
 
-~/dev/my-repo/                    # Repo Level (Team-Shared)
+~/projects/my-app/                # Repo Level (Team-Shared)
 ├── CLAUDE.md
 └── .claude/
     ├── settings.json             # Team (committed)
@@ -47,11 +47,11 @@ import DirectoryTree from '../../components/DirectoryTree.astro';
 | Task | Command |
 |------|---------|
 | Create user-level skill | `vim ~/.claude/skills/my-skill.md` |
-| Add repo agent | `vim ~/dev/my-repo/.claude/agents/my-agent.md` |
-| Override repo permissions | `vim ~/dev/my-repo/.claude/settings.local.json` |
+| Add repo agent | `vim ~/projects/my-app/.claude/agents/my-agent.md` |
+| Override repo permissions | `vim ~/projects/my-app/.claude/settings.local.json` |
 | List user agents | `ls ~/.claude/agents/` |
 | List repo agents | `ls ./.claude/agents/` |
-| View migration backup | `ls ~/dev/docs/archives/claude-architecture-migration-2026-01-02/` |
+| View migration backup | `ls ~/workspace/docs/archives/claude-architecture-migration-2026-01-02/` |
 
 ### File Path Templates
 
@@ -65,7 +65,7 @@ import DirectoryTree from '../../components/DirectoryTree.astro';
 ~/.claude/maintenance/{workflow-name}.md
 
 # Workspace Level
-~/dev/CLAUDE.md
+~/workspace/CLAUDE.md
 
 # Repo Level (Team-Shared)
 <repo>/CLAUDE.md

@@ -31,12 +31,12 @@ The plugin automatically activates when you're working on frontend code. It refe
 ### What It Enforces
 
 **Typography:**
-- Suggests fonts from your library (`~/dev/shared-fonts/fontshare/`)
+- Suggests fonts from your shared library
 - Recommends: Satoshi, Cabinet Grotesk, General Sans, Switzer
 - Prevents: Generic system fonts, Arial, Helvetica
 
 **Spacing:**
-- References `~/dev/docs/workspace-asset-standards.md`
+- References design standards documentation
 - Enforces app-type appropriate spacing:
   - Dashboard: 4-8-12px gaps
   - SaaS: 8-12-16px gaps
@@ -56,12 +56,12 @@ The plugin automatically activates when you're working on frontend code. It refe
 ### Active Repos
 
 The plugin is particularly useful in:
-- **osd-v2** (most advanced frontend)
-- **orpheus-sdk/apps/clip-composer** (C++ app with UI)
-- **listmaker** (task management UI)
-- **chrislyons-website** (personal site)
-- **carbon-acx** (3D visualization dashboards)
-- **wordbird** (dictionary UI)
+- **dashboard-v2** (most advanced frontend)
+- **audio-editor-app** (C++ app with UI)
+- **task-app** (task management UI)
+- **personal-portfolio** (marketing site)
+- **data-dashboard** (3D visualization)
+- **dictionary-app** (reference UI)
 
 ### Example Interaction
 
@@ -188,10 +188,10 @@ fs.readFile(`./files/${userFilename}`)
 ### Multi-Language Support
 
 Security-guidance works across your entire stack:
-- **Python:** carbon-acx (pandas, data processing)
-- **TypeScript/Node:** hotbox, helm, listmaker
-- **Rust:** wordbird (safer by default, but still monitors)
-- **C++:** orpheus-sdk (additional C++-specific checks)
+- **Python:** data-pipeline (pandas, data processing)
+- **TypeScript/Node:** content-system, knowledge-base, task-app
+- **Rust:** dict-app (safer by default, but still monitors)
+- **C++:** audio-lib (additional C++-specific checks)
 
 ### What Happens When Triggered
 
@@ -242,7 +242,7 @@ Both plugins work automatically:
 **Test frontend-design:**
 ```bash
 # Create a new component in any frontend repo
-cd ~/dev/listmaker
+cd ~/projects/task-app
 # Ask Claude to create a button component
 # Notice: Uses Cabinet Grotesk, proper spacing, no generic styles
 ```
@@ -250,7 +250,7 @@ cd ~/dev/listmaker
 **Test security-guidance:**
 ```bash
 # Try adding code with potential security issue
-cd ~/dev/carbon-acx
+cd ~/projects/data-pipeline
 # Ask Claude to add database query with string interpolation
 # Notice: Warning appears before code is written
 ```

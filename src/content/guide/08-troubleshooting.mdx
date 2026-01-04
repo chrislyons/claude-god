@@ -57,11 +57,11 @@ If the migration causes issues, restore from backup:
 
 ```bash
 # Restore user-level config
-cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/user-claude-backup/* ~/.claude/
+cp -r ~/workspace/docs/archives/claude-architecture-migration-2026-01-02/user-claude-backup/* ~/.claude/
 
-# Restore workspace .claude/ (if needed)
-cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/workspace-claude-backup ~/dev/.claude
+# Restore workspace configuration (if needed)
+cp -r ~/workspace/docs/archives/claude-architecture-migration-2026-01-02/workspace-backup ~/workspace/.claude
 
 # Restore specific repo
-cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/my-repo-claude-backup ~/dev/my-repo/.claude
+cp -r ~/workspace/docs/archives/claude-architecture-migration-2026-01-02/my-app-backup ~/projects/my-app/.claude
 ```

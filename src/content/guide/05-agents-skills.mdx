@@ -14,7 +14,7 @@ import Callout from '../../components/Callout.astro';
 |------------|----------|---------|
 | Personal automation | ~/.claude/agents/ | git-workflow-agent, doc-syncer |
 | Project-specific | &lt;repo&gt;/.claude/agents/ | citation-validator, deployment-orchestrator |
-| Domain-specific | &lt;repo&gt;/.claude/agents/ | carbon-data-manager (for carbon-acx) |
+| Domain-specific | &lt;repo&gt;/.claude/agents/ | data-analyzer (for data-pipeline) |
 
 ### Agent Format Requirements
 
@@ -59,5 +59,5 @@ Skills are discovered from two locations:
 The migration distributed agents based on relevance:
 
 - **citation-validator** → 6 repos (all repos with documentation)
-- **deployment-orchestrator** → 3 repos (wordbird, carbon-acx, boot-site)
+- **deployment-orchestrator** → multiple repos (data-pipeline, dict-app, landing-page)
 - **git-workflow-agent** → User level (applies to all repos)

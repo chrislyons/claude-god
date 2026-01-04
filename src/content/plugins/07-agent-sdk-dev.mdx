@@ -15,12 +15,12 @@ Tools for validating existing agents and building new ones following Agent SDK b
 ## Why This Matters
 
 You already have custom agents in your repos:
-- `carbon-acx/.claude/agents/`
-- `hotbox/.claude/agents/`
-- `orpheus-sdk/.claude/agents/`
-- `wordbird/.claude/agents/`
-- `helm/.claude/agents/`
-- `undone/.claude/agents/`
+- `data-pipeline/.claude/agents/`
+- `content-system/.claude/agents/`
+- `audio-lib/.claude/agents/`
+- `dict-app/.claude/agents/`
+- `knowledge-base/.claude/agents/`
+- `analysis-tool/.claude/agents/`
 
 This plugin ensures they follow best practices and helps you build new ones correctly.
 
@@ -69,7 +69,7 @@ Validates Python Agent SDK applications.
 **Example validation:**
 
 ```bash
-cd ~/dev/carbon-acx/.claude/agents/data-analyzer
+cd ~/projects/data-pipeline/.claude/agents/data-analyzer
 # If this is a Python SDK agent:
 # The plugin validates it automatically
 ```
@@ -124,7 +124,7 @@ async function runAgent(input: string): Promise<AgentResult> {
 
 ```bash
 # Navigate to each repo
-cd ~/dev/carbon-acx
+cd ~/projects/data-pipeline
 
 # If you have Python agents in .claude/agents/:
 # The validator runs automatically when you work with them
@@ -190,7 +190,7 @@ async def search_codebase(query: str) -> SearchResults:
 
 ### Use Case Examples from Your Repos
 
-**carbon-acx: Data Pipeline Validator**
+**data-pipeline: Data Pipeline Validator**
 ```bash
 /new-sdk-app
 
@@ -199,16 +199,16 @@ Purpose: Validate data pipelines before processing
 Tools: File reading, schema validation, data quality checks
 ```
 
-**hotbox: Beat Pack Analyzer**
+**content-system: Content Validator**
 ```bash
 /new-sdk-app
 
 Language: TypeScript
-Purpose: Analyze beat pack structure and metadata
-Tools: File system, JSON parsing, music metadata extraction
+Purpose: Analyze content structure and metadata
+Tools: File system, JSON parsing, content extraction
 ```
 
-**orpheus-sdk: Audio Quality Checker**
+**audio-lib: Audio Quality Checker**
 ```bash
 /new-sdk-app
 
@@ -217,12 +217,12 @@ Purpose: Verify audio files meet quality standards
 Tools: Audio analysis, FFmpeg integration, report generation
 ```
 
-**wordbird: Dictionary Data Validator**
+**dict-app: Dictionary Data Validator**
 ```bash
 /new-sdk-app
 
 Language: Rust (or TypeScript)
-Purpose: Validate SQLite dictionary data integrity
+Purpose: Validate database data integrity
 Tools: Database queries, schema checks, consistency validation
 ```
 
@@ -309,7 +309,7 @@ agent = Agent(tools=[search_tool])
 claude plugin install agent-sdk-dev
 
 # 2. Work with your agents
-cd ~/dev/carbon-acx
+cd ~/projects/data-pipeline
 # Edit agents in .claude/agents/
 
 # 3. Validation happens automatically
@@ -322,8 +322,8 @@ cd ~/dev/carbon-acx
 # Verify it works as expected
 
 # 6. Repeat for other repos
-cd ~/dev/hotbox
-cd ~/dev/orpheus-sdk
+cd ~/projects/content-system
+cd ~/projects/audio-lib
 # etc.
 ```
 

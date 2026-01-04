@@ -15,28 +15,27 @@ was migrated to the official Claude Code architecture (User/Repo/Local).
 
 | Before (Custom) | After (Official) | Action Taken |
 |-----------------|------------------|--------------|
-| ~/dev/.claude/agents/ | ~/.claude/agents/ or &lt;repo&gt;/.claude/agents/ | Distributed to user or repo level |
-| ~/dev/.claude/skills/ | ~/.claude/skills/ | Moved to user level |
-| ~/dev/.claude/commands/ | ~/.claude/skills/ | Converted to user-level skills |
-| ~/dev/.claude/guides/ | ~/.claude/guides/ | Moved to user level |
-| ~/dev/.claude/skill-templates/ | ~/dev/scripts/skill-templates/ | Moved to workspace scripts/ |
-| ~/dev/.claude/reports/ | ~/dev/docs/archives/ | Archived as documentation |
+| workspace/.claude/agents/ | ~/.claude/agents/ or &lt;repo&gt;/.claude/agents/ | Distributed to user or repo level |
+| workspace/.claude/skills/ | ~/.claude/skills/ | Moved to user level |
+| workspace/.claude/commands/ | ~/.claude/skills/ | Converted to user-level skills |
+| workspace/.claude/guides/ | ~/.claude/guides/ | Moved to user level |
+| workspace/.claude/skill-templates/ | ~/workspace/scripts/skill-templates/ | Moved to workspace scripts/ |
+| workspace/.claude/reports/ | ~/workspace/docs/archives/ | Archived as documentation |
 
 ### Migration Timeline
 
-1. **Backup:** Full backup created at `~/dev/docs/archives/claude-architecture-migration-2026-01-02/`
+1. **Backup:** Full backup created at `~/workspace/docs/archives/claude-architecture-migration-2026-01-02/`
 2. **User level:** Created new directories, standardized agent formats (JSON → MD)
 3. **Content migration:** Moved guides, skills, maintenance to user level
-4. **Settings consolidation:** Merged 302 permissions into user-level settings.json
-5. **Agent distribution:** citation-validator to 6 repos, deployment-orchestrator to 3 repos
+4. **Settings consolidation:** Merged permissions into user-level settings.json
+5. **Agent distribution:** citation-validator to multiple repos, deployment-orchestrator to multiple repos
 6. **Repo setup:** Created team settings.json, updated .gitignore in all repos
-7. **Cleanup:** Archived workspace .claude/, removed directory
+7. **Cleanup:** Archived workspace configuration, cleaned up directory
 8. **Documentation:** Updated CLAUDE.md files, created architecture guide
 
 <Callout type="info" title="💡 Archived Content Location">
-  All workspace .claude/ content is preserved at:
-  `~/dev/docs/archives/workspace-claude-migration/`
+  All workspace configuration content is preserved in archives.
 
   Full migration backup available at:
-  `~/dev/docs/archives/claude-architecture-migration-2026-01-02/`
+  `~/workspace/docs/archives/claude-architecture-migration-2026-01-02/`
 </Callout>

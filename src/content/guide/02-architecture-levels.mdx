@@ -80,14 +80,14 @@ scratch/               # Temporary files
   - Anything personal that shouldn't affect the team
 </Callout>
 
-### Workspace Level (~/dev/CLAUDE.md)
+### Workspace Level (~/workspace/CLAUDE.md)
 
 A special case: your workspace can have a `CLAUDE.md` at the root to define conventions
 that apply to all repos in that directory. **Important:** No `.claude/` directory
 at workspace level - only a CLAUDE.md file.
 
 <Callout type="warning" title="⚠️ Workspace .claude/ Removed">
-  Previous architecture had `~/dev/.claude/` as a custom workspace layer.
+  Previous architecture had workspace-level `.claude/` as a custom layer.
   This has been **eliminated** to follow official best practices.
   Workspace-level content was migrated to user level or distributed to repos.
 </Callout>

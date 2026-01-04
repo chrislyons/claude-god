@@ -29,10 +29,10 @@ For a project that needs custom validation:
 
 ```bash
 # Create agent directory
-mkdir -p ~/dev/my-project/.claude/agents
+mkdir -p ~/projects/my-app/.claude/agents
 
 # Create agent file
-cat > ~/dev/my-project/.claude/agents/custom-validator.md << 'EOF'
+cat > ~/projects/my-app/.claude/agents/custom-validator.md << 'EOF'
 ---
 name: custom-validator
 version: 1.0.0
@@ -59,7 +59,7 @@ Override permissions for a specific project:
 
 ```bash
 # Create local override
-cat > ~/dev/my-project/.claude/settings.local.json << 'EOF'
+cat > ~/projects/my-app/.claude/settings.local.json << 'EOF'
 {
   "permissions": {
     "allow": [

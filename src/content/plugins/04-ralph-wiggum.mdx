@@ -77,7 +77,7 @@ This creates a **self-referential feedback loop** where each iteration sees:
 ### PREFIX Doc Compliance Sweep
 
 ```bash
-/ralph-loop "Scan all docs/ folders in carbon-acx, hotbox, orpheus-sdk, wordbird, helm, and undone.
+/ralph-loop "Scan all docs/ folders across all repositories.
 Find any PREFIX files not matching pattern: {PREFIX###} Descriptive Title.md.
 Fix the filenames to include descriptive titles.
 List all modified files.
@@ -89,9 +89,9 @@ When all PREFIX docs are compliant, output <promise>COMPLETE</promise>" \
 ### Overnight Refactoring with Test Validation
 
 ```bash
-/ralph-loop "Refactor orpheus-sdk/apps/clip-composer following patterns in ARCHITECTURE.md.
+/ralph-loop "Refactor audio-lib/apps/editor following patterns in ARCHITECTURE.md.
 After EACH change:
-1. Run tests with: cd orpheus-sdk && npm test
+1. Run tests with: cd audio-lib && npm test
 2. If tests fail, debug and fix
 3. Commit the change if tests pass
 4. Move to next refactoring task
@@ -104,7 +104,7 @@ When all patterns are applied AND all tests pass, output <promise>COMPLETE</prom
 ### TDD Feature Development
 
 ```bash
-/ralph-loop "Implement user authentication in helm repository with TDD approach:
+/ralph-loop "Implement user authentication in knowledge-base with TDD approach:
 1. Write failing test
 2. Implement minimal code to pass test
 3. Refactor if needed
@@ -124,8 +124,8 @@ Output <promise>COMPLETE</promise> when feature is complete with passing tests a
 ### Cross-Repo Pattern Enforcement
 
 ```bash
-/ralph-loop "Apply spacing standards from ~/dev/docs/workspace-asset-standards.md to frontend CSS.
-Repos to update: osd-v2, wordbird, listmaker, chrislyons-website, carbon-acx.
+/ralph-loop "Apply spacing standards from ~/workspace/docs/design-standards.md to frontend CSS.
+Repos to update: dashboard-v2, dict-app, task-app, portfolio, data-viz.
 For each repo:
 1. Update CSS to match spacing standards
 2. Run build: npm run build
