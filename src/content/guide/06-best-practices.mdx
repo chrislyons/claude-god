@@ -10,7 +10,7 @@ import Callout from '../../components/Callout.astro';
 
 ### When to Use Each Level
 
-<Callout type="success" title="✅ DO: Use User Level For...">
+<Callout type="success" title="DO: Use User Level For...">
   - Personal workflow automation (skills you use everywhere)
   - Global permissions (commands you always want allowed)
   - Session management workflows
@@ -18,21 +18,21 @@ import Callout from '../../components/Callout.astro';
   - Model preferences and plugin settings
 </Callout>
 
-<Callout type="success" title="✅ DO: Use Repo Level For...">
+<Callout type="success" title="DO: Use Repo Level For...">
   - Project-specific agents (e.g., citation validator for docs repos)
   - Team-shared skills and workflows
   - Default project permissions
   - Configuration all collaborators should inherit
 </Callout>
 
-<Callout type="success" title="✅ DO: Use Local Level For...">
+<Callout type="success" title="DO: Use Local Level For...">
   - Personal permission overrides for a specific project
   - Private notes about the project
   - Temporary files and scratch work
   - Experimental settings you don't want to share
 </Callout>
 
-<Callout type="danger" title="❌ DON'T: Common Mistakes">
+<Callout type="danger" title="DON'T: Common Mistakes">
   - Don't create workspace-level .claude/ directories
   - Don't commit settings.local.json to git
   - Don't duplicate agents across repos if they're truly personal
@@ -48,7 +48,7 @@ import Callout from '../../components/Callout.astro';
 
 ### Version Control
 
-<Callout type="info" title="💡 What to Commit">
+<Callout type="info" title="What to Commit">
   **Commit to git:**
 
   - `CLAUDE.md` (repo rules)

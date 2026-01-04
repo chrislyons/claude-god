@@ -33,7 +33,7 @@ This is your private workspace for automation, skills, and preferences.
     ├── session-end.md
     └── monthly-review.md`} />
 
-<Callout type="success" title="✅ What Goes at User Level">
+<Callout type="success" title="What Goes at User Level">
   - Personal workflow automation (skills, agents)
   - Session management workflows
   - Global permissions and model preferences
@@ -56,7 +56,7 @@ that all collaborators inherit when they clone the repository.
 │   └── manifest.json
 └── scratch/                    # Temporary workspace (gitignored)`} />
 
-<Callout type="success" title="✅ What Goes at Repo Level">
+<Callout type="success" title="What Goes at Repo Level">
   - Project-specific agents (e.g., citation validator for docs-heavy repos)
   - Team-shared skills and workflows
   - Default permissions for the project
@@ -73,7 +73,7 @@ CLAUDE.local.md        # Personal notes about the project
 scratch/               # Temporary files
 ```
 
-<Callout type="success" title="✅ What Goes at Local Level">
+<Callout type="success" title="What Goes at Local Level">
   - Personal permission exceptions for this project
   - Private notes or reminders
   - Temporary files and scratch work
@@ -86,7 +86,7 @@ A special case: your workspace can have a `CLAUDE.md` at the root to define conv
 that apply to all repos in that directory. **Important:** No `.claude/` directory
 at workspace level - only a CLAUDE.md file.
 
-<Callout type="warning" title="⚠️ Workspace .claude/ Removed">
+<Callout type="warning" title="Workspace .claude/ Removed">
   Previous architecture had workspace-level `.claude/` as a custom layer.
   This has been **eliminated** to follow official best practices.
   Workspace-level content was migrated to user level or distributed to repos.

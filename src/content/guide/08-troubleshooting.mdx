@@ -10,7 +10,7 @@ import Callout from '../../components/Callout.astro';
 
 ### Configuration Conflicts
 
-<Callout type="warning" title="⚠️ Problem: Settings Not Taking Effect">
+<Callout type="warning" title="Problem: Settings Not Taking Effect">
   **Solution:** Check the resolution order. More specific levels override general ones:
 
   1. Check `<repo>/.claude/settings.local.json` (highest priority)
@@ -20,7 +20,7 @@ import Callout from '../../components/Callout.astro';
 
 ### Permission Issues
 
-<Callout type="warning" title="⚠️ Problem: Command Blocked">
+<Callout type="warning" title="Problem: Command Blocked">
   **Solution:** Add permission at the appropriate level:
 
   - **Use everywhere:** Add to `~/.claude/settings.json`
@@ -30,7 +30,7 @@ import Callout from '../../components/Callout.astro';
 
 ### Agent/Skill Not Found
 
-<Callout type="warning" title="⚠️ Problem: Agent Not Discoverable">
+<Callout type="warning" title="Problem: Agent Not Discoverable">
   **Solution:** Verify YAML frontmatter format:
 
   ```yaml
