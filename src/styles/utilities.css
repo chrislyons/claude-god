@@ -1,0 +1,31 @@
+/* Theme-aware utility classes */
+
+.theme-bg {
+  background-color: var(--color-bg);
+}
+
+.theme-border {
+  border-color: var(--color-border);
+}
+
+.theme-border-bottom {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.theme-border-right {
+  border-right: 1px solid var(--color-border);
+}
+
+.theme-border-top {
+  border-top: 1px solid var(--color-border);
+}
+
+.theme-text {
+  color: var(--color-text);
+}
+
+.intro-text {
+  font-size: 1.1em;
+  opacity: 0.8;
+  margin-bottom: 3rem;
+}

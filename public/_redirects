@@ -1,0 +1,2 @@
+# Rewrite subdirectory paths for Pages preview compatibility
+/claude-god/* /:splat 200
