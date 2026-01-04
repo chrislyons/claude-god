@@ -13,7 +13,7 @@ if (!guide) {
 }
 ---
 
-<aside class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all" style="background-color: var(--color-bg); border-right: 1px solid var(--color-border);">
+<aside class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all theme-bg theme-border-right">
   <div class="sidebar-brand font-display text-2xl font-bold mb-2 text-primary-accent">
     {guide.title}
   </div>
@@ -38,19 +38,3 @@ if (!guide) {
     </ul>
   </nav>
 </aside>
-
-<style>
-  /* Remove the default underline animation for sidebar links */
-  aside a::after {
-    display: none;
-  }
-
-  aside a:hover {
-    background-color: var(--color-code-bg);
-  }
-
-  aside a.active {
-    background-color: var(--color-primary-accent);
-    color: white;
-  }
-</style>

@@ -1,0 +1,35 @@
+/* Sidebar Navigation */
+aside a::after {
+  display: none;
+}
+
+aside a:hover {
+  background-color: var(--color-code-bg);
+}
+
+aside a.active {
+  background-color: var(--color-primary-accent);
+  color: white;
+}
+
+/* Directory Tree */
+.tree-comment {
+  color: theme('colors.success');
+  opacity: 0.8;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  aside {
+    transform: translateX(-100%);
+    transition: transform 200ms ease-out;
+  }
+
+  header {
+    left: 0;
+  }
+
+  main {
+    margin-left: 0;
+  }
+}
