@@ -1,0 +1,148 @@
+---
+title: "Code Examples (Python & Node.js)"
+section: 15
+description: "Practical code examples for common Agent SDK use cases"
+---
+
+import CodeTabs from '../../components/CodeTabs.astro';
+
+## Code Examples (Python & Node.js)
+
+### Example 1: Code Review Agent
+
+A read-only agent that reviews code for bugs, performance, and security issues.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions, AssistantMessage
+
+async def review_code():
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Grep"],  # Read-only for safety
+        system_prompt="You are a senior code reviewer. Focus on: bugs, performance, security."
+    )
+
+    async for message in query(
+        prompt="Review all .py files in src/ directory. Look for bugs and security issues.",
+        options=options,
+        cwd="/path/to/project"
+    ):
+        if isinstance(message, AssistantMessage):
+            for block in message.content:
+                if hasattr(block, 'text'):
+                    print(block.text)
+
+asyncio.run(review_code())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function reviewCode() {
+  const options = {
+    allowedTools: ["Read", "Grep"],
+    systemPrompt: "You are a senior code reviewer. Focus on: bugs, performance, security.",
+    cwd: "/path/to/project"
+  };
+
+  for await (const message of query({
+    prompt: "Review all .py files in src/ directory. Look for bugs and security issues.",
+    options
+  })) {
+    if (message.type === "assistant" && message.message?.content) {
+      for (const block of message.message.content) {
+        if ("text" in block) {
+          console.log(block.text);
+        }
+      }
+    }
+  }
+}
+
+reviewCode();`}
+/>
+
+### Example 2: Interactive Chat Agent
+
+A multi-turn agent that remembers conversation context across turns.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import ClaudeSDKClient, ClaudeAgentOptions, AssistantMessage, TextBlock
+
+async def interactive_chat():
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write", "Bash"],
+        permission_mode="acceptEdits"
+    )
+
+    async with ClaudeSDKClient(options=options) as client:
+        print("Chat started. Type 'exit' to quit.\\n")
+
+        turn = 1
+        while True:
+            user_input = input(f"[Turn {turn}] You: ")
+
+            if user_input.lower() == "exit":
+                break
+
+            # Send message
+            await client.query(user_input)
+            turn += 1
+
+            # Get response (Claude remembers previous messages!)
+            print(f"[Turn {turn}] Claude: ", end="", flush=True)
+            async for message in client.receive_response():
+                if isinstance(message, AssistantMessage):
+                    for block in message.content:
+                        if isinstance(block, TextBlock):
+                            print(block.text, end="", flush=True)
+            print("\\n")
+            turn += 1
+
+asyncio.run(interactive_chat())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+import * as readline from "readline";
+
+async function interactiveChat() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  const askUser = (prompt: string) => {
+    return new Promise<string>(resolve => {
+      rl.question(prompt, resolve);
+    });
+  };
+
+  let turn = 1;
+  let g = query({
+    prompt: "Hello! Start a conversation. You'll remember context across turns.",
+    options: {
+      allowedTools: ["Read", "Write", "Bash"],
+      permissionMode: "acceptEdits"
+    }
+  });
+
+  // Continue conversation
+  for await (const message of g) {
+    if (message.type === "result") {
+      const nextInput = await askUser(\`\\n[Turn \${turn + 1}] You: \`);
+
+      if (nextInput === "exit") {
+        rl.close();
+        break;
+      }
+
+      // Start next query in same session
+      g = query({
+        prompt: nextInput,
+        options: {
+          continue: true  // Continue previous conversation
+        }
+      });
+      turn += 2;
+    }
+  }
+}
+
+interactiveChat();`}
+/>

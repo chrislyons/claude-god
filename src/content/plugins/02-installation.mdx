@@ -1,0 +1,151 @@
+---
+title: "Installation"
+section: 2
+description: "How to discover, install, and manage plugins"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Plugin Management
+
+Claude Code includes built-in commands for discovering, installing, and managing plugins.
+
+### Installing Plugins
+
+**Install from official marketplace:**
+
+```bash
+claude plugin install <plugin-name>
+```
+
+**Install from specific marketplace:**
+
+```bash
+claude plugin install <plugin-name>@<marketplace-name>
+```
+
+**Examples:**
+
+```bash
+# Install ralph-wiggum from official marketplace
+claude plugin install ralph-wiggum
+
+# Install all 8 recommended plugins
+claude plugin install ralph-wiggum
+claude plugin install commit-commands
+claude plugin install frontend-design
+claude plugin install security-guidance
+claude plugin install hookify
+claude plugin install pr-review-toolkit
+claude plugin install feature-dev
+claude plugin install agent-sdk-dev
+```
+
+<Callout type="info">
+**Installation Scope:** By default, plugins install at **user scope** (`~/.claude/plugins/`), making them available across all projects.
+</Callout>
+
+### Managing Installed Plugins
+
+**Enable a disabled plugin:**
+
+```bash
+claude plugin enable <plugin-name>
+```
+
+**Disable a plugin temporarily:**
+
+```bash
+claude plugin disable <plugin-name>
+```
+
+**Uninstall a plugin:**
+
+```bash
+claude plugin uninstall <plugin-name>
+# or
+claude plugin remove <plugin-name>
+```
+
+**Update a plugin:**
+
+```bash
+claude plugin update <plugin-name>
+```
+
+<Callout type="warning">
+**Restart Required:** After updating plugins, restart your Claude Code session for changes to take effect.
+</Callout>
+
+### Plugin Commands
+
+Once plugins are installed, their commands appear in tab completion:
+
+```bash
+claude <tab>
+# Shows all available commands including plugin commands
+
+claude /ralph<tab>
+# Completes to /ralph-loop or /cancel-ralph
+```
+
+**Check installed plugins' commands:**
+
+- Use `/help` to see all available commands
+- Plugin commands are prefixed with `/` (slash commands)
+- Tab completion works for all plugin commands
+
+### Marketplace Discovery
+
+**Official marketplace:**
+
+Browse plugins at: https://github.com/anthropics/claude-code/tree/main/plugins
+
+**Available official plugins (as of 2026-01):**
+
+- agent-sdk-dev
+- claude-opus-4-5-migration
+- code-review
+- commit-commands
+- explanatory-output-style
+- feature-dev
+- frontend-design
+- hookify
+- learning-output-style
+- plugin-dev
+- pr-review-toolkit
+- ralph-wiggum
+- security-guidance
+
+<Callout type="success">
+**Quick Start:** The 8 essential plugins are already installed. Jump to the next section to start using them!
+</Callout>
+
+### Plugin Validation
+
+Check if a plugin is installed and enabled:
+
+```bash
+# List all plugin commands
+/help
+
+# Try invoking a plugin command
+/commit --help
+/ralph-loop --help
+/hookify --help
+```
+
+If the command is recognized, the plugin is active.
+
+### Troubleshooting
+
+**Command not found:**
+- Ensure plugin is installed: `claude plugin install <name>`
+- Check if it's enabled (not disabled)
+- Restart Claude Code session
+- Verify plugin compatibility with your Claude Code version
+
+**Plugin conflicts:**
+- Some plugins may conflict (e.g., code-review vs pr-review-toolkit)
+- Disable conflicting plugins: `claude plugin disable <name>`
+- Only keep the one you prefer active

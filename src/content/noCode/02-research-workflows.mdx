@@ -1,0 +1,172 @@
+---
+title: "Research Workflows"
+section: 2
+description: "Academic research and source verification"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Research Workflows
+
+### Source Quality Verification
+
+**Check citation quality against hierarchy:**
+
+```bash
+claude "Read chapter-draft.md. Categorize each source by tier:
+
+  • Tier 1 (Primary): archives, government docs, original data
+  • Tier 2 (Academic): peer-reviewed journals, university press
+  • Tier 3 (Secondary): well-documented analytical work
+  • Tier 4 (Use sparingly): journalism, opinion
+
+Flag Tier 4 sources used for factual claims. Suggest Tier 1-2 alternatives"
+```
+
+**Verify IEEE citation format:**
+
+```bash
+claude "Audit thesis.md for IEEE citation compliance:
+
+  1. Check inline format: [n], [12][13], [8]-[11]
+  2. Verify References section has: Author, 'Title,' Publication, Date, URL
+  3. Confirm citation numbers match first appearance order
+  4. Flag any broken or inaccessible URLs
+
+Generate compliance report"
+```
+
+### Literature Review with Standards
+
+**Systematic source gathering:**
+
+```bash
+claude "Research 'carbon accounting methodology 1990-2010':
+
+  1. Search Google Scholar, JSTOR, archive.org
+  2. Prioritize: peer-reviewed articles, government reports, primary data
+  3. For each source: extract title, authors, year, venue, DOI/URL
+  4. Create annotated bibliography with:
+       • Source tier (1-4)
+       • Key findings (2-3 sentences)
+       • Relevance to carbon accounting methodology
+       • Citation quality assessment
+
+Save as literature-review.md with IEEE format"
+```
+
+**Cross-reference verification:**
+
+```bash
+claude "Read sources.md (contains 15 papers on monetary policy).
+
+For claim: 'Central banks increased rates 12 times between 2000-2005'
+
+  1. Identify which sources support this claim
+  2. Check if numbers match across sources
+  3. Flag discrepancies
+  4. Assess: Do we have 2+ independent sources? (minimum standard)
+
+Generate verification report"
+```
+
+### Dual-Reader Design Testing
+
+**Test scannable path:**
+
+```bash
+claude "Audit chapter03.md for dual-reader compliance:
+
+CURSORY PATH (15-30 min):
+  • Can reader get core argument from: Executive Frame → headers → Synthesis?
+  • Test: Read only those sections. Does thesis flow make sense?
+
+DETAILED PATH (2-4 hours):
+  • Full evidence and citations
+  • Follow 'Analytic note:' sections
+
+Report: Do both paths work independently? Flag sections that break either path"
+```
+
+<Callout type="warning" title="Dual-Reader Standard">
+Both reading paths must be complete and coherent on their own. Cursory readers should get the thesis without reading evidence. Detailed readers should see explicit analytical connections.
+</Callout>
+
+### Thesis Connection Analysis
+
+**Generate "Analytic note:" sections:**
+
+```bash
+claude "Read chapter-draft.md.
+
+For each major section of evidence:
+
+  1. Identify the factual claim or pattern documented
+  2. Generate an 'Analytic note:' paragraph explaining:
+       • How this evidence connects to core thesis
+       • What it reveals about the larger argument
+       • Why this matters for the overall narrative
+
+Insert 'Analytic note:' sections after each evidence block.
+Ensure explicit connection, no assumed leaps"
+```
+
+### Counter-Evidence and Critique
+
+**Test argument strength:**
+
+```bash
+claude "Read thesis-chapter.md. Play adversarial critic:
+
+  1. Identify central claims
+  2. Search for counter-evidence that challenges each claim
+  3. Find contradictory data, alternative interpretations
+  4. Assess: Are counter-arguments addressed? If not, flag as weakness
+  5. Suggest how to strengthen argument against critique
+
+Generate adversarial review report"
+```
+
+**Detect retrospective bias:**
+
+```bash
+claude "Audit historical-analysis.md for teleological reasoning:
+
+Flag any language suggesting:
+  • Inevitability ('had to happen', 'naturally led to')
+  • Predetermined outcomes ('destined', 'inevitable')
+  • Retrospective justification (explaining past by future)
+
+For each flag: suggest neutral phrasing that preserves contingency"
+```
+
+### Citation Management
+
+**Build bibliography from PDFs:**
+
+```bash
+claude "Process all PDFs in ./sources/:
+
+  1. Extract: Author, Title, Publication, Year, DOI/URL
+  2. Categorize by source tier (1-4)
+  3. Format as IEEE citations
+  4. Sort by: tier (1-4), then chronologically
+  5. Generate bibliography.md with quality ratings
+
+For any source missing DOI/URL: flag as inaccessible"
+```
+
+**Cross-verify contested claims:**
+
+```bash
+claude "Claim: 'Manufacturing employment fell 40% in 1980-2000'
+
+Required: Minimum 2 independent Tier 1-2 sources
+
+  1. Search: government labor statistics, academic studies
+  2. Find: 2+ sources confirming this figure
+  3. Check: Do numbers match exactly? If variance, document range
+  4. Assess: Source independence (not citing each other)
+
+Generate verification report with citations"
+```

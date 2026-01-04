@@ -1,0 +1,130 @@
+---
+interface Props {
+  diagram: string;
+}
+
+const { diagram } = Astro.props;
+---
+
+<div class="mermaid-wrapper my-8">
+  <pre class="mermaid">{diagram}</pre>
+</div>
+
+<script>
+  import mermaid from 'mermaid';
+  import { getMermaidTheme } from '../config/mermaid-theme';
+
+  // Initialize Mermaid with current theme
+  async function initMermaid() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: getMermaidTheme(isDark),
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+      },
+      sequence: {
+        useMaxWidth: true,
+      },
+    });
+
+    await mermaid.run();
+
+    // After rendering, ensure SVGs are responsive
+    document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
+      svg.removeAttribute('height');
+      svg.style.width = '100%';
+      svg.style.maxWidth = '100%';
+      svg.style.height = 'auto';
+    });
+  }
+
+  // Re-render diagrams when theme changes
+  async function rerenderMermaid() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    // Clear existing diagrams
+    document.querySelectorAll('.mermaid').forEach((el) => {
+      el.removeAttribute('data-processed');
+      const svg = el.querySelector('svg');
+      if (svg) {
+        el.innerHTML = el.getAttribute('data-mermaid-src') || '';
+      }
+    });
+
+    // Re-initialize with new theme
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: getMermaidTheme(isDark),
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+      },
+      sequence: {
+        useMaxWidth: true,
+      },
+    });
+
+    await mermaid.run();
+
+    // Ensure SVGs are responsive
+    document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
+      svg.removeAttribute('height');
+      svg.style.width = '100%';
+      svg.style.maxWidth = '100%';
+      svg.style.height = 'auto';
+    });
+  }
+
+  // Initialize on load
+  if (typeof window !== 'undefined') {
+    // Store original diagram source before first render
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.mermaid').forEach((el) => {
+        el.setAttribute('data-mermaid-src', el.textContent || '');
+      });
+      initMermaid();
+    });
+
+    // Watch for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          rerenderMermaid();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
+</script>
+
+<style>
+  .mermaid {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mermaid-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Make Mermaid SVGs responsive and fill container */
+  .mermaid-wrapper :global(svg) {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    display: block;
+  }
+</style>

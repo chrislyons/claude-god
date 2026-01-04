@@ -1,0 +1,111 @@
+---
+title: "Document Processing"
+section: 4
+description: "Automate document analysis and organization"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Document Processing
+
+### Batch File Operations
+
+**Rename files based on content:**
+
+```bash
+claude "Read each PDF in ./invoices/. Rename to format: YYYY-MM-DD_VendorName_Amount.pdf based on the invoice content"
+```
+
+**Organize files into folders:**
+
+```bash
+claude "Scan all documents in this directory. Create folders by category (contracts, invoices, reports, misc). Move files to appropriate folders based on content"
+```
+
+### Data Extraction
+
+**Extract information from PDFs:**
+
+```bash
+claude "Read all PDFs in ./receipts/. Extract: date, vendor, amount, category. Save as expenses.csv"
+```
+
+**Parse structured documents:**
+
+```bash
+claude "Read contract.pdf. Extract key terms: parties involved, effective date, termination date, payment terms, obligations. Save as contract-summary.md"
+```
+
+### Format Conversion
+
+**Convert to markdown:**
+
+```bash
+claude "Convert report.docx to clean markdown. Preserve headings, lists, tables, and emphasis. Save as report.md"
+```
+
+**Create plain text from complex documents:**
+
+```bash
+claude "Extract all text from presentation.pptx. Organize by slide number with slide titles. Save as presentation-transcript.txt"
+```
+
+### Document Analysis
+
+**Compare versions:**
+
+```bash
+claude "Compare contract-v1.pdf and contract-v2.pdf. List all changes, additions, and deletions. Highlight significant legal differences"
+```
+
+**Identify missing information:**
+
+```bash
+claude "Read application-form.pdf. List all required fields that are blank or incomplete"
+```
+
+<Callout type="warning" title="Privacy Notice">
+Ensure you have permission to process documents containing sensitive information. Claude processes data securely, but be mindful of organizational policies.
+</Callout>
+
+### Document Generation
+
+**Create reports from data:**
+
+```bash
+claude "Read metrics.json. Generate a formatted PDF-ready markdown report with charts described in text, summary statistics, and trend analysis"
+```
+
+**Merge multiple documents:**
+
+```bash
+claude "Combine intro.md, methods.md, results.md, and conclusion.md into a single cohesive document. Add transitions between sections. Save as full-report.md"
+```
+
+### Batch Processing Workflows
+
+**Process invoice batch:**
+
+```bash
+claude "For each PDF in ./incoming-invoices/: 1) Extract vendor, date, amount, items; 2) Verify totals are correct; 3) Flag any discrepancies; 4) Move processed files to ./processed/; 5) Save summary to invoice-log.csv"
+```
+
+**Document quality check:**
+
+```bash
+claude "Scan all .docx files in ./submissions/. Check each for: required sections, proper formatting, reference completeness. Generate quality-report.md with pass/fail status for each document"
+```
+
+### Archive Management
+
+**Create document index:**
+
+```bash
+claude "Scan ./archive/ recursively. For each document, extract: filename, date created, document type, key subjects/entities mentioned. Save as archive-index.csv"
+```
+
+**Summarize old records:**
+
+```bash
+claude "Read all documents in ./2020-records/. Create a year-end summary covering: major events, key decisions, outstanding items. Save as 2020-summary.md"
+```

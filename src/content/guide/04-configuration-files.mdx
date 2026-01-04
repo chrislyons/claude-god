@@ -1,0 +1,106 @@
+---
+title: "Configuration Files"
+section: 4
+description: "CLAUDE.md hierarchy and settings.json usage"
+---
+
+import Callout from '../../components/Callout.astro';
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## Configuration Files
+
+### CLAUDE.md Hierarchy
+
+CLAUDE.md files define rules and conventions. They are resolved in this order:
+
+<MermaidDiagram diagram={`
+graph LR
+    A[Code Behavior] --> B[Repo CLAUDE.md]
+    B --> C[Workspace CLAUDE.md]
+    C --> D[Global CLAUDE.md]
+
+    style A fill:#2D7A4F,color:#fff
+    style B fill:#3B82F6,color:#fff
+    style C fill:#F59E0B,color:#fff
+    style D fill:#F55036,color:#fff
+`} />
+
+1. **Actual code behavior** (ground truth)
+2. **Repo CLAUDE.md** (`<repo>/CLAUDE.md`) - Project-specific rules
+3. **Workspace CLAUDE.md** (`~/dev/CLAUDE.md`) - Multi-repo conventions
+4. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - Universal rules
+
+### settings.json vs settings.local.json
+
+#### User Level (~/.claude/settings.json)
+
+```json
+{
+  "model": "sonnet",
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(npm install)",
+      "WebSearch",
+      "Read(//Users/chrislyons/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+#### Repo Level (&lt;repo&gt;/.claude/settings.json)
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm test)",
+      "Bash(cargo check:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
+```
+
+#### Local Override (&lt;repo&gt;/.claude/settings.local.json)
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -rf dist/)"
+    ]
+  }
+}
+```
+
+<Callout type="warning" title="⚠️ Settings Resolution">
+  Settings are **merged** with more specific levels taking precedence:
+  **Local > Repo > User**
+
+  Permissions are additive - all allowed permissions from all levels are combined.
+</Callout>
+
+### .gitignore Patterns
+
+Every repo should include these patterns in `.gitignore`:
+
+```plaintext
+# Claude Code local overrides
+.claude/settings.local.json
+.claude/CLAUDE.local.md
+.claude/scratch/
+```
+
+<Callout type="danger" title="❌ Never Commit">
+  - `settings.local.json` - Contains personal overrides
+  - `CLAUDE.local.md` - Private notes
+  - `scratch/` - Temporary workspace
+</Callout>

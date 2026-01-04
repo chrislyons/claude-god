@@ -1,0 +1,63 @@
+---
+title: "Agents & Skills"
+section: 5
+description: "Where to put agents and skills, and how to format them"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Agents & Skills
+
+### Where to Put Agents
+
+| Agent Type | Location | Example |
+|------------|----------|---------|
+| Personal automation | ~/.claude/agents/ | git-workflow-agent, doc-syncer |
+| Project-specific | &lt;repo&gt;/.claude/agents/ | citation-validator, deployment-orchestrator |
+| Domain-specific | &lt;repo&gt;/.claude/agents/ | carbon-data-manager (for carbon-acx) |
+
+### Agent Format Requirements
+
+All agents must use **Markdown with YAML frontmatter**:
+
+```yaml
+---
+name: my-agent
+version: 1.0.0
+description: Brief description of what this agent does
+tools:
+  - Read
+  - Bash
+  - Grep
+when_to_use: When to invoke this agent
+---
+
+# Agent Name
+
+Agent documentation and instructions go here...
+```
+
+### Skill Discovery
+
+Skills are discovered from two locations:
+
+- **User-level:** `~/.claude/skills/` (personal workflow automation)
+- **Repo-level:** `<repo>/.claude/skills/` (project-specific tools)
+
+<Callout type="info" title="💡 Trigger Keywords">
+  Skills are automatically suggested based on keywords in your requests:
+
+  - **audit/review** → evaluation skills
+  - **implement/create** → generation skills
+  - **check/validate** → validation skills
+  - **analyze** → analysis skills
+  - **generate report** → reporting skills
+</Callout>
+
+### Distribution Strategy
+
+The migration distributed agents based on relevance:
+
+- **citation-validator** → 6 repos (all repos with documentation)
+- **deployment-orchestrator** → 3 repos (wordbird, carbon-acx, boot-site)
+- **git-workflow-agent** → User level (applies to all repos)

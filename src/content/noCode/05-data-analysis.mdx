@@ -1,0 +1,139 @@
+---
+title: "Data Analysis (No Code Required)"
+section: 5
+description: "Analyze data without programming"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Data Analysis (No Code Required)
+
+### Basic Data Exploration
+
+**Understand your dataset:**
+
+```bash
+claude "Analyze sales.csv. Tell me: number of rows, column names and types, date range, any missing values. Show first 5 rows as a sample"
+```
+
+**Get summary statistics:**
+
+```bash
+claude "Read revenue-data.csv. Calculate: total revenue, average per month, highest/lowest months, year-over-year growth. Present as a formatted table"
+```
+
+### Data Cleaning
+
+**Fix formatting issues:**
+
+```bash
+claude "Read messy-data.csv. Fix issues: inconsistent date formats, remove duplicate rows, standardize column names (lowercase, no spaces). Save as clean-data.csv"
+```
+
+**Handle missing data:**
+
+```bash
+claude "Analyze customer-data.csv. For missing values: fill missing cities with 'Unknown', missing ages with median age, drop rows with missing email. Save as complete-data.csv"
+```
+
+### Filtering and Subsetting
+
+**Extract specific records:**
+
+```bash
+claude "From transactions.csv, extract all purchases over $1000 in Q4 2024. Save to high-value-q4.csv"
+```
+
+**Create subsets:**
+
+```bash
+claude "Split employees.csv into separate files by department. Name each file: dept-<DepartmentName>.csv"
+```
+
+### Data Transformation
+
+**Aggregate data:**
+
+```bash
+claude "Read daily-sales.csv. Group by month and calculate: total sales, average order value, number of transactions. Save as monthly-summary.csv"
+```
+
+**Pivot and reshape:**
+
+```bash
+claude "Transform survey-responses.csv from long format to wide format. Each respondent should be one row with question responses as columns. Save as survey-wide.csv"
+```
+
+<Callout type="success" title="Tip: Describe Your Goal">
+Instead of specifying exact operations, describe what you want: "I need to see sales trends by region over time" rather than "pivot by X and sum Y"
+</Callout>
+
+### Generating Insights
+
+**Identify trends:**
+
+```bash
+claude "Analyze website-traffic.csv over the past 6 months. Identify: traffic trends, peak days/times, sources with highest growth. Write a 1-page summary with key findings"
+```
+
+**Find patterns:**
+
+```bash
+claude "Examine customer-churn.csv. What characteristics are most common among customers who churned? Create a profile of at-risk customers"
+```
+
+### Data Visualization (Text-Based)
+
+**Create ASCII charts:**
+
+```bash
+claude "Read monthly-revenue.csv. Create a text-based bar chart showing revenue by month. Include a trend line description"
+```
+
+**Generate chart specifications:**
+
+```bash
+claude "Analyze sales-by-region.csv. Write detailed instructions for creating: 1) a stacked bar chart of sales by region and product category, 2) a line chart of monthly trends. Include axis labels, colors, and title suggestions"
+```
+
+### Comparison and Benchmarking
+
+**Compare datasets:**
+
+```bash
+claude "Compare 2023-sales.csv and 2024-sales.csv. Calculate year-over-year changes for each product category. Identify biggest winners and losers. Save as yoy-comparison.csv"
+```
+
+**Benchmark against targets:**
+
+```bash
+claude "Read actual-performance.csv and targets.csv. For each metric, calculate: actual value, target, variance (absolute and %), and status (on track / below / exceeded). Save as performance-report.csv"
+```
+
+### Reporting
+
+**Generate executive summary:**
+
+```bash
+claude "Analyze quarterly-metrics.csv. Create an executive summary covering: overall performance vs. last quarter, top 3 achievements, top 3 concerns, recommendations. Format as markdown"
+```
+
+**Create recurring reports:**
+
+```bash
+claude "Read this week's activity-log.csv. Generate a weekly report with: total hours, breakdown by project, completion rate, blockers encountered. Use the same format as last week's report.md"
+```
+
+### Working with Multiple Data Files
+
+**Merge datasets:**
+
+```bash
+claude "Combine customer-info.csv and purchase-history.csv using customer_id as the key. Include all customers even if they have no purchases. Save as customer-complete.csv"
+```
+
+**Cross-reference data:**
+
+```bash
+claude "Check inventory.csv against orders.csv. Identify products that are: low stock (<10 units) AND have >20 pending orders. Flag as urgent restock"
+```

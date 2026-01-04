@@ -1,0 +1,83 @@
+---
+title: "Key APIs and Methods"
+section: 14
+description: "Core APIs and configuration options for the Claude Agent SDK"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Key APIs and Methods
+
+### Two Main Approaches
+
+| Feature | `query()` | `ClaudeSDKClient` |
+|---------|-----------|-------------------|
+| **Use Case** | One-off tasks | Continuous conversations |
+| **Session** | Fresh each time | Maintains context |
+| **Interrupts** | No | Yes |
+| **Hooks** | No | Yes |
+| **Best For** | Automation scripts, CI/CD | Chat apps, interactive tools |
+
+### `query()` - One-Shot Execution
+
+Use `query()` for fire-and-forget tasks that don't need ongoing context:
+
+```python
+async for message in query(
+    prompt="Your task here",
+    options=ClaudeAgentOptions(...)
+):
+    # Process message
+    pass
+```
+
+### `ClaudeSDKClient` - Continuous Conversation
+
+Use `ClaudeSDKClient` for multi-turn conversations where Claude remembers previous context:
+
+```python
+async with ClaudeSDKClient(options) as client:
+    # Ask a question
+    await client.query("What's the capital of France?")
+
+    # Get response
+    async for message in client.receive_response():
+        pass
+
+    # Ask follow-up (Claude remembers context!)
+    await client.query("What's its population?")
+
+    async for message in client.receive_response():
+        pass
+```
+
+### Core Options (`ClaudeAgentOptions`)
+
+```python
+ClaudeAgentOptions(
+    allowed_tools=["Read", "Write", "Bash", "WebSearch"],  # What agent can use
+    permission_mode="acceptEdits",  # "default", "acceptEdits", "bypassPermissions", "plan"
+    system_prompt="You are a senior engineer",  # Custom instructions
+    mcp_servers={...},  # Connect to external tools
+    max_turns=10,  # Stop after N interactions
+    cwd="/path/to/project",  # Working directory
+    env={"NODE_ENV": "production"},  # Environment variables
+    can_use_tool=custom_permission_handler,  # Custom permission logic
+)
+```
+
+### Tools Available
+
+Built-in tools agents can use (if allowed):
+
+- **Read**: Read files (text, images, PDFs, notebooks)
+- **Write**: Create files
+- **Edit**: Modify files (find-replace)
+- **Bash**: Run shell commands
+- **Glob**: Find files with patterns
+- **Grep**: Search file contents (regex)
+- **WebFetch**: Fetch and analyze URLs
+- **WebSearch**: Search the web
+- **NotebookEdit**: Edit Jupyter notebooks
+- **Task**: Delegate to subagents
+- **MCP tools**: Custom tools from MCP servers

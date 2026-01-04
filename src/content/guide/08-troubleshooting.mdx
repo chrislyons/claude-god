@@ -1,0 +1,67 @@
+---
+title: "Troubleshooting"
+section: 8
+description: "Solutions to common configuration issues"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Troubleshooting
+
+### Configuration Conflicts
+
+<Callout type="warning" title="⚠️ Problem: Settings Not Taking Effect">
+  **Solution:** Check the resolution order. More specific levels override general ones:
+
+  1. Check `<repo>/.claude/settings.local.json` (highest priority)
+  2. Check `<repo>/.claude/settings.json`
+  3. Check `~/.claude/settings.json` (lowest priority)
+</Callout>
+
+### Permission Issues
+
+<Callout type="warning" title="⚠️ Problem: Command Blocked">
+  **Solution:** Add permission at the appropriate level:
+
+  - **Use everywhere:** Add to `~/.claude/settings.json`
+  - **Just this project (team):** Add to `<repo>/.claude/settings.json`
+  - **Just this project (personal):** Add to `<repo>/.claude/settings.local.json`
+</Callout>
+
+### Agent/Skill Not Found
+
+<Callout type="warning" title="⚠️ Problem: Agent Not Discoverable">
+  **Solution:** Verify YAML frontmatter format:
+
+  ```yaml
+  ---
+  name: agent-name
+  version: 1.0.0
+  description: Brief description
+  tools:
+    - Read
+    - Bash
+  when_to_use: When to invoke
+  ---
+  ```
+
+  Check that the file is in the correct location:
+
+  - User-level: `~/.claude/agents/`
+  - Repo-level: `<repo>/.claude/agents/`
+</Callout>
+
+### Rollback Procedures
+
+If the migration causes issues, restore from backup:
+
+```bash
+# Restore user-level config
+cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/user-claude-backup/* ~/.claude/
+
+# Restore workspace .claude/ (if needed)
+cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/workspace-claude-backup ~/dev/.claude
+
+# Restore specific repo
+cp -r ~/dev/docs/archives/claude-architecture-migration-2026-01-02/my-repo-claude-backup ~/dev/my-repo/.claude
+```

@@ -1,0 +1,110 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  pythonCode: string;
+  typescriptCode: string;
+  defaultLang?: 'python' | 'typescript';
+}
+
+const { pythonCode, typescriptCode, defaultLang = 'python' } = Astro.props;
+---
+
+<div class="code-tabs" data-default-lang={defaultLang}>
+  <div class="code-tabs-header">
+    <button class="code-tab-btn active" data-lang="python" type="button">
+      Python
+    </button>
+    <button class="code-tab-btn" data-lang="typescript" type="button">
+      TypeScript
+    </button>
+  </div>
+
+  <div class="code-tab-content active" data-lang="python">
+    <Code code={pythonCode} lang="python" theme="github-light" />
+  </div>
+
+  <div class="code-tab-content" data-lang="typescript">
+    <Code code={typescriptCode} lang="typescript" theme="github-light" />
+  </div>
+</div>
+
+<style>
+  .code-tabs {
+    margin: var(--spacing-md, 1.5rem) 0;
+    border-radius: var(--border-radius, 8px);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .code-tabs-header {
+    display: flex;
+    gap: 0;
+    background-color: var(--color-code-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.5rem;
+  }
+
+  .code-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: var(--font-body, 'Satoshi', sans-serif);
+    color: var(--color-text);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+  }
+
+  .code-tab-btn:hover {
+    opacity: 0.8;
+    background-color: rgba(245, 80, 54, 0.1);
+  }
+
+  .code-tab-btn.active {
+    background-color: var(--color-primary-accent, #F55036);
+    color: white;
+    opacity: 1;
+  }
+
+  .code-tab-content {
+    display: none;
+  }
+
+  .code-tab-content.active {
+    display: block;
+  }
+
+  .code-tab-content pre {
+    margin: 0;
+    padding: 1.5rem;
+    background-color: var(--color-code-bg);
+    border-radius: 0;
+  }
+
+  .code-tab-content code {
+    font-family: var(--font-code, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Theme switching for syntax highlighting */
+  :root {
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] .shiki,
+  [data-theme="dark"] .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+
+  [data-theme="light"] .shiki,
+  [data-theme="light"] .shiki span {
+    color: var(--shiki-light) !important;
+    background-color: var(--shiki-light-bg) !important;
+  }
+</style>

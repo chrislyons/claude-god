@@ -1,0 +1,202 @@
+---
+title: "Essential Plugins"
+section: 3
+description: "commit-commands, pr-review-toolkit, and feature-dev"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## commit-commands
+
+Streamline your Git workflow with one-command commits, pushes, and PRs.
+
+### Commands
+
+**/commit** - Auto-generated commit message
+
+```bash
+/commit
+```
+
+Claude analyzes your staged changes and generates an appropriate commit message following your repository's conventions.
+
+**Example workflow:**
+
+```bash
+# Stage your changes
+git add src/components/Button.tsx tests/Button.test.tsx
+
+# Let Claude commit with auto-generated message
+/commit
+```
+
+**/commit-push-pr** - One-command workflow
+
+```bash
+/commit-push-pr
+```
+
+Combines commit + push + PR creation into a single command. Claude:
+
+1. Analyzes changes
+2. Generates commit message
+3. Pushes to remote
+4. Creates pull request with summary
+
+Perfect for sprint-based workflows where documentation → commit → PR is a regular pattern.
+
+**/clean_gone** - Clean up merged branches
+
+```bash
+/clean_gone
+```
+
+Removes local branches that have been merged and deleted on the remote.
+
+<Callout type="success">
+**Sprint Protocol:** Use `/commit-push-pr` at the end of sprint milestones to automatically document, commit, push, and create PR in one step.
+</Callout>
+
+---
+
+## pr-review-toolkit
+
+Comprehensive PR review with 6 specialized agents running in parallel.
+
+### Command
+
+**/pr-review-toolkit:review-pr** - Full PR analysis
+
+```bash
+/pr-review-toolkit:review-pr
+```
+
+Launches 6 specialized agents:
+
+1. **comment-analyzer** - Reviews code comment quality
+2. **pr-test-analyzer** - Analyzes test coverage
+3. **silent-failure-hunter** - Finds error handling gaps
+4. **type-design-analyzer** - Reviews TypeScript/type system design
+5. **code-reviewer** - General quality review
+6. **code-simplifier** - Identifies over-engineering
+
+### The code-simplifier Agent
+
+Aligns with the "avoid over-engineering" principle:
+
+- Flags unnecessary abstractions
+- Identifies premature optimization
+- Suggests simpler implementations
+- Questions overly complex patterns
+
+**Example findings:**
+
+- "This helper function is only used once - inline it?"
+- "Feature flag adds complexity - just change the code directly"
+- "These 3 lines don't need a utility function"
+
+<Callout type="info">
+**Multi-Repo Use:** Run this on PRs across all your repos (carbon-acx, hotbox, orpheus-sdk, etc.) for consistent review quality.
+</Callout>
+
+### When to Use
+
+- Before requesting human PR review
+- On your own PRs before submitting
+- When reviewing teammate PRs (supplement your review)
+- For large refactoring PRs (catches issues early)
+
+---
+
+## feature-dev
+
+Structured 7-phase feature development workflow with automatic documentation.
+
+### Command
+
+**/feature-dev** - Guided feature development
+
+```bash
+/feature-dev
+```
+
+Interactive workflow that guides you through:
+
+**Phase 1: Understand** - Clarify requirements
+- Asks questions to understand scope
+- Identifies ambiguities
+- Defines success criteria
+
+**Phase 2: Explore** - Examine codebase
+- Searches for existing patterns
+- Identifies related code
+- Maps dependencies
+
+**Phase 3: Design** - Plan implementation
+- Proposes architecture
+- Considers trade-offs
+- Outlines approach
+
+**Phase 4: Plan** - Break down tasks
+- Creates step-by-step plan
+- Identifies files to modify
+- Estimates complexity
+
+**Phase 5: Implement** - Write code
+- Implements feature
+- Follows established patterns
+- Maintains code quality
+
+**Phase 6: Test** - Verify functionality
+- Writes tests
+- Runs test suite
+- Validates coverage
+
+**Phase 7: Document** - Update docs
+- Updates `.claude/implementation_progress.md`
+- Adds inline documentation
+- Creates user-facing docs
+
+<Callout type="success">
+**Auto-Documentation:** Phase 7 aligns with your "Documentation is Part of Done" protocol - the feature isn't complete until docs are updated.
+</Callout>
+
+### Perfect For
+
+- Complex features requiring planning
+- Cross-repo patterns (applying same feature to multiple repos)
+- Features with unclear requirements
+- Sprint-based development workflows
+
+### Example Use Case
+
+```bash
+# In your helm repository
+/feature-dev
+
+# Claude asks: "What feature would you like to develop?"
+# You respond: "Add user authentication with session management"
+
+# Claude then:
+# - Explores existing auth patterns in your codebase
+# - Proposes JWT vs session-based approach
+# - Creates implementation plan
+# - Implements with tests
+# - Documents in .claude/implementation_progress.md
+```
+
+<Callout type="info">
+**Agents Included:** The feature-dev plugin includes `code-explorer`, `code-architect`, and `code-reviewer` agents that work together throughout the workflow.
+</Callout>
+
+---
+
+## When to Use Each
+
+| Plugin | When to Use |
+|--------|-------------|
+| **commit-commands** | Every commit, end of sprint milestones, PR creation |
+| **pr-review-toolkit** | Before submitting PRs, reviewing others' PRs, large refactors |
+| **feature-dev** | Complex features, unclear requirements, cross-repo patterns |
+
+All three plugins are self-guided - they prompt you for information and walk you through the process. No complex configuration needed!

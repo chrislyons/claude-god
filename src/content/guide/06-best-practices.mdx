@@ -1,0 +1,64 @@
+---
+title: "Best Practices"
+section: 6
+description: "Guidelines for using each configuration level effectively"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Best Practices
+
+### When to Use Each Level
+
+<Callout type="success" title="✅ DO: Use User Level For...">
+  - Personal workflow automation (skills you use everywhere)
+  - Global permissions (commands you always want allowed)
+  - Session management workflows
+  - Personal reference guides and documentation
+  - Model preferences and plugin settings
+</Callout>
+
+<Callout type="success" title="✅ DO: Use Repo Level For...">
+  - Project-specific agents (e.g., citation validator for docs repos)
+  - Team-shared skills and workflows
+  - Default project permissions
+  - Configuration all collaborators should inherit
+</Callout>
+
+<Callout type="success" title="✅ DO: Use Local Level For...">
+  - Personal permission overrides for a specific project
+  - Private notes about the project
+  - Temporary files and scratch work
+  - Experimental settings you don't want to share
+</Callout>
+
+<Callout type="danger" title="❌ DON'T: Common Mistakes">
+  - Don't create workspace-level .claude/ directories
+  - Don't commit settings.local.json to git
+  - Don't duplicate agents across repos if they're truly personal
+  - Don't put team-shared config in user-level files
+  - Don't put personal preferences in repo-level settings.json
+</Callout>
+
+### Naming Conventions
+
+- **Agents:** `kebab-case.md` (e.g., `citation-validator.md`)
+- **Skills:** `kebab-case.md` (e.g., `sprint-complete.md`)
+- **Settings:** `settings.json` (team) or `settings.local.json` (personal)
+
+### Version Control
+
+<Callout type="info" title="💡 What to Commit">
+  **Commit to git:**
+
+  - `CLAUDE.md` (repo rules)
+  - `.claude/settings.json` (team settings)
+  - `.claude/agents/*.md` (team-shared agents)
+  - `.claude/skills/` (team-shared skills)
+
+  **Never commit:**
+
+  - `.claude/settings.local.json`
+  - `.claude/CLAUDE.local.md`
+  - `.claude/scratch/`
+</Callout>

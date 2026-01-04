@@ -1,0 +1,90 @@
+---
+title: "Quick Reference"
+section: 9
+description: "Cheat sheet for common tasks and patterns"
+---
+
+import DirectoryTree from '../../components/DirectoryTree.astro';
+
+## Quick Reference
+
+### Directory Tree Overview
+
+<DirectoryTree content={`~/.claude/                          # User Level (Personal)
+├── CLAUDE.md
+├── settings.json
+├── agents/
+│   ├── doc-syncer.md
+│   ├── git-workflow-agent.md
+│   └── workspace-test-runner.md
+├── skills/
+│   ├── context-review.md
+│   ├── qcheck.md
+│   ├── sprint-complete.md
+│   └── sprint-report.md
+├── guides/
+│   └── claude-agent-sdk-guide.html
+└── maintenance/
+    ├── session-start.md
+    ├── session-end.md
+    └── monthly-review.md
+
+~/dev/CLAUDE.md                   # Workspace Level (Conventions)
+
+~/dev/my-repo/                    # Repo Level (Team-Shared)
+├── CLAUDE.md
+└── .claude/
+    ├── settings.json             # Team (committed)
+    ├── settings.local.json       # Personal (gitignored)
+    ├── agents/
+    │   ├── citation-validator.md
+    │   └── deployment-orchestrator.md
+    └── skills/
+        └── manifest.json`} />
+
+### Command Cheat Sheet
+
+| Task | Command |
+|------|---------|
+| Create user-level skill | `vim ~/.claude/skills/my-skill.md` |
+| Add repo agent | `vim ~/dev/my-repo/.claude/agents/my-agent.md` |
+| Override repo permissions | `vim ~/dev/my-repo/.claude/settings.local.json` |
+| List user agents | `ls ~/.claude/agents/` |
+| List repo agents | `ls ./.claude/agents/` |
+| View migration backup | `ls ~/dev/docs/archives/claude-architecture-migration-2026-01-02/` |
+
+### File Path Templates
+
+```plaintext
+# User Level
+~/.claude/CLAUDE.md
+~/.claude/settings.json
+~/.claude/agents/{agent-name}.md
+~/.claude/skills/{skill-name}.md
+~/.claude/guides/{guide-name}.html
+~/.claude/maintenance/{workflow-name}.md
+
+# Workspace Level
+~/dev/CLAUDE.md
+
+# Repo Level (Team-Shared)
+<repo>/CLAUDE.md
+<repo>/.claude/settings.json
+<repo>/.claude/agents/{agent-name}.md
+<repo>/.claude/skills/{skill-name}.md
+
+# Repo Level (Personal)
+<repo>/.claude/settings.local.json
+<repo>/.claude/CLAUDE.local.md
+<repo>/.claude/scratch/
+```
+
+### Common Patterns
+
+| Pattern | Implementation |
+|---------|----------------|
+| Personal automation everywhere | User-level agent in `~/.claude/agents/` |
+| Project-specific validation | Repo-level agent in `<repo>/.claude/agents/` |
+| Team permissions | Repo `settings.json` (committed) |
+| Personal exceptions | Repo `settings.local.json` (gitignored) |
+| Multi-repo conventions | Workspace `CLAUDE.md` (no .claude/ dir) |

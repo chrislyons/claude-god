@@ -1,0 +1,27 @@
+---
+import GuideLayout from '../layouts/GuideLayout.astro';
+import { GUIDES } from '../config/guides';
+import { loadGuideContent } from '../utils/guide-loader';
+
+const guide = GUIDES.noCode;
+const sections = await loadGuideContent(guide.collection);
+---
+
+<GuideLayout
+  title="Claude No-Code Guide - AI Workflows Without Programming"
+  description="Use Claude CLI and Agent SDK for research, writing, and automation without coding"
+  headerTitle="Claude No-Code Guide"
+  guideId="noCode"
+>
+  <h1>Claude No-Code</h1>
+  <p style="font-size: 1.1em; opacity: 0.8; margin-bottom: 3rem;">
+    Leverage Claude CLI and Agent SDK for research, writing, document processing, and automation
+    without writing code. Terminal commands and copy-paste scripts only.
+  </p>
+
+  {sections.map(({ id, Content }) => (
+    <section id={id}>
+      <Content />
+    </section>
+  ))}
+</GuideLayout>

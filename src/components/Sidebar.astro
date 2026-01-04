@@ -1,0 +1,56 @@
+---
+interface Props {
+  guideId: string;
+}
+
+import { GUIDES } from '../config/guides';
+
+const { guideId } = Astro.props;
+const guide = GUIDES[guideId];
+
+if (!guide) {
+  throw new Error(`Guide "${guideId}" not found in configuration`);
+}
+---
+
+<aside class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all" style="background-color: var(--color-bg); border-right: 1px solid var(--color-border);">
+  <div class="sidebar-brand font-display text-2xl font-bold mb-2 text-primary-accent">
+    {guide.title}
+  </div>
+  <div class="sidebar-subtitle text-sm text-text-light dark:text-text-dark opacity-70 mb-8">
+    {guide.subtitle}
+  </div>
+
+  <nav>
+    <ul class="list-none p-0">
+      {guide.navigation.map(item => (
+        <li class="my-2">
+          <a
+            href={`#${item.id}`}
+            class="block px-4 py-2 rounded transition-all text-[0.95rem] no-underline"
+            style="color: var(--color-text);"
+            data-nav-link={item.id}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  /* Remove the default underline animation for sidebar links */
+  aside a::after {
+    display: none;
+  }
+
+  aside a:hover {
+    background-color: var(--color-code-bg);
+  }
+
+  aside a.active {
+    background-color: var(--color-primary-accent);
+    color: white;
+  }
+</style>

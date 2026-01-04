@@ -1,0 +1,408 @@
+---
+title: "Simple Automation Scripts"
+section: 7
+description: "Copy-paste scripts for recurring tasks"
+---
+
+import Callout from '../../components/Callout.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+
+## Simple Automation Scripts
+
+For recurring tasks, use these ready-made Python scripts. **No coding knowledge required**—just copy, paste, customize, and run.
+
+### Prerequisites
+
+```bash
+# Install Claude Agent SDK (one-time setup)
+pip install claude-agent-sdk
+```
+
+### Daily Research Digest
+
+Automatically compile research on a topic every day.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+from datetime import date
+
+async def daily_research_digest():
+    topic = "quantum computing"  # <-- CUSTOMIZE THIS
+    output_file = f"digest-{date.today()}.md"
+
+    options = ClaudeAgentOptions(
+        allowed_tools=["WebSearch", "Write"],
+        permission_mode="acceptEdits"
+    )
+
+    prompt = f"""
+    Search the web for today's news and developments about '{topic}'.
+    Find 5-7 relevant articles from the past 24 hours.
+
+    Create a digest with:
+    - Article headline and source
+    - 2-sentence summary
+    - Why it matters
+    - URL
+
+    Save to {output_file}
+    """
+
+    async for msg in query(prompt=prompt, options=options):
+        pass  # Agent handles everything
+
+    print(f"✅ Digest saved to {output_file}")
+
+asyncio.run(daily_research_digest())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function dailyResearchDigest() {
+  const topic = "quantum computing";  // <-- CUSTOMIZE THIS
+  const outputFile = \`digest-\${new Date().toISOString().split('T')[0]}.md\`;
+
+  const prompt = \`
+    Search the web for today's news and developments about '\${topic}'.
+    Find 5-7 relevant articles from the past 24 hours.
+
+    Create a digest with:
+    - Article headline and source
+    - 2-sentence summary
+    - Why it matters
+    - URL
+
+    Save to \${outputFile}
+  \`;
+
+  for await (const msg of query({
+    prompt,
+    options: {
+      allowedTools: ["WebSearch", "Write"],
+      permissionMode: "acceptEdits"
+    }
+  })) {
+    // Agent handles everything
+  }
+
+  console.log(\`✅ Digest saved to \${outputFile}\`);
+}
+
+dailyResearchDigest();`}
+/>
+
+**Run it:**
+```bash
+python daily_digest.py
+```
+
+**Automate it (run every morning at 9am):**
+```bash
+# Add to crontab (macOS/Linux)
+0 9 * * * cd /path/to/scripts && python daily_digest.py
+```
+
+---
+
+### Batch Document Summarizer
+
+Summarize all PDFs in a folder automatically.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def batch_summarize():
+    folder = "./documents"  # <-- CUSTOMIZE THIS
+
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write", "Glob"],
+        permission_mode="acceptEdits"
+    )
+
+    prompt = f"""
+    Find all PDF files in {folder}.
+    For each PDF:
+    1. Read the content
+    2. Create a 3-paragraph summary
+    3. Append to summaries.md with format:
+       ## [Filename]
+       [Summary]
+       ---
+    """
+
+    async for msg in query(prompt=prompt, options=options):
+        pass
+
+    print("✅ All PDFs summarized in summaries.md")
+
+asyncio.run(batch_summarize())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function batchSummarize() {
+  const folder = "./documents";  // <-- CUSTOMIZE THIS
+
+  const prompt = \`
+    Find all PDF files in \${folder}.
+    For each PDF:
+    1. Read the content
+    2. Create a 3-paragraph summary
+    3. Append to summaries.md with format:
+       ## [Filename]
+       [Summary]
+       ---
+  \`;
+
+  for await (const msg of query({
+    prompt,
+    options: {
+      allowedTools: ["Read", "Write", "Glob"],
+      permissionMode: "acceptEdits"
+    }
+  })) {
+    // Agent handles everything
+  }
+
+  console.log("✅ All PDFs summarized in summaries.md");
+}
+
+batchSummarize();`}
+/>
+
+---
+
+### Weekly Report Generator
+
+Generate a weekly summary from daily logs.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+from datetime import date, timedelta
+
+async def weekly_report():
+    # Automatically calculates last week's date range
+    today = date.today()
+    week_ago = today - timedelta(days=7)
+
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write", "Glob"],
+        permission_mode="acceptEdits"
+    )
+
+    prompt = f"""
+    Read all files in ./daily-logs/ from the past 7 days.
+
+    Create a weekly report (week-{today}.md) with:
+    1. Executive Summary (2-3 sentences)
+    2. Key Achievements (bullet list)
+    3. Challenges Encountered (bullet list)
+    4. Metrics Summary (hours worked, tasks completed)
+    5. Next Week's Priorities
+
+    Use professional tone. Include specific numbers.
+    """
+
+    async for msg in query(prompt=prompt, options=options):
+        pass
+
+    print(f"✅ Weekly report generated: week-{today}.md")
+
+asyncio.run(weekly_report())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function weeklyReport() {
+  const today = new Date().toISOString().split('T')[0];
+
+  const prompt = \`
+    Read all files in ./daily-logs/ from the past 7 days.
+
+    Create a weekly report (week-\${today}.md) with:
+    1. Executive Summary (2-3 sentences)
+    2. Key Achievements (bullet list)
+    3. Challenges Encountered (bullet list)
+    4. Metrics Summary (hours worked, tasks completed)
+    5. Next Week's Priorities
+
+    Use professional tone. Include specific numbers.
+  \`;
+
+  for await (const msg of query({
+    prompt,
+    options: {
+      allowedTools: ["Read", "Write", "Glob"],
+      permissionMode: "acceptEdits"
+    }
+  })) {
+    // Agent handles everything
+  }
+
+  console.log(\`✅ Weekly report generated: week-\${today}.md\`);
+}
+
+weeklyReport();`}
+/>
+
+---
+
+### Expense Report from Receipts
+
+Process receipt images and generate expense report CSV.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def process_receipts():
+    receipts_folder = "./receipts"  # <-- CUSTOMIZE THIS
+
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write"],
+        permission_mode="acceptEdits"
+    )
+
+    prompt = f"""
+    Scan all images in {receipts_folder}.
+    For each receipt, extract:
+    - Date
+    - Vendor name
+    - Total amount
+    - Category (meals, travel, supplies, etc.)
+
+    Create expenses.csv with columns: Date, Vendor, Amount, Category
+    Sort by date (newest first).
+    """
+
+    async for msg in query(prompt=prompt, options=options):
+        pass
+
+    print("✅ Expense report saved to expenses.csv")
+
+asyncio.run(process_receipts())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function processReceipts() {
+  const receiptsFolder = "./receipts";  // <-- CUSTOMIZE THIS
+
+  const prompt = \`
+    Scan all images in \${receiptsFolder}.
+    For each receipt, extract:
+    - Date
+    - Vendor name
+    - Total amount
+    - Category (meals, travel, supplies, etc.)
+
+    Create expenses.csv with columns: Date, Vendor, Amount, Category
+    Sort by date (newest first).
+  \`;
+
+  for await (const msg of query({
+    prompt,
+    options: {
+      allowedTools: ["Read", "Write"],
+      permissionMode: "acceptEdits"
+    }
+  })) {
+    // Agent handles everything
+  }
+
+  console.log("✅ Expense report saved to expenses.csv");
+}
+
+processReceipts();`}
+/>
+
+<Callout type="success" title="How to Customize">
+1. Change values marked with `<-- CUSTOMIZE THIS`
+2. Modify the prompt text to match your needs
+3. Run the script: `python script.py` or `npx tsx script.ts`
+4. Review output and adjust as needed
+</Callout>
+
+---
+
+### Data Analysis Report
+
+Analyze CSV and generate insights automatically.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def analyze_data():
+    data_file = "sales-data.csv"  # <-- CUSTOMIZE THIS
+
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write"],
+        permission_mode="acceptEdits"
+    )
+
+    prompt = f"""
+    Analyze {data_file}.
+
+    Create analysis-report.md with:
+    1. Dataset Overview (rows, columns, date range)
+    2. Summary Statistics (totals, averages, growth rates)
+    3. Key Insights (top 3 findings)
+    4. Trends (what's increasing/decreasing)
+    5. Recommendations (3 actionable suggestions)
+
+    Include specific numbers. Use markdown tables where helpful.
+    """
+
+    async for msg in query(prompt=prompt, options=options):
+        pass
+
+    print("✅ Analysis saved to analysis-report.md")
+
+asyncio.run(analyze_data())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function analyzeData() {
+  const dataFile = "sales-data.csv";  // <-- CUSTOMIZE THIS
+
+  const prompt = \`
+    Analyze \${dataFile}.
+
+    Create analysis-report.md with:
+    1. Dataset Overview (rows, columns, date range)
+    2. Summary Statistics (totals, averages, growth rates)
+    3. Key Insights (top 3 findings)
+    4. Trends (what's increasing/decreasing)
+    5. Recommendations (3 actionable suggestions)
+
+    Include specific numbers. Use markdown tables where helpful.
+  \`;
+
+  for await (const msg of query({
+    prompt,
+    options: {
+      allowedTools: ["Read", "Write"],
+      permissionMode: "acceptEdits"
+    }
+  })) {
+    // Agent handles everything
+  }
+
+  console.log("✅ Analysis saved to analysis-report.md");
+}
+
+analyzeData();`}
+/>
+
+---
+
+### Next Steps
+
+**Make Scripts Yours:**
+- Copy any script above
+- Change the `CUSTOMIZE THIS` values
+- Modify prompts to match your workflow
+- Save as a `.py` or `.ts` file
+- Run whenever needed
+
+**Schedule Automation:**
+- **macOS/Linux:** Use `cron` for scheduled runs
+- **Windows:** Use Task Scheduler
+- **Cloud:** Deploy to AWS Lambda, Google Cloud Functions, or similar
+
+You now have production-ready automation without writing a single line of code from scratch.

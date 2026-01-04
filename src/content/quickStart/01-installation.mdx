@@ -1,0 +1,37 @@
+---
+title: "Installation"
+section: 1
+description: "Install Claude Code CLI"
+---
+
+## Installation
+
+Get Claude Code installed on your system in seconds.
+
+### Using Homebrew (macOS/Linux)
+
+```bash
+brew install --cask claude-code
+```
+
+### Using npm (All platforms)
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+**Windows users:** Use PowerShell, Command Prompt, or Windows Terminal. After installation, you may need to restart your terminal or add the npm global bin directory to your PATH.
+
+If `claude` command isn't recognized after installation:
+- PowerShell: Add to PATH via System Properties → Environment Variables
+- Or use: `npx @anthropic-ai/claude-code` instead of `claude`
+
+### Verify Installation
+
+```bash
+claude --version
+```
+
+**Windows:** Use `cmd`, PowerShell, or Git Bash. All commands in this guide work the same across terminals.
+
+You should see the version number printed. You're ready to go!

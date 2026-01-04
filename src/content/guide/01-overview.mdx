@@ -1,0 +1,51 @@
+---
+title: "Overview"
+section: 1
+description: "Introduction to Claude Code's three-level configuration hierarchy"
+---
+
+import Callout from '../../components/Callout.astro';
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## Overview
+
+Claude Code uses a **three-level configuration hierarchy** that separates personal preferences,
+team-shared settings, and local overrides. This architecture follows official best practices and ensures
+clean separation between user-level automation and project-specific configuration.
+
+### The Three Levels
+
+<MermaidDiagram diagram={`
+graph TD
+    A[User Level<br/>~/.claude/] --> B[Personal Config]
+    A --> C[Applies to ALL projects]
+
+    D[Repo Level<br/>repo/.claude/] --> E[Team-Shared Config]
+    D --> F[Committed to git]
+
+    G[Local Level<br/>repo/.claude/*.local.*] --> H[Personal Overrides]
+    G --> I[Gitignored]
+
+    B --> J[Resolution Order]
+    E --> J
+    H --> J
+    J --> K[Local > Repo > User]
+
+    style A fill:#F55036,color:#fff
+    style D fill:#3B82F6,color:#fff
+    style G fill:#2D7A4F,color:#fff
+`} />
+
+<Callout type="info" title="💡 Key Principle">
+  **User level** contains your personal workflow tools that apply everywhere.
+  **Repo level** contains team-shared configuration committed to git.
+  **Local level** contains your personal overrides for specific projects.
+</Callout>
+
+### Why This Architecture?
+
+- **Clear boundaries:** Personal vs team-shared vs local overrides
+- **Portability:** Repos work independently without workspace dependencies
+- **Collaboration:** Team members share the same base configuration
+- **Flexibility:** Personal customization without affecting the team
+- **Official compliance:** Follows Claude Code best practices exactly

@@ -1,0 +1,35 @@
+---
+import GuideLayout from '../layouts/GuideLayout.astro';
+import { GUIDES } from '../config/guides';
+import { loadGuideContent } from '../utils/guide-loader';
+
+const guide = GUIDES.agentSdk;
+const sections = await loadGuideContent(guide.collection);
+---
+
+<GuideLayout
+  title="Claude Agent SDK Guide - Complete Reference"
+  description="Build autonomous AI agents programmatically with Claude Agent SDK"
+  headerTitle="Claude Agent SDK Guide"
+  guideId="agentSdk"
+>
+
+  <h1>Claude Agent SDK</h1>
+  <p style="font-size: 1.1em; opacity: 0.8; margin-bottom: 3rem;">
+    Programmatic agent construction with Python and TypeScript. Build autonomous workflows,
+    CI/CD integrations, scheduled tasks, and custom toolchains using the official SDK.
+  </p>
+
+  {sections.map(({ id, Content }) => (
+    <section id={id}>
+      <Content />
+    </section>
+  ))}
+</GuideLayout>
+
+<script>
+  import { initCodeTabs } from '../scripts/code-tabs';
+
+  // Initialize code tabs on page load
+  initCodeTabs();
+</script>

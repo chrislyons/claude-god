@@ -1,0 +1,111 @@
+---
+title: "Writing & Content Creation"
+section: 3
+description: "Automate writing and editing workflows"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Writing & Content Creation
+
+### Drafting Content
+
+**Generate report from data:**
+
+```bash
+claude "Read sales-data.csv. Write a 2-page executive summary highlighting trends, top performers, and recommendations. Save as report.md"
+```
+
+**Create documentation from code:**
+
+```bash
+claude "Read all .py files in src/. Generate user-facing documentation explaining what each module does. Use non-technical language. Save to docs/user-guide.md"
+```
+
+### Editing & Refinement
+
+**Improve clarity and conciseness:**
+
+```bash
+claude "Edit draft.md for clarity. Remove jargon, shorten sentences, and improve flow. Preserve all technical details. Save to draft-v2.md"
+```
+
+**Check consistency:**
+
+```bash
+claude "Read style-guide.md and article.md. Ensure the article follows the style guide's rules for tone, terminology, and formatting. List violations and suggest fixes"
+```
+
+### Content Transformation
+
+**Convert formats:**
+
+```bash
+claude "Convert meeting-notes.txt to a structured markdown document with sections: Attendees, Discussion Points, Action Items, Next Steps"
+```
+
+**Expand bullet points to prose:**
+
+```bash
+claude "Read outline.md. Expand each bullet point into a full paragraph. Maintain logical flow between sections. Save as expanded-draft.md"
+```
+
+### Email and Communication
+
+**Draft professional emails:**
+
+```bash
+claude "Write a professional email to stakeholders summarizing project-status.md. Tone: optimistic but realistic. Length: 3-4 paragraphs. Include next steps"
+```
+
+**Generate responses to common queries:**
+
+```bash
+claude "Read our FAQ.md. Create template responses for the top 5 questions. Use a friendly, helpful tone. Save as email-templates.md"
+```
+
+<Callout type="info" title="Batch Operations">
+Process multiple files at once: `claude "Edit all .md files in ./drafts/ for grammar and style. Save edited versions with '-edited' suffix"`
+</Callout>
+
+### Content Generation from Templates
+
+**Fill in templates with data:**
+
+```bash
+claude "Using template.md as the structure and data.json for values, generate 10 personalized letters. Save as letter-001.md through letter-010.md"
+```
+
+**Create variations:**
+
+```bash
+claude "Read blog-post.md. Create 3 variations optimized for: LinkedIn (professional), Twitter thread (conversational), and newsletter (detailed). Save separately"
+```
+
+### Quality Assurance
+
+**Fact-check claims:**
+
+```bash
+claude "Read article.md. Identify all factual claims. Search the web to verify each claim. Mark verified, unverified, or contradicted claims"
+```
+
+**Check tone and style:**
+
+```bash
+claude "Analyze tone of customer-email.md. Is it professional, empathetic, and clear? Suggest improvements if needed"
+```
+
+### Multi-Document Writing Projects
+
+**Maintain consistency across documents:**
+
+```bash
+claude "Read all chapters in ./book-chapters/. Check for: consistent character descriptions, timeline continuity, and terminology. List inconsistencies"
+```
+
+**Generate table of contents:**
+
+```bash
+claude "Scan all .md files in this directory. Generate a hierarchical table of contents with page numbers (estimate ~500 words per page). Save as toc.md"
+```

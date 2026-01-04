@@ -1,0 +1,26 @@
+---
+import GuideLayout from '../layouts/GuideLayout.astro';
+import { GUIDES } from '../config/guides';
+import { loadGuideContent } from '../utils/guide-loader';
+
+const guide = GUIDES.plugins;
+const sections = await loadGuideContent(guide.collection);
+---
+
+<GuideLayout
+  title="Claude Code Plugins - Complete Guide"
+  description="Master Claude Code plugins: autonomous iteration loops, custom enforcement rules, and workflow automation"
+  headerTitle="Plugins Guide"
+  guideId="plugins"
+>
+  <h1>Claude Code Plugins</h1>
+  <p style="font-size: 1.1em; opacity: 0.8; margin-bottom: 3rem;">
+    Extend Claude Code with 8 essential plugins: autonomous iteration (ralph-wiggum), custom rules (hookify), workflow automation, and more.
+  </p>
+
+  {sections.map(({ id, Content }) => (
+    <section id={id}>
+      <Content />
+    </section>
+  ))}
+</GuideLayout>

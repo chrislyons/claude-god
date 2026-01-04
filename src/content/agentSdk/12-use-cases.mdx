@@ -1,0 +1,41 @@
+---
+title: "What Can You Build With Agent SDK?"
+section: 12
+description: "Real-world use cases and capabilities of the Claude Agent SDK"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## What Can You Build With Agent SDK?
+
+### Real-World Use Cases
+
+| Use Case | Example | Why Agent SDK |
+|----------|---------|---------------|
+| **Code Analysis Agents** | Find bugs, refactor, add tests | Runs autonomously on repos |
+| **CI/CD Integration** | Run PR reviews, tests, linting | Automated, no user interaction |
+| **Email Assistants** | Process emails, draft responses | Continuous background operation |
+| **Research Agents** | Gather info, summarize findings | Multi-step autonomous tasks |
+| **Document Generation** | Create reports, specs, docs | Driven by external data |
+| **Scheduled Tasks** | Nightly data processing | Cron-compatible, headless |
+| **Chat Interfaces** | Build conversational apps | Multi-turn with state |
+| **Slack/Discord Bots** | Slack commands, interactions | Event-driven automation |
+| **Web Dashboard** | Backend agent for web apps | REST API wrapper around agents |
+
+### Key Capabilities
+
+The SDK supports:
+
+- **Tool use**: Read files, write code, run bash, search web, fetch URLs, edit notebooks
+- **Sessions**: Multi-turn conversations with context retention
+- **Permissions**: Fine-grained control over what agents can do
+- **Hooks**: Intercept and modify behavior at key points
+- **MCP servers**: Connect to external APIs, databases, services
+- **Subagents**: Delegate tasks to specialized agents
+- **Structured outputs**: Get predictable JSON results
+- **Extended thinking**: Complex reasoning tasks
+- **Streaming**: Real-time output delivery
+
+<Callout type="info" title="Key Insight">
+The SDK doesn't limit you to what Claude Code CLI can do—it extends those capabilities into your applications.
+</Callout>

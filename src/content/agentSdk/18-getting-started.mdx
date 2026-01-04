@@ -1,0 +1,110 @@
+---
+title: "Getting Started (Your First Steps)"
+section: 18
+description: "Step-by-step guide to getting started with the Claude Agent SDK"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Getting Started (Your First Steps)
+
+### Prerequisites
+
+1. **Claude Code CLI installed**
+   ```bash
+   brew install --cask claude-code
+   # or: npm install -g @anthropic-ai/claude-code
+   ```
+
+2. **Authenticate Claude Code**
+   ```bash
+   claude  # Follow authentication prompts
+   ```
+
+3. **Python 3.9+ or Node.js 18+**
+
+### Installation
+
+**Python:**
+```bash
+pip install claude-agent-sdk
+# or with uv:
+uv add claude-agent-sdk
+```
+
+**TypeScript/Node:**
+```bash
+npm install @anthropic-ai/claude-agent-sdk
+```
+
+### Your First Agent (5 Minutes)
+
+**Step 1: Create a file** (`my_agent.py` or `my_agent.ts`)
+
+**Step 2: Write minimal code:**
+
+```python
+# Python
+import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def main():
+    async for msg in query(
+        prompt="Create a file called hello.txt with 'Hello World'",
+        options=ClaudeAgentOptions(
+            allowed_tools=["Write"],
+            permission_mode="acceptEdits"
+        )
+    ):
+        print(msg)
+
+asyncio.run(main())
+```
+
+**Step 3: Run it:**
+```bash
+python my_agent.py
+```
+
+**Expected result:** A `hello.txt` file is created with "Hello World" content.
+
+### Next Steps
+
+1. **Try different permission modes**
+   - `"default"` - Asks for approval
+   - `"acceptEdits"` - Auto-approves file changes
+   - `"plan"` - Shows plan before execution
+
+2. **Add more tools**
+   - `["Read", "Write", "Bash"]` for file operations + shell
+   - `["WebSearch", "WebFetch"]` for internet access
+   - `["Grep", "Glob"]` for searching
+
+3. **Explore multi-turn conversations**
+   - Use `ClaudeSDKClient` for context retention
+   - Build interactive chat interfaces
+
+4. **Create custom tools**
+   - Define MCP tools for domain-specific actions
+   - Integrate with your APIs and services
+
+<Callout type="success" title="Success Checklist">
+- ✅ Claude Code CLI authenticated
+- ✅ SDK installed (`pip` or `npm`)
+- ✅ First agent runs successfully
+- ✅ Ready to build more complex agents!
+</Callout>
+
+### Troubleshooting
+
+**"Claude Code CLI not found"**
+- Install: `brew install --cask claude-code` or `npm install -g @anthropic-ai/claude-code`
+- Verify: `claude --version`
+
+**"Authentication failed"**
+- Run: `claude` to re-authenticate
+- Check API key/credentials
+
+**"Permission denied"**
+- Use `permission_mode="acceptEdits"` for autonomous execution
+- Or approve prompts when using `"default"` mode

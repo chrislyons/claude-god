@@ -1,0 +1,52 @@
+---
+title: "First Steps"
+section: 2
+description: "Your first interaction with Claude Code"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## First Steps
+
+### Authenticate
+
+Run Claude Code for the first time:
+
+```bash
+claude
+```
+
+Follow the authentication prompts to connect to your Claude account.
+
+### Your First Command
+
+Try asking Claude to help with something simple:
+
+```bash
+claude "Create a hello.txt file with 'Hello World'"
+```
+
+**Windows (PowerShell):** If double quotes cause issues, use:
+```powershell
+claude 'Create a hello.txt file with "Hello World"'
+```
+
+Claude will:
+1. Understand your request
+2. Use the Write tool to create the file
+3. Ask for your approval (unless you're in auto-approve mode)
+4. Execute the action
+
+<Callout type="success" title="Success!">
+You've just used Claude Code to automate a task. This is the foundation of everything Claude Code can do.
+</Callout>
+
+### Explore Your Environment
+
+Claude Code can see your current directory and project structure. Try:
+
+```bash
+claude "What files are in this directory?"
+```
+
+Claude will use file system tools to explore and report back.

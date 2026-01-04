@@ -1,0 +1,26 @@
+---
+import GuideLayout from '../layouts/GuideLayout.astro';
+import { GUIDES } from '../config/guides';
+import { loadGuideContent } from '../utils/guide-loader';
+
+const guide = GUIDES.architecture;
+const sections = await loadGuideContent(guide.collection);
+---
+
+<GuideLayout
+  title="Claude CLI Architecture Guide"
+  description="Complete guide to Claude Code architecture and configuration hierarchy"
+  guideId="architecture"
+>
+  <h1>Claude CLI Architecture Guide</h1>
+  <p style="font-size: 1.1em; opacity: 0.8; margin-bottom: 3rem;">
+    Official best practices for configuring Claude Code's three-level hierarchy (user, repo, local).
+    Advanced configuration patterns, agent orchestration, and production deployment strategies.
+  </p>
+
+  {sections.map(({ id, Content }) => (
+    <section id={id}>
+      <Content />
+    </section>
+  ))}
+</GuideLayout>

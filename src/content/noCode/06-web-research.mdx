@@ -1,0 +1,139 @@
+---
+title: "Web Research & Monitoring"
+section: 6
+description: "Automated web research workflows"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Web Research & Monitoring
+
+### Competitive Intelligence
+
+**Track competitor activity:**
+
+```bash
+claude "Search the web for recent news about [CompanyName]. Focus on: product launches, funding, partnerships, leadership changes. Summarize findings with dates and sources"
+```
+
+**Compare offerings:**
+
+```bash
+claude "Research pricing for project management tools: Asana, Monday.com, Jira, ClickUp. Create a comparison table: price tiers, features, user limits, integrations. Include source URLs"
+```
+
+### Market Research
+
+**Identify trends:**
+
+```bash
+claude "Search for 'sustainability in fashion industry 2024'. Find 5-7 recent articles from credible sources. Extract key trends, statistics, and predictions. Summarize in a 2-page report"
+```
+
+**Gather customer feedback:**
+
+```bash
+claude "Search for reviews of [ProductName] on Reddit, Twitter, and review sites. Categorize feedback into: praise, complaints, feature requests. Tally frequency of each theme"
+```
+
+### Academic and Technical Research
+
+**Find recent publications:**
+
+```bash
+claude "Search Google Scholar for papers on 'federated learning privacy' published in 2024. List top 10 by citation count with: title, authors, venue, citation count, brief summary"
+```
+
+**Gather technical documentation:**
+
+```bash
+claude "Find official documentation for PostgreSQL full-text search. Extract: setup instructions, configuration options, example queries, performance tips. Save as postgres-fts-guide.md"
+```
+
+### News Monitoring
+
+**Daily news digest:**
+
+```bash
+claude "Search for today's news on 'artificial intelligence regulation'. Find 5 most relevant articles. For each: headline, source, 2-sentence summary, URL. Format as daily-brief.md"
+```
+
+**Track specific topics over time:**
+
+```bash
+claude "Search for news about 'renewable energy policy' from the past week. Organize chronologically. Identify: major developments, key players, regional differences. Save as weekly-energy-update.md"
+```
+
+<Callout type="info" title="Source Verification">
+Claude retrieves information from web searches. Always verify critical information from primary sources, especially for business or academic use.
+</Callout>
+
+### Industry Analysis
+
+**Collect industry reports:**
+
+```bash
+claude "Find recent analyst reports on the cybersecurity market. Search for: market size, growth projections, key vendors, emerging trends. Cite sources with URLs"
+```
+
+**Identify key players:**
+
+```bash
+claude "Research companies in the 'AI chip manufacturing' space. List: company names, headquarters, recent funding, key products, market position. Create a landscape overview"
+```
+
+### Event Monitoring
+
+**Track conferences and events:**
+
+```bash
+claude "Find upcoming AI/ML conferences in 2025. For each: name, dates, location, focus areas, submission deadlines. Sort chronologically. Save as conferences-2025.md"
+```
+
+**Summarize event outcomes:**
+
+```bash
+claude "Search for coverage of [ConferenceName] that happened last week. What were the major announcements, keynotes, and themes? Compile into a post-event summary"
+```
+
+### Price and Product Monitoring
+
+**Track price changes:**
+
+```bash
+claude "Search for current price of [ProductName] across major retailers: Amazon, BestBuy, Walmart, Target. Note sale prices and stock availability. Create price-comparison.md"
+```
+
+**Product launch tracking:**
+
+```bash
+claude "Research upcoming tech product launches in Q1 2025. Focus on: smartphones, laptops, AI products. For each: product name, company, expected release date, rumored specs"
+```
+
+### Regulatory and Compliance Research
+
+**Monitor regulatory changes:**
+
+```bash
+claude "Search for recent GDPR enforcement actions in 2024. Summarize: companies fined, violation type, penalty amount, key takeaways for compliance"
+```
+
+**Track policy developments:**
+
+```bash
+claude "Research current state of AI regulation in the EU, US, and China. Compare approaches: what's regulated, enforcement mechanisms, timeline. Create policy-comparison.md"
+```
+
+### Social Listening
+
+**Brand mentions:**
+
+```bash
+claude "Search Twitter, Reddit, and news sites for mentions of [BrandName] this month. Categorize sentiment: positive, negative, neutral. Highlight any viral posts or emerging issues"
+```
+
+**Topic analysis:**
+
+```bash
+claude "What are people saying about 'remote work productivity' on social media? Extract common themes, concerns, and tips. Summarize popular opinions"
+```

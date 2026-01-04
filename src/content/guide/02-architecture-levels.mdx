@@ -1,0 +1,93 @@
+---
+title: "Architecture Levels"
+section: 2
+description: "Understanding User, Repo, Local, and Workspace configuration levels"
+---
+
+import Callout from '../../components/Callout.astro';
+import DirectoryTree from '../../components/DirectoryTree.astro';
+
+## Architecture Levels
+
+### User Level (~/.claude/)
+
+Personal configuration that applies to **all projects** you work on.
+This is your private workspace for automation, skills, and preferences.
+
+<DirectoryTree content={`~/.claude/
+├── CLAUDE.md                   # Global rules
+├── settings.json               # User settings & permissions
+├── agents/                     # Personal automation agents
+│   ├── doc-syncer.md
+│   ├── git-workflow-agent.md
+│   └── workspace-test-runner.md
+├── skills/                     # Personal workflow skills
+│   ├── context-review.md
+│   ├── qcheck.md
+│   ├── sprint-complete.md
+│   └── sprint-report.md
+├── guides/                     # Reference documentation
+│   └── claude-agent-sdk-guide.html
+└── maintenance/                # Session workflows
+    ├── session-start.md
+    ├── session-end.md
+    └── monthly-review.md`} />
+
+<Callout type="success" title="✅ What Goes at User Level">
+  - Personal workflow automation (skills, agents)
+  - Session management workflows
+  - Global permissions and model preferences
+  - Reference guides for personal use
+  - Anything that applies across *all* your projects
+</Callout>
+
+### Repo Level (&lt;repo&gt;/.claude/)
+
+Team-shared configuration committed to git. This is the **official project configuration**
+that all collaborators inherit when they clone the repository.
+
+<DirectoryTree content={`<repo>/.claude/
+├── settings.json               # Team settings (committed)
+├── settings.local.json         # Personal overrides (gitignored)
+├── agents/                     # Project-specific agents
+│   ├── citation-validator.md
+│   └── deployment-orchestrator.md
+├── skills/                     # Project-specific skills
+│   └── manifest.json
+└── scratch/                    # Temporary workspace (gitignored)`} />
+
+<Callout type="success" title="✅ What Goes at Repo Level">
+  - Project-specific agents (e.g., citation validator for docs-heavy repos)
+  - Team-shared skills and workflows
+  - Default permissions for the project
+  - Anything the entire team should share
+</Callout>
+
+### Local Level (&lt;repo&gt;/.claude/*.local.*)
+
+Personal overrides for a specific project. These files are **gitignored** and never committed.
+
+```plaintext
+settings.local.json    # Personal permission overrides
+CLAUDE.local.md        # Personal notes about the project
+scratch/               # Temporary files
+```
+
+<Callout type="success" title="✅ What Goes at Local Level">
+  - Personal permission exceptions for this project
+  - Private notes or reminders
+  - Temporary files and scratch work
+  - Anything personal that shouldn't affect the team
+</Callout>
+
+### Workspace Level (~/dev/CLAUDE.md)
+
+A special case: your workspace can have a `CLAUDE.md` at the root to define conventions
+that apply to all repos in that directory. **Important:** No `.claude/` directory
+at workspace level - only a CLAUDE.md file.
+
+<Callout type="warning" title="⚠️ Workspace .claude/ Removed">
+  Previous architecture had `~/dev/.claude/` as a custom workspace layer.
+  This has been **eliminated** to follow official best practices.
+  Workspace-level content was migrated to user level or distributed to repos.
+</Callout>

@@ -1,0 +1,92 @@
+---
+title: "How Do You Use It? (Basic Workflow)"
+section: 13
+description: "Installation guide and first steps with the Claude Agent SDK"
+---
+
+import Callout from '../../components/Callout.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+
+## How Do You Use It? (Basic Workflow)
+
+### Installation
+
+<CodeTabs
+  pythonCode={`uv init && uv add claude-agent-sdk
+# or: pip install claude-agent-sdk`}
+  typescriptCode={`npm install @anthropic-ai/claude-agent-sdk`}
+/>
+
+### Step 1: Install Claude Code
+
+The SDK needs Claude Code installed:
+
+```bash
+brew install --cask claude-code
+# or: npm install -g @anthropic-ai/claude-code
+claude  # authenticate
+```
+
+### Step 2: Create Your First Agent
+
+**Hello World Agent** - Create a simple agent that autonomously creates a Python file.
+
+<CodeTabs
+  pythonCode={`import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def main():
+    options = ClaudeAgentOptions(
+        allowed_tools=["Read", "Write", "Bash"],
+        permission_mode="acceptEdits"  # Auto-approve file changes
+    )
+
+    async for message in query(
+        prompt="Create a Python file that prints hello world",
+        options=options
+    ):
+        # Process each message as it arrives
+        if hasattr(message, 'content'):
+            print(f"Response: {message}")
+
+asyncio.run(main())`}
+  typescriptCode={`import { query } from "@anthropic-ai/claude-agent-sdk";
+
+async function main() {
+  const options = {
+    allowedTools: ["Read", "Write", "Bash"],
+    permissionMode: "acceptEdits"
+  };
+
+  for await (const message of query({
+    prompt: "Create a Python file that prints hello world",
+    options
+  })) {
+    if (message.type === "assistant") {
+      console.log("Response:", message);
+    }
+  }
+}
+
+main();`}
+/>
+
+### Step 3: Run It
+
+```bash
+# Python
+python3 agent.py
+
+# TypeScript
+npx tsx agent.ts
+```
+
+That's it! Claude will autonomously:
+
+1. Create the Python file
+2. Show you what it did
+3. Report results
+
+<Callout type="success" title="Tip">
+Start with `permission_mode="acceptEdits"` for autonomous agents. Use `"default"` for approval-based workflow.
+</Callout>

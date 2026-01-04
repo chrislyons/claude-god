@@ -1,0 +1,42 @@
+---
+import { getGuideList } from '../config/guides';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  title?: string;
+  currentGuideId?: string;
+}
+
+const {
+  title = 'Claude CLI Architecture Guide',
+  currentGuideId
+} = Astro.props;
+
+const guides = getGuideList();
+---
+
+<header class="fixed top-0 left-sidebar right-0 h-header flex items-center justify-between px-8 z-[100] transition-all" style="background-color: var(--color-bg); border-bottom: 1px solid var(--color-border);">
+  <div class="flex items-center gap-8">
+    <h1 class="font-display text-xl font-bold" style="color: var(--color-text);">
+      {title}
+    </h1>
+    <nav class="flex gap-4 text-sm items-center">
+      {guides.map((guide, index) => (
+        <>
+          <a
+            href={guide.route}
+            class:list={[
+              "hover:text-primary-accent transition-colors flex items-center gap-1.5",
+              { "font-semibold": currentGuideId === guide.id }
+            ]}
+            style="color: var(--color-text); opacity: 0.8;"
+          >
+            {guide.title}
+          </a>
+          {index < guides.length - 1 && <span style="opacity: 0.3;">|</span>}
+        </>
+      ))}
+    </nav>
+  </div>
+  <ThemeToggle />
+</header>

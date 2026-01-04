@@ -1,0 +1,46 @@
+---
+title: "When to Use Agent SDK vs Claude Code CLI"
+section: 16
+description: "Decision guide for choosing between CLI and SDK approaches"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## When to Use Agent SDK vs Claude Code CLI
+
+### Quick Comparison
+
+| Scenario | Use | Why |
+|----------|-----|-----|
+| Interactive terminal development | Claude Code CLI | Real-time feedback, manual testing |
+| Python/Node application integration | Agent SDK | Programmatic control, automation |
+| CI/CD pipelines | Agent SDK | Headless execution, automated workflows |
+| Chat/conversational interfaces | Agent SDK with ClaudeSDKClient | Multi-turn context retention |
+| Background/scheduled jobs | Agent SDK | Cron-compatible, no user interaction |
+| Quick one-off tasks | Either | CLI faster for ad-hoc, SDK for repeatability |
+| Debugging and prototyping | Claude Code CLI → Agent SDK | Develop interactively, deploy programmatically |
+
+### Recommended Workflow
+
+<Callout type="success" title="Best Practice">
+1. **Develop** with Claude Code CLI for interactive testing
+2. **Test** behavior and iterate quickly
+3. **Convert** to Agent SDK for automation
+4. **Deploy** to production environments
+</Callout>
+
+### When to Choose CLI
+
+- Learning and experimenting
+- Manual code reviews
+- Interactive debugging sessions
+- Quick file operations
+- Testing agent capabilities
+
+### When to Choose SDK
+
+- Building applications (web apps, APIs, services)
+- Automation (CI/CD, scheduled tasks, batch processing)
+- Custom integrations (Slack bots, Discord bots, dashboards)
+- Multi-turn conversations with state
+- Production deployments requiring programmatic control

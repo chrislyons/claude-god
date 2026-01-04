@@ -1,0 +1,82 @@
+---
+title: "Examples"
+section: 7
+description: "Practical examples of configuring agents, skills, and settings"
+---
+
+## Examples
+
+### Creating a User-Level Skill
+
+Create a personal workflow skill at `~/.claude/skills/my-skill.md`:
+
+```yaml
+---
+name: my-skill
+version: 1.0.0
+description: My personal workflow automation
+when_to_use: When I need to do X across all projects
+---
+
+# My Skill
+
+Instructions for this skill...
+```
+
+### Adding a Repo-Specific Agent
+
+For a project that needs custom validation:
+
+```bash
+# Create agent directory
+mkdir -p ~/dev/my-project/.claude/agents
+
+# Create agent file
+cat > ~/dev/my-project/.claude/agents/custom-validator.md << 'EOF'
+---
+name: custom-validator
+version: 1.0.0
+description: Project-specific validation rules
+tools:
+  - Read
+  - Grep
+when_to_use: Before commits in this project
+---
+
+# Custom Validator
+
+Validation logic for this project...
+EOF
+
+# Commit to git so team gets it
+git add .claude/agents/custom-validator.md
+git commit -m "Add custom validator agent"
+```
+
+### Setting Up Local Overrides
+
+Override permissions for a specific project:
+
+```bash
+# Create local override
+cat > ~/dev/my-project/.claude/settings.local.json << 'EOF'
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -rf dist/)",
+      "Bash(docker-compose down -v)"
+    ]
+  }
+}
+EOF
+
+# This file is gitignored - won't be committed
+```
+
+### Multi-Repo Workflow
+
+Working across multiple repos with consistent tooling:
+
+1. **User level:** Create git-workflow-agent.md for commit/PR automation
+2. **Each repo:** Add repo-specific settings.json with project permissions
+3. **Local overrides:** Add settings.local.json in repos where you need exceptions

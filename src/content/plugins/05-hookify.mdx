@@ -1,0 +1,322 @@
+---
+title: "Hookify"
+section: 5
+description: "Create custom rules and enforcement for your workflow"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Custom Rule Enforcement
+
+Hookify lets you create custom hooks that prevent unwanted behaviors before they happen. Think of it as "linting for Claude's actions."
+
+---
+
+## Commands
+
+**/hookify** - Interactive hook creation
+
+```bash
+/hookify
+```
+
+Launches an interactive workflow to create a new hook. Claude asks:
+- What behavior to prevent or warn about
+- When to trigger (file patterns, content patterns)
+- What action to take (block, warn, allow with confirmation)
+
+**/hookify:list** - Show active hooks
+
+```bash
+/hookify:list
+```
+
+Lists all hooks currently active in your project.
+
+**/hookify:configure** - Edit hook settings
+
+```bash
+/hookify:configure
+```
+
+Modify existing hooks or their settings.
+
+---
+
+## Your Use Case: PREFIX Naming Enforcement
+
+Perfect example from your multi-repo workflow.
+
+### Problem
+
+You have a strict naming convention:
+- Pattern: `\{PREFIX###\} Descriptive Title.md`
+- ✅ Good: `CGD001 Project Overview.md`
+- ❌ Bad: `CGD001.md` (missing title)
+
+Claude might accidentally create files without titles.
+
+### Solution
+
+Create a hook to block these:
+
+```bash
+/hookify
+```
+
+**Interactive prompts:**
+
+1. **What behavior to prevent?**
+   > "Prevent creating PREFIX files without descriptive titles"
+
+2. **Pattern to match:**
+   > `docs/**/[A-Z]\{3,4\}\d\{3,4\}\.md$`
+
+3. **Action:**
+   > "Block Write"
+
+4. **Error message:**
+   > "PREFIX files must follow pattern: \{PREFIX###\} Descriptive Title.md"
+
+### Result
+
+Now when Claude tries:
+
+```
+/write docs/cgd/CGD042.md
+```
+
+Hookify blocks it with:
+```
+❌ Blocked: PREFIX files must follow pattern: {PREFIX###} Descriptive Title.md
+```
+
+Claude must use:
+```
+/write docs/cgd/CGD042 Sprint 7 Implementation.md
+```
+
+<Callout type="success">
+**Pairs with Ralph:** hookify prevents future violations, ralph-wiggum fixes existing violations. Perfect combo!
+</Callout>
+
+---
+
+## Hook Syntax Patterns
+
+### File Pattern Matching
+
+**Block writes to specific paths:**
+
+```
+Pattern: src/components/legacy/**
+Rule: Block Write
+Message: "Do not modify legacy components - create new ones instead"
+```
+
+**Warn on sensitive files:**
+
+```
+Pattern: .env*
+Rule: Warn Write
+Message: "Be careful - this file may contain secrets"
+```
+
+**Require specific file extensions:**
+
+```
+Pattern: src/**/*.js
+Rule: Block Write if new file
+Message: "Use TypeScript (.ts/.tsx) for new files, not JavaScript"
+```
+
+### Content Pattern Matching
+
+**Block specific code patterns:**
+
+```
+if content contains "eval("
+Rule: Block Write
+Message: "eval() is dangerous - use safer alternatives"
+```
+
+**Warn about TODO comments:**
+
+```
+if content contains "TODO:"
+Rule: Warn Write
+Message: "TODO found - consider creating a GitHub issue instead"
+```
+
+**Enforce import patterns:**
+
+```
+if filename matches "src/components/**/*.tsx"
+and content does not contain "import React"
+Rule: Block Write
+Message: "React components must import React"
+```
+
+### Action Types
+
+**Block** - Prevents the action entirely
+- Use for: Rules that must never be broken
+- Example: "Never modify production config directly"
+
+**Warn** - Shows warning but allows action
+- Use for: Soft guidelines
+- Example: "Consider adding tests for new features"
+
+**Confirm** - Asks user to confirm before proceeding
+- Use for: Potentially dangerous but sometimes necessary
+- Example: "Are you sure you want to delete this file?"
+
+---
+
+## Common Hook Patterns
+
+### Documentation Standards
+
+```
+Pattern: docs/**/*.md
+if content does not contain "## References"
+and content contains "[1]"
+Rule: Warn Write
+Message: "Citations found but no References section - add ## References"
+```
+
+### Code Quality
+
+```
+Pattern: src/**/*.ts
+if content contains "any"
+Rule: Warn Write
+Message: "Avoid 'any' type - use specific types or 'unknown'"
+```
+
+### Security
+
+```
+Pattern: **/*.{js,ts}
+if content contains "process.env"
+and not in file ".env.example"
+Rule: Warn Write
+Message: "Avoid hardcoding env vars - use config files"
+```
+
+### Git Workflow
+
+```
+Pattern: .git/config
+Rule: Block Write
+Message: "Do not modify git config directly - use git commands"
+```
+
+---
+
+## Testing Hooks
+
+After creating a hook, test it:
+
+```bash
+# Try to trigger the hook
+# Example: Try creating a PREFIX file without title
+
+# Should block:
+/write docs/cgd/CGD999.md
+# Error: ❌ Blocked: PREFIX files must follow pattern...
+
+# Should allow:
+/write docs/cgd/CGD999 Test Document.md
+# Success: ✓ File created
+```
+
+<Callout type="info">
+**Iterative Refinement:** Start with `Warn` actions, observe what triggers, then upgrade to `Block` for critical rules.
+</Callout>
+
+---
+
+## Multi-Repo Hook Strategy
+
+### User-Level Hooks (Apply Everywhere)
+
+Install at `~/.claude/hooks/` for all projects:
+
+- Security patterns (no eval, no os.system)
+- General coding standards (no console.log in production)
+- Documentation requirements (PREFIX naming)
+
+### Repo-Level Hooks (Project-Specific)
+
+Install at `<repo>/.claude/hooks/` for specific repos:
+
+- Project-specific patterns (hotbox beat packs, orpheus-sdk audio processing)
+- Tech stack rules (Rust in wordbird, C++ in orpheus-sdk)
+- Architecture enforcement (following ARCHITECTURE.md patterns)
+
+### Example: PREFIX Hook for All Repos
+
+Create once, applies everywhere:
+
+```bash
+/hookify
+
+# Pattern: docs/**/[A-Z]{3,4}\d{3,4}\.md$
+# Rule: Block Write if filename matches pattern without space after number
+# Message: "PREFIX files must follow pattern: {PREFIX###} Descriptive Title.md"
+
+# Install at user level: ~/.claude/hooks/prefix-naming.json
+```
+
+Now works in:
+- carbon-acx (ACX prefix)
+- hotbox (HBX prefix)
+- orpheus-sdk (ORP, OCC prefixes)
+- wordbird (WBD prefix)
+- helm (HLM prefix)
+- undone (UND prefix)
+
+---
+
+## Disabling Hooks Temporarily
+
+When you need to bypass a hook (rare):
+
+```bash
+claude plugin disable hookify
+```
+
+Do your work, then:
+
+```bash
+claude plugin enable hookify
+```
+
+<Callout type="warning">
+**Use Sparingly:** Disabling hooks defeats their purpose. If you find yourself doing this often, the hook may be too strict - use `/hookify:configure` to adjust it.
+</Callout>
+
+---
+
+## Hook Development Workflow
+
+1. **Identify pattern** - Notice Claude making a mistake repeatedly
+2. **Create hook** - Use `/hookify` to prevent it
+3. **Test** - Verify hook triggers correctly
+4. **Refine** - Adjust pattern or message as needed
+5. **Fix existing violations** - Use `/ralph-loop` to clean up old instances
+6. **Monitor** - Hook prevents future violations
+
+### Example: Fixing Existing + Preventing Future
+
+```bash
+# Step 1: Create hook (prevents future)
+/hookify
+# Rule: Block PREFIX files without titles
+
+# Step 2: Fix existing violations (cleans past)
+/ralph-loop "Fix all PREFIX files in all repos..." --max-iterations 20
+```
+
+Perfect combo for maintaining standards!

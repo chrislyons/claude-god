@@ -1,0 +1,55 @@
+---
+title: "How Does It Relate to Claude Code CLI?"
+section: 11
+description: "Understanding the relationship between Agent SDK and Claude Code CLI"
+---
+
+import Callout from '../../components/Callout.astro';
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## How Does It Relate to Claude Code CLI?
+
+### The Relationship
+
+<MermaidDiagram diagram={`graph TB
+    A["Claude API(Messages API)(Raw API)"]
+    B["Agent SDK(Python/TypeScript)(Framework you import)"]
+    C["Claude Code CLI(Runtime/execution engine)"]
+
+    A --> B
+    B --> C
+
+    style A fill:#FAF9F6,stroke:#F55036,stroke-width:2px,color:#2D2926
+    style B fill:#FAF9F6,stroke:#F55036,stroke-width:2px,color:#2D2926
+    style C fill:#FAF9F6,stroke:#F55036,stroke-width:2px,color:#2D2926`} />
+
+The Agent SDK:
+
+1. **Requires Claude Code CLI** to be installed (acts as the runtime)
+2. **Builds on top of the Claude API** for model interactions
+3. **Provides a higher-level abstraction** than raw API calls (like Express vs raw Node HTTP)
+4. **Handles tool orchestration** (Read, Write, Bash, WebSearch, etc.) automatically
+
+### Can You Use Both Together?
+
+**Yes, absolutely.** They're complementary:
+
+- Use **Claude Code CLI** for interactive development and debugging
+- Use **Agent SDK** for automation, integrations, and programmatic workflows
+
+<MermaidDiagram diagram={`sequenceDiagram
+    actor Dev as Developer
+    participant CLI as Claude Code CLI
+    participant SDK as Agent SDK
+    participant Prod as CI/CD and Scheduled Jobs
+
+    Dev->>CLI: Test agent manually
+    CLI->>Dev: Show results
+    Dev->>SDK: Convert to SDK
+    SDK->>SDK: Write Python/TypeScript
+    SDK->>Prod: Deploy
+    Prod->>Prod: Run autonomously`} />
+
+<Callout type="success" title="Best Practice">
+Use this workflow: Develop with CLI → Test behavior → Convert to SDK → Deploy to production
+</Callout>

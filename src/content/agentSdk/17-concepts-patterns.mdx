@@ -1,0 +1,86 @@
+---
+title: "Key Concepts & Patterns"
+section: 17
+description: "Core concepts and design patterns for building effective agents"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Key Concepts & Patterns
+
+### Core Concepts
+
+**Agents**
+- Autonomous programs that use Claude's reasoning to accomplish tasks
+- Can use tools (Read, Write, Bash, etc.) to interact with the environment
+- Operate with configurable permissions and constraints
+
+**Tools**
+- Functions agents can call to perform actions
+- Built-in tools: Read, Write, Edit, Bash, Grep, Glob, WebSearch, WebFetch
+- Custom tools via MCP (Model Context Protocol) servers
+
+**Permissions**
+- Control what agents can and cannot do
+- Permission modes: `default` (ask), `acceptEdits` (auto-approve), `bypassPermissions` (no checks), `plan` (planning mode)
+- Custom permission handlers for fine-grained control
+
+**Sessions & Context**
+- `query()`: One-shot execution, fresh context each time
+- `ClaudeSDKClient`: Multi-turn conversations with persistent context
+- Sessions maintain conversation history across interactions
+
+**Hooks**
+- Intercept and modify agent behavior at key points
+- Hook types: `PreToolUse`, `PostToolUse`, `PreMessage`, `PostMessage`
+- Use cases: logging, validation, custom tool routing
+
+### Common Patterns
+
+**Pattern 1: Read-Only Agents**
+Use for safe operations like code review, analysis, research:
+
+```python
+options = ClaudeAgentOptions(
+    allowed_tools=["Read", "Grep", "WebSearch"],
+    # No Write or Bash - read-only
+)
+```
+
+**Pattern 2: Autonomous File Editors**
+Auto-approve edits for trusted automation:
+
+```python
+options = ClaudeAgentOptions(
+    allowed_tools=["Read", "Write", "Edit"],
+    permission_mode="acceptEdits"  # Auto-approve
+)
+```
+
+**Pattern 3: Interactive Multi-Turn**
+Maintain context across conversation:
+
+```python
+async with ClaudeSDKClient(options) as client:
+    await client.query("First question")
+    # Claude remembers context
+    await client.query("Follow-up question")
+```
+
+**Pattern 4: Custom Tool Integration**
+Extend agent capabilities with MCP:
+
+```python
+my_server = create_sdk_mcp_server(
+    name="custom",
+    tools=[custom_tool_1, custom_tool_2]
+)
+
+options = ClaudeAgentOptions(
+    mcp_servers={"custom": my_server}
+)
+```
+
+<Callout type="info" title="Design Principle">
+Start restrictive (read-only, default permissions) and progressively add capabilities as trust is established.
+</Callout>

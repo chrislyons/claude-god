@@ -1,0 +1,117 @@
+---
+title: "Overview"
+section: 1
+description: "What are Claude Code plugins and why use them?"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## What are Claude Code Plugins?
+
+Plugins extend Claude Code's functionality by adding new commands, skills, agents, and hooks to your CLI experience. They're modular extensions that integrate seamlessly into your workflow.
+
+### Plugin Types
+
+**Commands:**
+- Slash commands you can invoke directly
+- Examples: `/commit`, `/ralph-loop`, `/hookify`
+- Available via tab completion
+
+**Skills:**
+- Auto-invoked based on file patterns or user actions
+- Examples: `frontend-design` (triggers on frontend work)
+- Contextual assistance without manual activation
+
+**Agents:**
+- Specialized subprocesses for complex tasks
+- Examples: `code-reviewer`, `comment-analyzer`
+- Run in parallel for comprehensive analysis
+
+**Hooks:**
+- Lifecycle event handlers
+- Examples: PreToolUse (security-guidance), SessionStart, Stop (ralph-wiggum)
+- Automatic behavior modification
+
+### Benefits for Multi-Repo Workflows
+
+If you're managing multiple projects (like the 6-repo setup: carbon-acx, hotbox, orpheus-sdk, wordbird, helm, undone), plugins provide:
+
+- **Consistency:** Same workflows across all repos
+- **Automation:** Reduce repetitive tasks (commits, reviews, refactoring)
+- **Enforcement:** Prevent mistakes before they happen (hookify)
+- **Speed:** Autonomous iteration loops (ralph-wiggum)
+- **Quality:** Automated PR reviews with specialized agents
+
+### The 8 Essential Plugins
+
+This guide covers the 8 plugins recommended for professional multi-repo development:
+
+<table>
+<thead>
+<tr>
+  <th>Plugin</th>
+  <th>Type</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>ralph-wiggum</strong></td>
+  <td>Command + Hook</td>
+  <td>Autonomous iteration loops for complex tasks</td>
+</tr>
+<tr>
+  <td><strong>commit-commands</strong></td>
+  <td>Commands</td>
+  <td>Git workflow automation</td>
+</tr>
+<tr>
+  <td><strong>frontend-design</strong></td>
+  <td>Skill</td>
+  <td>Design system enforcement</td>
+</tr>
+<tr>
+  <td><strong>pr-review-toolkit</strong></td>
+  <td>Commands + Agents</td>
+  <td>Comprehensive code review</td>
+</tr>
+<tr>
+  <td><strong>security-guidance</strong></td>
+  <td>Hook</td>
+  <td>Security pattern monitoring</td>
+</tr>
+<tr>
+  <td><strong>hookify</strong></td>
+  <td>Commands</td>
+  <td>Custom rule enforcement</td>
+</tr>
+<tr>
+  <td><strong>feature-dev</strong></td>
+  <td>Command + Agents</td>
+  <td>7-phase feature development</td>
+</tr>
+<tr>
+  <td><strong>agent-sdk-dev</strong></td>
+  <td>Commands + Agents</td>
+  <td>Agent development & validation</td>
+</tr>
+</tbody>
+</table>
+
+<Callout type="info">
+**Simple vs Complex:** Some plugins work automatically (security-guidance, frontend-design), while others require understanding best practices (ralph-wiggum, hookify). This guide covers both.
+</Callout>
+
+### What You'll Learn
+
+1. **Installation** - How to discover, install, and manage plugins
+2. **Essential Plugins** - Quick-start commands for everyday use
+3. **Ralph Wiggum** - Master autonomous iteration loops
+4. **Hookify** - Build custom enforcement rules
+5. **Frontend & Security** - Automatic quality checks
+6. **Agent Development** - Validate and build custom agents
+7. **Marketplace** - Find and publish plugins
+
+<Callout type="success">
+**Ready to start?** All 8 plugins are already installed and ready to use. Let's explore how to leverage them for your workflow.
+</Callout>

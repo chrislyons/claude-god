@@ -1,0 +1,26 @@
+---
+import GuideLayout from '../layouts/GuideLayout.astro';
+import { GUIDES } from '../config/guides';
+import { loadGuideContent } from '../utils/guide-loader';
+
+const guide = GUIDES.quickStart;
+const sections = await loadGuideContent(guide.collection);
+---
+
+<GuideLayout
+  title="Claude Code Quick Start - 5-Minute Setup"
+  description="Get started with Claude Code in 5 minutes"
+  headerTitle="Quick Start Guide"
+  guideId="quickStart"
+>
+  <h1>Quick Start</h1>
+  <p style="font-size: 1.1em; opacity: 0.8; margin-bottom: 3rem;">
+    Install Claude Code, configure authentication, and execute your first commands in under 5 minutes.
+  </p>
+
+  {sections.map(({ id, Content }) => (
+    <section id={id}>
+      <Content />
+    </section>
+  ))}
+</GuideLayout>

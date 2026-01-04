@@ -1,0 +1,97 @@
+---
+import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Footer from '../components/Footer.astro';
+import { GUIDES } from '../config/guides';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  headerTitle?: string;
+  guideId: string;  // Required now
+}
+
+const {
+  title = 'Claude CLI Architecture Guide',
+  description = 'Complete guide to Claude Code architecture',
+  headerTitle,
+  guideId,
+} = Astro.props;
+
+const guide = GUIDES[guideId];
+
+if (!guide) {
+  throw new Error(`Guide "${guideId}" not found`);
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FAF9F6" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="container flex min-h-screen">
+      <Sidebar guideId={guideId} />
+      <Header title={headerTitle || title} currentGuideId={guideId} />
+
+      <main class="ml-sidebar mt-header px-8 py-12 w-full md:ml-sidebar md:mt-header sm:ml-0 sm:mt-header">
+        <div class="max-w-content mx-auto">
+          <slot />
+          <Footer />
+        </div>
+      </main>
+    </div>
+
+    <script is:inline>
+      // Set theme immediately to prevent flash
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+
+    <script>
+      import { initThemeToggle } from '../scripts/theme-toggle';
+      import { initActiveNav } from '../scripts/active-nav';
+      import { initCopyCommands } from '../scripts/copy-commands';
+      import { initKeyboardNav } from '../scripts/keyboard-nav';
+
+      // Initialize after DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          initThemeToggle();
+          initActiveNav();
+          initCopyCommands();
+          initKeyboardNav();
+        });
+      } else {
+        // DOM already loaded
+        initThemeToggle();
+        initActiveNav();
+        initCopyCommands();
+        initKeyboardNav();
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  @media (max-width: 768px) {
+    aside {
+      transform: translateX(-100%);
+      transition: transform 200ms ease-out;
+    }
+
+    header {
+      left: 0;
+    }
+
+    main {
+      margin-left: 0;
+    }
+  }
+</style>
