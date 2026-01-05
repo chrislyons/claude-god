@@ -23,19 +23,27 @@ All agents must use **Markdown with YAML frontmatter**:
 ```yaml
 ---
 name: my-agent
-version: 1.0.0
-description: Brief description of what this agent does
-tools:
-  - Read
-  - Bash
-  - Grep
-when_to_use: When to invoke this agent
+description: Brief description of what this agent does and when to use it
+tools: Read, Bash, Grep
+model: sonnet
+permissionMode: default
 ---
 
 # Agent Name
 
-Agent documentation and instructions go here...
+System prompt and instructions for the agent go here...
+This defines the agent's role, expertise, and approach.
 ```
+
+**Required fields:**
+- `name` - Unique identifier (lowercase, hyphens)
+- `description` - What the agent does AND when to invoke it (max 1024 chars)
+
+**Optional fields:**
+- `tools` - Comma-separated list; if omitted, inherits all parent tools
+- `model` - sonnet, opus, haiku, or 'inherit' (defaults to sonnet)
+- `permissionMode` - default, acceptEdits, dontAsk, bypassPermissions, plan, ignore
+- `skills` - Comma-separated list of skills to load for this agent
 
 ### Skill Discovery
 

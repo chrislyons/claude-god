@@ -8,110 +8,131 @@ import Callout from '../../components/Callout.astro';
 
 ## What are Claude Code Plugins?
 
-Plugins extend Claude Code's functionality by adding new commands, skills, agents, and hooks to your CLI experience. They're modular extensions that integrate seamlessly into your workflow.
+Plugins extend Claude Code's functionality by adding new commands, skills, agents, hooks, and integrations to your CLI experience. They're modular extensions that integrate seamlessly into your workflow.
 
-### Plugin Types
+### Plugin Component Types
+
+Claude Code supports **6 component types** that plugins can provide:
 
 **Commands:**
 - Slash commands you can invoke directly
-- Examples: `/commit`, `/ralph-loop`, `/hookify`
+- Examples: `/commit`, `/config`, `/agents`
+- Custom commands in `.claude/commands/` directory
 - Available via tab completion
+- Plugin commands use namespace: `/plugin-name:command-name`
 
 **Skills:**
-- Auto-invoked based on file patterns or user actions
-- Examples: `frontend-design` (triggers on frontend work)
-- Contextual assistance without manual activation
+- Auto-invoked based on semantic matching of request to description
+- Located in `skills/` directories with `SKILL.md` files
+- Claude autonomously decides when to use them
+- Examples: Code review, PDF processing, explaining code
+- Can restrict tools via `allowed-tools` in frontmatter
 
 **Agents:**
 - Specialized subprocesses for complex tasks
-- Examples: `code-reviewer`, `comment-analyzer`
-- Run in parallel for comprehensive analysis
+- Custom agents in `.claude/agents/` directory
+- Built-in agents: Plan, Explore, General-purpose
+- Run independently with their own tool access and model
+- Support progressive disclosure and skill inheritance
 
 **Hooks:**
-- Lifecycle event handlers
-- Examples: PreToolUse (security-guidance), SessionStart, Stop (ralph-wiggum)
-- Automatic behavior modification
+- Lifecycle event handlers (9 event types)
+- Events: PreToolUse, PostToolUse, PermissionRequest, UserPromptSubmit, Notification, Stop, SubagentStop, PreCompact, SessionStart, SessionEnd
+- Can modify tool inputs, block operations, or add context
+- Support command-based, prompt-based, and agent-based hooks
+- Configuration in `hooks/hooks.json` or inline in `plugin.json`
+
+**MCP Servers:**
+- Model Context Protocol server definitions
+- Expose tools that Claude can use
+- Configuration in `.mcp.json` or inline in plugin
+- Environment variable substitution supported
+- Examples: GitHub, Sentry, PostgreSQL integrations
+
+**LSP Servers:**
+- Language Server Protocol for code intelligence
+- Provides diagnostics, code navigation, hover info, type information
+- Configuration in `.lsp.json` or inline in plugin
+- Official plugins: `pyright-lsp`, `typescript-lsp`, `rust-lsp`
+- Custom transport mechanisms supported
+
+### Built-in Agents
+
+Claude Code ships with three powerful built-in agents:
+
+<table>
+<thead>
+<tr>
+  <th>Agent</th>
+  <th>Model</th>
+  <th>Purpose</th>
+  <th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Plan</strong></td>
+  <td>Sonnet</td>
+  <td>Research and planning before implementation</td>
+  <td>Read, Glob, Grep, Bash (read-only)</td>
+</tr>
+<tr>
+  <td><strong>Explore</strong></td>
+  <td>Haiku</td>
+  <td>Fast, read-only code exploration</td>
+  <td>Glob, Grep, Read, Bash (read-only)</td>
+</tr>
+<tr>
+  <td><strong>General-purpose</strong></td>
+  <td>Sonnet</td>
+  <td>Complex multi-step research and modification</td>
+  <td>All tools</td>
+</tr>
+</tbody>
+</table>
 
 ### Benefits for Multi-Repo Workflows
 
 If you're managing multiple projects in a multi-repository setup, plugins provide:
 
-- **Consistency:** Same workflows across all repos
-- **Automation:** Reduce repetitive tasks (commits, reviews, refactoring)
-- **Enforcement:** Prevent mistakes before they happen (hookify)
-- **Speed:** Autonomous iteration loops (ralph-wiggum)
-- **Quality:** Automated PR reviews with specialized agents
+- **Consistency:** Same workflows across all repos via shared plugins
+- **Automation:** Reduce repetitive tasks with custom commands and skills
+- **Integration:** Connect to external tools via MCP servers
+- **Intelligence:** Language-specific support via LSP servers
+- **Control:** Enforce patterns and policies via hooks
+- **Extensibility:** Build custom agents for specialized tasks
 
-### The 8 Essential Plugins
+### Real-World Plugin Examples
 
-This guide covers the 8 plugins recommended for professional multi-repo development:
+**Official LSP Plugins:**
+- `pyright-lsp` - Python type checking and code intelligence
+- `typescript-lsp` - TypeScript language support
+- `rust-lsp` - Rust language server integration
 
-<table>
-<thead>
-<tr>
-  <th>Plugin</th>
-  <th>Type</th>
-  <th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><strong>ralph-wiggum</strong></td>
-  <td>Command + Hook</td>
-  <td>Autonomous iteration loops for complex tasks</td>
-</tr>
-<tr>
-  <td><strong>commit-commands</strong></td>
-  <td>Commands</td>
-  <td>Git workflow automation</td>
-</tr>
-<tr>
-  <td><strong>frontend-design</strong></td>
-  <td>Skill</td>
-  <td>Design system enforcement</td>
-</tr>
-<tr>
-  <td><strong>pr-review-toolkit</strong></td>
-  <td>Commands + Agents</td>
-  <td>Comprehensive code review</td>
-</tr>
-<tr>
-  <td><strong>security-guidance</strong></td>
-  <td>Hook</td>
-  <td>Security pattern monitoring</td>
-</tr>
-<tr>
-  <td><strong>hookify</strong></td>
-  <td>Commands</td>
-  <td>Custom rule enforcement</td>
-</tr>
-<tr>
-  <td><strong>feature-dev</strong></td>
-  <td>Command + Agents</td>
-  <td>7-phase feature development</td>
-</tr>
-<tr>
-  <td><strong>agent-sdk-dev</strong></td>
-  <td>Commands + Agents</td>
-  <td>Agent development & validation</td>
-</tr>
-</tbody>
-</table>
+**Community MCP Servers:**
+- GitHub - Issue tracking, PR management
+- Sentry - Error monitoring and debugging
+- PostgreSQL - Database query and schema exploration
+
+**Custom Skills:**
+- Code review automation
+- PDF processing (extract, fill forms, merge)
+- Commit message generation
+- Code explanation with diagrams
 
 <Callout type="info">
-**Simple vs Complex:** Some plugins work automatically (security-guidance, frontend-design), while others require understanding best practices (ralph-wiggum, hookify). This guide covers both.
+**Plugin Distribution:** Plugins can be distributed via GitHub repositories, Git URLs, NPM packages, local file paths, or HTTP URLs. The Claude Code marketplace provides discovery and installation.
 </Callout>
 
 ### What You'll Learn
 
 1. **Installation** - How to discover, install, and manage plugins
-2. **Essential Plugins** - Quick-start commands for everyday use
-3. **Ralph Wiggum** - Master autonomous iteration loops
-4. **Hookify** - Build custom enforcement rules
-5. **Frontend & Security** - Automatic quality checks
-6. **Agent Development** - Validate and build custom agents
-7. **Marketplace** - Find and publish plugins
+2. **Essential Features** - Built-in agents, skills system, and hooks
+3. **LSP Integration** - Language server setup for enhanced code intelligence
+4. **MCP Servers** - Connecting external tools and services
+5. **Custom Development** - Building your own commands, skills, and agents
+6. **Marketplace** - Finding and publishing plugins
 
 <Callout type="success">
-**Ready to start?** All 8 plugins are already installed and ready to use. Let's explore how to leverage them for your workflow.
+**Ready to start?** Claude Code's built-in agents are immediately available. Custom plugins can be added from the marketplace or created locally.
 </Callout>
