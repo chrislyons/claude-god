@@ -13,6 +13,7 @@ const {
 } = Astro.props;
 
 const guides = getGuideList();
+const base = import.meta.env.BASE_URL;
 ---
 
 <header class="fixed top-0 left-sidebar right-0 h-header flex items-center justify-between px-8 z-[100] transition-all theme-bg theme-border-bottom">
@@ -24,7 +25,7 @@ const guides = getGuideList();
       {guides.map((guide, index) => (
         <>
           <a
-            href={guide.route}
+            href={base + guide.route.slice(1)}
             class:list={[
               "hover:text-primary-accent transition-colors flex items-center gap-1.5 theme-text",
               { "font-semibold": currentGuideId === guide.id }
