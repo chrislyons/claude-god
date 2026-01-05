@@ -1,6 +1,6 @@
 # claude-god Development Guide
 
-**Workspace:** Inherits conventions from `~/chrislyons/dev/CLAUDE.md`
+**Workspace:** Inherits conventions from `~/workspace/CLAUDE.md` (if using multi-repo workspace setup)
 **Documentation PREFIX:** CGD
 
 ---
@@ -10,7 +10,7 @@
 This repository follows a three-tier configuration hierarchy:
 
 1. **This file (CLAUDE.md)** — Repository-specific rules and conventions
-2. **Workspace config** (`~/chrislyons/dev/CLAUDE.md`) — Cross-repo patterns
+2. **Workspace config** (`~/workspace/CLAUDE.md`) — Cross-repo patterns
 3. **Global config** (`~/.claude/CLAUDE.md`) — Universal rules
 
 **Conflict Resolution:** Repo > Workspace > Global > Code behavior
@@ -171,32 +171,36 @@ claude-god/
 
 **Check for documentation clutter:**
 ```bash
-~/dev/scripts/find-root-clutter.sh
+# If using workspace-level scripts
+~/workspace/scripts/find-root-clutter.sh
 ```
 
 **Check for PREFIX collisions:**
 ```bash
-~/dev/scripts/check-prefix-collisions.sh --verbose
+# If using workspace-level scripts
+~/workspace/scripts/check-prefix-collisions.sh --verbose
 ```
 
 **Archive old documentation:**
 ```bash
-~/dev/scripts/archive-old-docs.sh
+# If using workspace-level scripts
+~/workspace/scripts/archive-old-docs.sh
 ```
 
 **Validate configuration hierarchy:**
 ```bash
-~/dev/scripts/validate-config-hierarchy.sh
+# If using workspace-level scripts
+~/workspace/scripts/validate-config-hierarchy.sh
 ```
 
 ---
 
 ## Additional Resources
 
-- **Workspace config:** `~/chrislyons/dev/CLAUDE.md`
-- **Global config:** `~/.claude/CLAUDE.md`
-- **Skill templates:** `~/dev/.claude/skill-templates/`
-- **Automation scripts:** `~/dev/scripts/`
+- **Workspace config:** `~/workspace/CLAUDE.md` (optional, for multi-repo setups)
+- **Global config:** `~/.claude/CLAUDE.md` (user-level configuration)
+- **Skill templates:** `~/workspace/.claude/skill-templates/` (optional workspace-level skills)
+- **Automation scripts:** `~/workspace/scripts/` (optional workspace-level scripts)
 
 ---
 
@@ -232,8 +236,8 @@ Always read files before editing.
 - ❌ "Make it more compact"
 
 **Shared resources:**
-- Fonts: `~/dev/shared-fonts/fontshare/`
-- Guides: `~/dev/docs/claude-code-frontend-best-practices.md`, `~/dev/docs/media-asset-handling-guide.md`
+- Fonts: `~/workspace/shared-fonts/fontshare/` (if using shared workspace assets)
+- Guides: `~/workspace/docs/claude-code-frontend-best-practices.md` (if using workspace-level guides)
 
 ---
 

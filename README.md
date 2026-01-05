@@ -1,14 +1,18 @@
 # ClaudeGod
 
-**Comprehensive guide to Claude Code architecture, configuration, and best practices.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Built with Astro](https://img.shields.io/badge/Built_with-Astro-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+
+**Open-source guide to Claude Code architecture, configuration, and best practices.**
 
 A modern, modular documentation site built with Astro, featuring:
-- Three-level configuration hierarchy (User/Repo/Local)
-- Agent and skill management patterns
-- Best practices and troubleshooting guides
-- Beautiful, responsive design with dark mode
+- 📚 Three-level configuration hierarchy (User/Workspace/Repo)
+- 🤖 Agent and skill management patterns
+- 🛠️ Best practices and troubleshooting guides
+- 🎨 Beautiful, responsive design with dark mode
+- 🔍 Searchable content with syntax-highlighted examples
 
-**Live Site:** [claude-god.pages.dev](https://claude-god.pages.dev) *(deployment pending)*
+**Live Site:** [claude-god.pages.dev](https://claude-god.pages.dev)
 
 ---
 
@@ -114,15 +118,48 @@ See [`CLAUDE.md`](./CLAUDE.md) for:
 
 ## Contributing
 
-This is a reference documentation site. For updates:
-1. Content lives in `src/content/guide/*.mdx`
-2. Components in `src/components/*.astro`
-3. Follow naming conventions in `CLAUDE.md`
-4. Test build with `pnpm run build`
+We welcome contributions to improve this guide! Here's how to help:
+
+### Content Updates
+1. **Documentation:** Edit files in `src/content/guide/*.mdx` or `src/content/plugins/*.mdx`
+2. **Components:** Improve UI in `src/components/*.astro`
+3. **Styling:** Modify themes in `src/styles/`
+
+### Before Submitting
+1. Follow the naming conventions in [`CLAUDE.md`](./CLAUDE.md)
+2. Test your changes:
+   ```bash
+   pnpm install
+   pnpm run build
+   pnpm run preview
+   ```
+3. Ensure all syntax highlighting and diagrams render correctly
+4. Submit a pull request with a clear description of your changes
+
+### Reporting Issues
+Found a bug or have a suggestion? [Open an issue](https://github.com/chrislyons/claude-god/issues) with:
+- Clear description of the problem or enhancement
+- Steps to reproduce (for bugs)
+- Screenshots (if applicable)
 
 ---
 
 ## License
 
-MIT License - Documentation for Claude Code architecture and best practices.
+MIT License - See [LICENSE](./LICENSE) for details.
+
+This is an open-source documentation project for Claude Code architecture and best practices.
+
+---
+
+## Acknowledgments
+
+- Built with [Astro](https://astro.build)
+- Syntax highlighting by [Shiki](https://github.com/shikijs/shiki)
+- Diagrams powered by [Mermaid](https://mermaid.js.org)
+- Typography: [Cabinet Grotesk](https://fonts.adobe.com/fonts/cabinet-grotesk) + [Satoshi](https://www.fontshare.com/fonts/satoshi)
+
+---
+
+**Questions?** Check out the [documentation](https://claude-god.pages.dev) or [open an issue](https://github.com/chrislyons/claude-god/issues).
 
