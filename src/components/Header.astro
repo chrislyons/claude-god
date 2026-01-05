@@ -1,43 +1,35 @@
 ---
-import { getGuideList } from '../config/guides';
-import ThemeToggle from './ThemeToggle.astro';
+import { GUIDES } from '../config/guides';
 
 interface Props {
-  title?: string;
   currentGuideId?: string;
 }
 
-const {
-  title = 'Claude CLI Architecture Guide',
-  currentGuideId
-} = Astro.props;
+const { currentGuideId } = Astro.props;
 
-const guides = getGuideList();
-const base = import.meta.env.BASE_URL;
+// Get current guide title for header
+const currentGuide = currentGuideId ? GUIDES[currentGuideId] : null;
+const pageTitle = currentGuide?.title || 'Claude CLI';
 ---
 
-<header class="fixed top-0 left-sidebar right-0 h-header flex items-center justify-between px-8 z-[100] transition-all theme-bg theme-border-bottom">
+<header
+  class="fixed top-0 left-sidebar right-0 h-header flex items-center justify-between px-8 z-[100] transition-all theme-bg theme-border-bottom"
+  role="banner"
+>
+  <!-- Left: Page Title -->
   <h1 class="font-display text-xl font-bold theme-text">
-    {title}
+    {pageTitle}
   </h1>
-  <div class="flex items-center gap-8">
-    <nav class="flex gap-4 text-sm items-center">
-      {guides.map((guide, index) => (
-        <>
-          <a
-            href={base + guide.route.slice(1)}
-            class:list={[
-              "hover:text-primary-accent transition-colors flex items-center gap-1.5 theme-text",
-              { "font-semibold": currentGuideId === guide.id }
-            ]}
-            style="opacity: 0.8;"
-          >
-            {guide.title}
-          </a>
-          {index < guides.length - 1 && <span style="opacity: 0.3;">|</span>}
-        </>
-      ))}
-    </nav>
-    <ThemeToggle />
-  </div>
+
+  <!-- Right: Mobile menu button (hidden on desktop) -->
+  <button
+    data-mobile-menu-toggle
+    class="md:hidden p-2 rounded hover:bg-opacity-10 hover:bg-black transition-colors theme-text"
+    aria-label="Toggle mobile menu"
+    aria-expanded="false"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 12h18M3 6h18M3 18h18"/>
+    </svg>
+  </button>
 </header>

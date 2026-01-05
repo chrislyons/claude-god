@@ -163,6 +163,17 @@ button:focus:not(:focus-visible) {
   color-scheme: dark;
 }
 
+[data-theme="ember"] {
+  /* Deep warm background with high contrast */
+  --color-bg: #1C0F0A;
+  --color-text: #FFF8F0;
+  --color-code-bg: #2D1810;
+  --color-border: #4A2818;
+  --color-primary-accent: #FF6B4A; /* Brighter ember orange */
+
+  color-scheme: dark;
+}
+
 /* Reset and Base Styles */
 * {
   margin: 0;
@@ -263,7 +274,10 @@ tr:hover {
 
 /* Print Styles */
 @media print {
-  aside, header, .theme-toggle {
+  aside,
+  header,
+  .brand-header,
+  .mobile-menu {
     display: none;
   }
 

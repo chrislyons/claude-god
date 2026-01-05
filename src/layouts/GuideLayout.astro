@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
+import MobileMenu from '../components/MobileMenu.astro';
 import { GUIDES } from '../config/guides';
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
@@ -53,7 +54,7 @@ if (!guide) {
       <Sidebar guideId={guideId} />
       <Header title={headerTitle || title} currentGuideId={guideId} />
 
-      <main id="main-content" class="ml-sidebar mt-header px-8 py-12 w-full md:ml-sidebar md:mt-header sm:ml-0 sm:mt-header" tabindex="-1">
+      <main id="main-content" class="ml-sidebar mt-header px-8 py-12 w-full lg:ml-sidebar md:ml-0 sm:ml-0" tabindex="-1">
         <div class="max-w-content mx-auto">
           <slot />
           <Footer />
@@ -61,10 +62,14 @@ if (!guide) {
       </main>
     </div>
 
+    <MobileMenu />
+
     <script is:inline>
       // Set theme immediately to prevent flash
       const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
+      const validThemes = ['light', 'dark', 'ember'];
+      const theme = validThemes.includes(savedTheme) ? savedTheme : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
     </script>
 
     <script>
@@ -72,6 +77,8 @@ if (!guide) {
       import { initActiveNav } from '../scripts/active-nav';
       import { initCopyCommands } from '../scripts/copy-commands';
       import { initKeyboardNav } from '../scripts/keyboard-nav';
+      import { initMobileMenu } from '../scripts/mobile-menu';
+      import { initAccordion } from '../scripts/accordion';
 
       // Initialize after DOM is ready
       if (document.readyState === 'loading') {
@@ -80,6 +87,8 @@ if (!guide) {
           initActiveNav();
           initCopyCommands();
           initKeyboardNav();
+          initMobileMenu();
+          initAccordion();
         });
       } else {
         // DOM already loaded
@@ -87,6 +96,8 @@ if (!guide) {
         initActiveNav();
         initCopyCommands();
         initKeyboardNav();
+        initMobileMenu();
+        initAccordion();
       }
     </script>
   </body>

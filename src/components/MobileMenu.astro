@@ -1,0 +1,95 @@
+---
+import { GUIDES } from '../config/guides';
+
+const base = import.meta.env.BASE_URL;
+
+// Get all guides as array
+const allGuides = Object.entries(GUIDES).map(([id, guide]) => ({
+  id,
+  ...guide
+}));
+---
+
+<div
+  data-mobile-menu
+  class="mobile-menu fixed inset-0 z-[200] hidden"
+  aria-modal="true"
+  role="dialog"
+  aria-label="Mobile navigation menu"
+>
+  <!-- Backdrop -->
+  <div
+    data-mobile-menu-backdrop
+    class="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
+  ></div>
+
+  <!-- Menu Panel -->
+  <div
+    data-mobile-menu-panel
+    class="absolute top-0 right-0 bottom-0 w-80 max-w-[85vw] theme-bg theme-border-left shadow-2xl transform translate-x-full transition-transform overflow-y-auto"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 theme-border-bottom sticky top-0 theme-bg z-10">
+      <h2 class="font-display text-lg font-bold theme-text">Guides</h2>
+      <button
+        data-mobile-menu-close
+        class="p-2 rounded hover:bg-opacity-10 hover:bg-black transition-colors theme-text"
+        aria-label="Close menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Accordion Navigation -->
+    <nav class="p-6" aria-label="Guide navigation">
+      {allGuides.map(guide => (
+        <div class="accordion-section mb-4" data-guide-id={guide.id}>
+          <!-- Accordion Header -->
+          <button
+            class="accordion-header w-full flex items-center justify-between px-4 py-3 rounded transition-all text-left font-medium theme-text hover:bg-opacity-10 hover:bg-black"
+            data-accordion-toggle={guide.id}
+            data-mobile-menu-accordion
+            aria-expanded="false"
+            aria-controls={`mobile-accordion-content-${guide.id}`}
+          >
+            <span>{guide.title}</span>
+            <svg
+              class="accordion-chevron w-4 h-4 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Accordion Content -->
+          <div
+            id={`mobile-accordion-content-${guide.id}`}
+            class="accordion-content hidden"
+          >
+            <ul class="list-none p-0 pl-4 mt-2" role="list">
+              {guide.navigation.map(item => {
+                const href = `${base}${guide.route.slice(1)}#${item.id}`;
+
+                return (
+                  <li class="my-1">
+                    <a
+                      href={href}
+                      class="block px-4 py-2 rounded transition-all text-sm no-underline theme-text opacity-80 hover:opacity-100"
+                      data-mobile-menu-link
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </nav>
+  </div>
+</div>

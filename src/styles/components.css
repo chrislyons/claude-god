@@ -18,6 +18,76 @@ aside a.active {
   opacity: 0.8;
 }
 
+/* Brand Header */
+.brand-header {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brand-text {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Responsive: hide text on small screens */
+@media (max-width: 640px) {
+  .brand-text {
+    display: none;
+  }
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  transition: opacity 200ms ease-out;
+}
+
+[data-mobile-menu-backdrop] {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+[data-mobile-menu-panel] {
+  transition: transform 300ms ease-out;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  [data-mobile-menu-panel],
+  [data-mobile-menu-backdrop] {
+    transition: none !important;
+  }
+}
+
+/* Accordion Styles */
+.accordion-header {
+  font-size: 0.9rem;
+}
+
+.accordion-header:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.accordion-header.accordion-active {
+  background-color: var(--color-primary-accent);
+  color: white;
+  font-weight: 600;
+}
+
+.accordion-header.accordion-active:hover {
+  background-color: var(--color-primary-accent);
+  opacity: 0.9;
+}
+
+.accordion-content {
+  overflow: hidden;
+  transition: all 200ms ease-out;
+}
+
+.accordion-chevron {
+  flex-shrink: 0;
+}
+
 /* Responsive Layout */
 @media (max-width: 768px) {
   aside {
@@ -26,7 +96,8 @@ aside a.active {
   }
 
   header {
-    left: 0;
+    left: 0 !important;
+    padding-left: 2rem !important;
   }
 
   main {

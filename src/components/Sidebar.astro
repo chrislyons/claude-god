@@ -4,42 +4,87 @@ interface Props {
 }
 
 import { GUIDES } from '../config/guides';
+import BrandHeader from './BrandHeader.astro';
 
 const { guideId } = Astro.props;
-const guide = GUIDES[guideId];
+const base = import.meta.env.BASE_URL;
 
-if (!guide) {
-  throw new Error(`Guide "${guideId}" not found in configuration`);
-}
+// Get all guides as array
+const allGuides = Object.entries(GUIDES).map(([id, guide]) => ({
+  id,
+  ...guide
+}));
 ---
 
 <aside
-  class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all theme-bg theme-border-right"
+  class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto theme-bg lg:block md:hidden"
   role="complementary"
   aria-label="Guide navigation"
 >
-  <div class="sidebar-brand font-display text-2xl font-bold mb-2 text-primary-accent" aria-label={`${guide.title} - Guide Contents`}>
-    {guide.title}
-  </div>
-  <div class="sidebar-subtitle text-sm text-text-light dark:text-text-dark opacity-70 mb-8">
-    {guide.subtitle}
+  <!-- Brand Header at top of sidebar (vertically aligned with navbar) -->
+  <div class="h-header flex items-center px-8 theme-border-bottom">
+    <BrandHeader />
   </div>
 
-  <nav aria-label="Table of contents">
-    <ul class="list-none p-0" role="list">
-      {guide.navigation.map(item => (
-        <li class="my-2">
-          <a
-            href={`#${item.id}`}
-            class="block px-4 py-2 rounded transition-all text-[0.95rem] no-underline nav-link"
-            style="color: var(--color-text);"
-            data-nav-link={item.id}
-            aria-current={false}
+  <!-- Accordion Navigation -->
+  <nav aria-label="Guides" class="accordion-nav px-8 pt-4 theme-border-right" style="min-height: calc(100vh - 64px);">
+    {allGuides.map(guide => (
+      <div class="accordion-section" data-guide-id={guide.id}>
+        <!-- Accordion Header -->
+        <button
+          class:list={[
+            "accordion-header w-full flex items-center justify-between px-4 py-3 rounded transition-all text-left font-medium theme-text hover:bg-opacity-10 hover:bg-black",
+            { "accordion-active": guide.id === guideId }
+          ]}
+          data-accordion-toggle={guide.id}
+          aria-expanded={guide.id === guideId ? 'true' : 'false'}
+          aria-controls={`accordion-content-${guide.id}`}
+        >
+          <span>{guide.title}</span>
+          <svg
+            class="accordion-chevron w-4 h-4 transition-transform"
+            class:list={{
+              'rotate-90': guide.id === guideId
+            }}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            {item.label}
-          </a>
-        </li>
-      ))}
-    </ul>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <!-- Accordion Content -->
+        <div
+          id={`accordion-content-${guide.id}`}
+          class="accordion-content"
+          class:list={{
+            'hidden': guide.id !== guideId
+          }}
+        >
+          <ul class="list-none p-0 pl-4 mt-2" role="list">
+            {guide.navigation.map(item => {
+              const isHashLink = guide.id === guideId;
+              const href = isHashLink
+                ? `#${item.id}`
+                : `${base}${guide.route.slice(1)}#${item.id}`;
+
+              return (
+                <li class="my-1">
+                  <a
+                    href={href}
+                    class="block px-4 py-2 rounded transition-all text-sm no-underline nav-link theme-text opacity-80 hover:opacity-100"
+                    data-nav-link={item.id}
+                    aria-current={false}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    ))}
   </nav>
 </aside>
