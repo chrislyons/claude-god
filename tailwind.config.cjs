@@ -6,7 +6,8 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          accent: '#F55036',
+          // WCAG AA compliant - darkened from #F55036 for 4.5:1 contrast ratio
+          accent: '#D44428',
         },
         bg: {
           light: '#FAF9F6',

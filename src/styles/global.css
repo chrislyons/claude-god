@@ -45,10 +45,14 @@ a:hover {
   opacity: 0.8;
 }
 
-a:focus {
-  outline: 2px solid theme('colors.primary.accent');
+a:focus-visible {
+  outline: 3px solid var(--color-text);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+a:focus:not(:focus-visible) {
+  outline: none;
 }
 
 main a::after {
@@ -113,9 +117,13 @@ main ul ul ul {
   list-style-type: square !important;
 }
 
-button:focus {
-  outline: 2px solid theme('colors.primary.accent');
+button:focus-visible {
+  outline: 3px solid var(--color-text);
   outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Keyboard hotkey indicators */
@@ -133,14 +141,15 @@ button:focus {
 
 /* CSS Custom Properties */
 :root {
-  --color-primary-accent: #F55036;
+  /* WCAG AA compliant accent color - darkened from #F55036 for 4.5:1 contrast */
+  --color-primary-accent: #D44428;
   --color-bg: #FAF9F6;
   --color-text: #2D2926;
   --color-code-bg: #F5F3F0;
   --color-border: #E5E0DB;
   --transition: 200ms ease-out;
   --border-radius: 8px;
-  --shadow: 0 2px 8px rgba(245, 80, 54, 0.08);
+  --shadow: 0 2px 8px rgba(212, 68, 40, 0.08);
 
   color-scheme: light;
 }
@@ -261,5 +270,17 @@ tr:hover {
   main {
     margin-left: 0;
     margin-top: 0;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

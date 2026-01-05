@@ -13,23 +13,28 @@ if (!guide) {
 }
 ---
 
-<aside class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all theme-bg theme-border-right">
-  <div class="sidebar-brand font-display text-2xl font-bold mb-2 text-primary-accent">
+<aside
+  class="fixed top-0 left-0 w-sidebar h-screen overflow-y-auto p-8 z-[101] transition-all theme-bg theme-border-right"
+  role="complementary"
+  aria-label="Guide navigation"
+>
+  <div class="sidebar-brand font-display text-2xl font-bold mb-2 text-primary-accent" aria-label={`${guide.title} - Guide Contents`}>
     {guide.title}
   </div>
   <div class="sidebar-subtitle text-sm text-text-light dark:text-text-dark opacity-70 mb-8">
     {guide.subtitle}
   </div>
 
-  <nav>
-    <ul class="list-none p-0">
+  <nav aria-label="Table of contents">
+    <ul class="list-none p-0" role="list">
       {guide.navigation.map(item => (
         <li class="my-2">
           <a
             href={`#${item.id}`}
-            class="block px-4 py-2 rounded transition-all text-[0.95rem] no-underline"
+            class="block px-4 py-2 rounded transition-all text-[0.95rem] no-underline nav-link"
             style="color: var(--color-text);"
             data-nav-link={item.id}
+            aria-current={false}
           >
             {item.label}
           </a>

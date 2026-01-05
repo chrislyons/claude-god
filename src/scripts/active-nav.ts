@@ -9,13 +9,17 @@ export function initActiveNav() {
         if (entry.isIntersecting) {
           const id = entry.target.id;
 
-          // Remove active class from all links
-          navLinks.forEach((link) => link.classList.remove('active'));
+          // Remove active class and aria-current from all links
+          navLinks.forEach((link) => {
+            link.classList.remove('active');
+            link.setAttribute('aria-current', 'false');
+          });
 
-          // Add active class to corresponding link
+          // Add active class and aria-current to corresponding link
           const activeLink = document.querySelector(`[data-nav-link="${id}"]`);
           if (activeLink) {
             activeLink.classList.add('active');
+            activeLink.setAttribute('aria-current', 'page');
           }
         }
       });

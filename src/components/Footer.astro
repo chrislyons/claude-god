@@ -1,15 +1,28 @@
 ---
 // Footer component
+const base = import.meta.env.BASE_URL;
 ---
 
-<footer class="text-center opacity-70 py-8 mt-16 theme-border-top">
+<footer class="text-center opacity-70 py-8 mt-16 theme-border-top" role="contentinfo">
   <p class="mb-4">
     Claude Code Architecture Guide &middot; Updated January 2, 2026<br />
     Following official Claude Code best practices
   </p>
   <p class="text-sm">
-    <a href="/agent-sdk" class="mx-2">Agent SDK Guide</a> &middot;
-    <a href="https://github.com/anthropics/claude-code" class="mx-2">GitHub</a> &middot;
-    <a href="https://docs.anthropic.com/claude/docs" class="mx-2">Documentation</a>
+    <a href={`${base}agent-sdk`} class="mx-2">Agent SDK Guide</a> &middot;
+    <a
+      href="https://github.com/anthropics/claude-code"
+      class="mx-2"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Claude Code GitHub repository (opens in new window)"
+    >GitHub<span class="sr-only"> (opens in new window)</span></a> &middot;
+    <a
+      href="https://docs.anthropic.com/claude/docs"
+      class="mx-2"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Anthropic Documentation (opens in new window)"
+    >Documentation<span class="sr-only"> (opens in new window)</span></a>
   </p>
 </footer>

@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
 import { GUIDES } from '../config/guides';
+import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -34,13 +35,25 @@ if (!guide) {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#FAF9F6" />
     <title>{title}</title>
+
+    <!-- Font preloading for critical fonts -->
+    <link rel="preload" as="font" href="/claude-god/fonts/satoshi/Satoshi-Variable.woff2" type="font/woff2" crossorigin />
+    <link rel="preload" as="font" href="/claude-god/fonts/cabinet-grotesk/CabinetGrotesk-Variable.woff2" type="font/woff2" crossorigin />
+
+    <!-- View Transitions for smooth navigation -->
+    <ViewTransitions />
   </head>
   <body>
+    <!-- Skip to main content link for keyboard accessibility -->
+    <a href="#main-content" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-primary-accent focus:text-white focus:rounded focus:font-semibold">
+      Skip to main content
+    </a>
+
     <div class="container flex min-h-screen">
       <Sidebar guideId={guideId} />
       <Header title={headerTitle || title} currentGuideId={guideId} />
 
-      <main class="ml-sidebar mt-header px-8 py-12 w-full md:ml-sidebar md:mt-header sm:ml-0 sm:mt-header">
+      <main id="main-content" class="ml-sidebar mt-header px-8 py-12 w-full md:ml-sidebar md:mt-header sm:ml-0 sm:mt-header" tabindex="-1">
         <div class="max-w-content mx-auto">
           <slot />
           <Footer />

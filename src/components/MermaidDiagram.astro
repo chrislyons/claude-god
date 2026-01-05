@@ -11,11 +11,30 @@ const { diagram } = Astro.props;
 </div>
 
 <script>
-  import mermaid from 'mermaid';
-  import { getMermaidTheme } from '../config/mermaid-theme';
+  // Lazy-load Mermaid only when diagrams exist on the page
+  // This saves ~1.5MB on pages without diagrams
+
+  let mermaidModule: typeof import('mermaid') | null = null;
+  let themeModule: typeof import('../config/mermaid-theme') | null = null;
+
+  async function loadMermaid() {
+    if (!mermaidModule) {
+      const [mermaid, theme] = await Promise.all([
+        import('mermaid'),
+        import('../config/mermaid-theme')
+      ]);
+      mermaidModule = mermaid;
+      themeModule = theme;
+    }
+    return { mermaid: mermaidModule.default, getMermaidTheme: themeModule!.getMermaidTheme };
+  }
 
   // Initialize Mermaid with current theme
   async function initMermaid() {
+    const hasDiagrams = document.querySelector('.mermaid');
+    if (!hasDiagrams) return;
+
+    const { mermaid, getMermaidTheme } = await loadMermaid();
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
     mermaid.initialize({
@@ -36,14 +55,18 @@ const { diagram } = Astro.props;
     // After rendering, ensure SVGs are responsive
     document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
       svg.removeAttribute('height');
-      svg.style.width = '100%';
-      svg.style.maxWidth = '100%';
-      svg.style.height = 'auto';
+      (svg as HTMLElement).style.width = '100%';
+      (svg as HTMLElement).style.maxWidth = '100%';
+      (svg as HTMLElement).style.height = 'auto';
     });
   }
 
   // Re-render diagrams when theme changes
   async function rerenderMermaid() {
+    const hasDiagrams = document.querySelector('.mermaid');
+    if (!hasDiagrams || !mermaidModule) return;
+
+    const { mermaid, getMermaidTheme } = await loadMermaid();
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
     // Clear existing diagrams
@@ -74,9 +97,9 @@ const { diagram } = Astro.props;
     // Ensure SVGs are responsive
     document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
       svg.removeAttribute('height');
-      svg.style.width = '100%';
-      svg.style.maxWidth = '100%';
-      svg.style.height = 'auto';
+      (svg as HTMLElement).style.width = '100%';
+      (svg as HTMLElement).style.maxWidth = '100%';
+      (svg as HTMLElement).style.height = 'auto';
     });
   }
 
