@@ -8,300 +8,144 @@ import Callout from '../../components/Callout.astro';
 
 ## Plugin Management
 
-Claude Code includes built-in commands for discovering, installing, and managing plugins through the `/plugin` slash command in the interactive REPL.
+Claude Code includes built-in commands for discovering, installing, and managing plugins.
 
 ### Installing Plugins
 
-**In the Claude Code REPL:**
+**Install from official marketplace:**
 
 ```bash
-# Launch Claude Code
-claude
-
-# Install from marketplace
-/plugin install <plugin-name>
-
-# Install from specific marketplace
-/plugin install <plugin-name>@<marketplace-name>
-
-# Install from GitHub repository
-/plugin install github:<owner>/<repo>
-
-# Install from local path (for development)
-/plugin install file:/path/to/plugin
-
-# Install from Git URL
-/plugin install git:https://github.com/user/plugin.git
-
-# Install from NPM package
-/plugin install npm:<package-name>
+claude plugin install <plugin-name>
 ```
 
-**Real plugin examples:**
+**Install from specific marketplace:**
 
 ```bash
-# Install official LSP plugins
-/plugin install pyright-lsp@marketplace
-/plugin install typescript-lsp@marketplace
-/plugin install rust-lsp@marketplace
+claude plugin install <plugin-name>@<marketplace-name>
+```
 
-# Install from GitHub
-/plugin install github:anthropics/claude-code-plugins
+**Examples:**
 
-# Install local plugin during development
-/plugin install file:~/dev/my-custom-plugin
+```bash
+# Install ralph-wiggum from official marketplace
+claude plugin install ralph-wiggum
+
+# Install all 8 recommended plugins
+claude plugin install ralph-wiggum
+claude plugin install commit-commands
+claude plugin install frontend-design
+claude plugin install security-guidance
+claude plugin install hookify
+claude plugin install pr-review-toolkit
+claude plugin install feature-dev
+claude plugin install agent-sdk-dev
 ```
 
 <Callout type="info">
-**Installation Scope:** Plugins can be installed at different scopes using the settings.json file. User-level plugins (`~/.claude/settings.json`) are available across all projects, while project-level plugins (`.claude/settings.json`) are specific to that repository.
+**Installation Scope:** By default, plugins install at **user scope** (`~/.claude/plugins/`), making them available across all projects.
 </Callout>
 
 ### Managing Installed Plugins
 
-**Enable/disable plugins via settings.json:**
-
-```json
-{
-  "enabledPlugins": {
-    "plugin-name@marketplace": true,
-    "another-plugin": false
-  }
-}
-```
-
-**List installed plugins:**
+**Enable a disabled plugin:**
 
 ```bash
-# In the REPL
-/plugin list
+claude plugin enable <plugin-name>
 ```
 
-**Update a plugin:**
+**Disable a plugin temporarily:**
 
 ```bash
-/plugin update <plugin-name>
+claude plugin disable <plugin-name>
 ```
 
 **Uninstall a plugin:**
 
 ```bash
-/plugin uninstall <plugin-name>
+claude plugin uninstall <plugin-name>
+# or
+claude plugin remove <plugin-name>
+```
+
+**Update a plugin:**
+
+```bash
+claude plugin update <plugin-name>
 ```
 
 <Callout type="warning">
-**Session Reload:** After installing or updating plugins, you may need to restart your Claude Code session or run `/config` to reload plugin components.
+**Restart Required:** After updating plugins, restart your Claude Code session for changes to take effect.
 </Callout>
 
-### Built-in Features (No Installation Required)
+### Plugin Commands
 
-Claude Code ships with powerful features available immediately:
-
-**Built-in Agents:**
-- Plan agent - Implementation planning
-- Explore agent - Fast codebase exploration
-- General-purpose agent - Complex multi-step tasks
-
-Access via: `/agents` interface or automatic invocation
-
-**Built-in Commands:**
-- `/help` - View all commands
-- `/config` - Settings management
-- `/agents` - Manage custom agents
-- `/hooks` - Configure hooks
-- `/mcp` - MCP server management
-- `/context` - View context usage
-- 40+ additional built-in commands
-
-**Skills System:**
-Create custom skills in:
-- `~/.claude/skills/` (user-level)
-- `.claude/skills/` (project-level)
-
-### Creating Custom Components
-
-**Custom Commands:**
-
-Create a markdown file in `.claude/commands/`:
+Once plugins are installed, their commands appear in tab completion:
 
 ```bash
-# .claude/commands/test.md
----
-description: Run project tests
-allowed-tools: Bash
----
+claude <tab>
+# Shows all available commands including plugin commands
 
-Run the test suite for this project:
-
-!npm test
+claude /ralph<tab>
+# Completes to /ralph-loop or /cancel-ralph
 ```
 
-Now accessible via: `/test`
+**Check installed plugins' commands:**
 
-**Custom Agents:**
-
-Create a markdown file in `.claude/agents/`:
-
-```bash
-# .claude/agents/code-reviewer.md
----
-name: code-reviewer
-description: Reviews code for quality, security, and best practices
-tools: Read, Grep, Glob, Bash
-model: sonnet
----
-
-You are an expert code reviewer...
-```
-
-Now accessible via: `/agents` interface
-
-**Custom Skills:**
-
-Create a directory in `.claude/skills/skill-name/` with `SKILL.md`:
-
-```bash
-# .claude/skills/my-skill/SKILL.md
----
-name: my-skill
-description: When to auto-invoke this skill
-allowed-tools: Read, Edit
----
-
-# Skill Instructions
-What Claude should do when this skill is invoked...
-```
-
-Claude auto-invokes when request matches description.
+- Use `/help` to see all available commands
+- Plugin commands are prefixed with `/` (slash commands)
+- Tab completion works for all plugin commands
 
 ### Marketplace Discovery
 
-**Official LSP Plugins:**
-- `pyright-lsp` - Python type checking and code intelligence
-- `typescript-lsp` - TypeScript language support
-- `rust-lsp` - Rust language server integration
+**Official marketplace:**
 
-**Community MCP Servers:**
-- GitHub MCP server - Issue tracking, PR management
-- Sentry MCP server - Error monitoring
-- PostgreSQL MCP server - Database operations
+Browse plugins at: https://github.com/anthropics/claude-code/tree/main/plugins
 
-**Finding Plugins:**
-- Official marketplace: Browse via `/plugin` interface
-- GitHub: Search for `claude-code-plugin` topic
-- Community plugins: Check Claude Code documentation
+**Available official plugins (as of 2026-01):**
+
+- agent-sdk-dev
+- claude-opus-4-5-migration
+- code-review
+- commit-commands
+- explanatory-output-style
+- feature-dev
+- frontend-design
+- hookify
+- learning-output-style
+- plugin-dev
+- pr-review-toolkit
+- ralph-wiggum
+- security-guidance
 
 <Callout type="success">
-**Quick Start:** Built-in agents, commands, and the skills system work immediately. No installation required to get started!
+**Quick Start:** The 8 essential plugins are already installed. Jump to the next section to start using them!
 </Callout>
 
-### Plugin Configuration
+### Plugin Validation
 
-**In settings.json:**
-
-```json
-{
-  "enabledPlugins": {
-    "pyright-lsp@marketplace": true,
-    "my-custom-plugin": true
-  },
-  "extraKnownMarketplaces": {
-    "team-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "company/plugins"
-      }
-    }
-  }
-}
-```
-
-**Plugin locations:**
-- User plugins: `~/.claude/plugins/`
-- Project plugins: Via settings.json configuration
-- Marketplace plugins: Auto-managed by Claude Code
-
-### MCP Server Setup
-
-**Install MCP servers via `.mcp.json`:**
-
-```json
-{
-  "mcpServers": {
-    "github": {
-      "command": "node",
-      "args": ["/path/to/github-mcp-server.js"],
-      "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
-      }
-    },
-    "postgres": {
-      "command": "docker",
-      "args": ["run", "postgres-mcp-server"],
-      "env": {
-        "DATABASE_URL": "${DATABASE_URL}"
-      }
-    }
-  }
-}
-```
-
-**Manage MCP servers:**
+Check if a plugin is installed and enabled:
 
 ```bash
-# In the REPL
-/mcp list
-/mcp connect <server-name>
-/mcp disconnect <server-name>
+# List all plugin commands
+/help
+
+# Try invoking a plugin command
+/commit --help
+/ralph-loop --help
+/hookify --help
 ```
 
-### LSP Server Setup
-
-**Configure in `.lsp.json`:**
-
-```json
-{
-  "typescript": {
-    "command": "typescript-language-server",
-    "args": ["--stdio"],
-    "extensionToLanguage": {
-      "ts": "typescript",
-      "tsx": "typescriptreact"
-    }
-  },
-  "python": {
-    "command": "pyright-langserver",
-    "args": ["--stdio"],
-    "extensionToLanguage": {
-      "py": "python"
-    }
-  }
-}
-```
-
-Or install official LSP plugins:
-
-```bash
-/plugin install pyright-lsp@marketplace
-/plugin install typescript-lsp@marketplace
-/plugin install rust-lsp@marketplace
-```
+If the command is recognized, the plugin is active.
 
 ### Troubleshooting
 
 **Command not found:**
-- Check if component exists: `/help` (for commands)
-- Verify file location: `.claude/commands/`, `.claude/agents/`, `.claude/skills/`
-- Check file naming: Commands use filename, agents use `name` frontmatter field
-- Restart session: Exit and relaunch Claude Code
+- Ensure plugin is installed: `claude plugin install <name>`
+- Check if it's enabled (not disabled)
+- Restart Claude Code session
+- Verify plugin compatibility with your Claude Code version
 
-**Plugin not loading:**
-- Verify in settings.json: `"enabledPlugins": { "plugin-name": true }`
-- Check plugin compatibility with Claude Code version
-- Review plugin structure: Ensure `plugin.json` exists in `.claude-plugin/` directory
-- Enable debug mode: `claude --debug plugin`
-
-**Skill not being invoked:**
-- Check description clarity: Claude matches semantically
-- Verify skill location: `.claude/skills/<skill-name>/SKILL.md`
-- Review frontmatter: Ensure `name` and `description` fields are present
-- Check allowed-tools: Skill may be restricted from needed tools
+**Plugin conflicts:**
+- Some plugins may conflict (e.g., code-review vs pr-review-toolkit)
+- Disable conflicting plugins: `claude plugin disable <name>`
+- Only keep the one you prefer active

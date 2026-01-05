@@ -8,541 +8,356 @@ import Callout from '../../components/Callout.astro';
 
 ## Plugin Marketplace
 
-Discover plugins, evaluate their usefulness, and learn how to build your own custom extensions.
+Discover new plugins, evaluate their usefulness, and learn how to build your own.
 
 ---
 
 ## Official Marketplace
 
-**Installation:** Use `/plugin` command in the Claude Code REPL
+**Repository:** https://github.com/anthropics/claude-code/tree/main/plugins
 
-```bash
-claude
-/plugin install <plugin-name>@marketplace
-```
+All officially supported plugins are hosted here.
 
-### Available Plugin Categories
+### Available Plugins (2026-01)
 
-**LSP Servers (Language Intelligence):**
-- `pyright-lsp` - Python type checking and code intelligence
-- `typescript-lsp` - TypeScript/JavaScript language support
-- `rust-lsp` - Rust language server integration
+**Installed (8 essential):**
+- ✅ ralph-wiggum - Autonomous iteration loops
+- ✅ commit-commands - Git workflow automation
+- ✅ frontend-design - Design system enforcement
+- ✅ pr-review-toolkit - Comprehensive code review
+- ✅ security-guidance - Security monitoring
+- ✅ hookify - Custom rule enforcement
+- ✅ feature-dev - 7-phase development workflow
+- ✅ agent-sdk-dev - Agent development & validation
 
-**MCP Servers (External Integrations):**
-- GitHub - Issue tracking, PR management, repository operations
-- Sentry - Error monitoring and debugging
-- PostgreSQL - Database query and schema operations
-- And many more community-contributed servers
-
-**Custom Plugins:**
-- Browse via `/plugin` interface
-- Search GitHub for `claude-code-plugin` topic
-- Check Claude Code documentation for featured plugins
+**Not Installed:**
+- code-review - Alternative to pr-review-toolkit (different review agents)
+- plugin-dev - For building distributable plugins
+- explanatory-output-style - Adds educational context (token-heavy)
+- learning-output-style - Interactive learning mode (asks user to code)
+- claude-opus-4-5-migration - Model migration tool
 
 <Callout type="info">
-**Built-in Features:** Claude Code ships with powerful built-in agents (Plan, Explore, General-purpose), 40+ slash commands, and a skills system. Many workflows don't require additional plugins!
+**code-review vs pr-review-toolkit:** Both are PR review plugins. code-review focuses on CLAUDE.md compliance, pr-review-toolkit has 6 specialized agents including code-simplifier. You chose pr-review-toolkit.
 </Callout>
 
 ---
 
-## Installing Plugins
+## Installing from Marketplace
 
-### From Marketplace
+### Default (Official)
 
 ```bash
-# In the REPL
-/plugin install pyright-lsp@marketplace
-/plugin install typescript-lsp@marketplace
+claude plugin install <plugin-name>
 ```
 
-### From GitHub
+Installs from the official marketplace automatically.
+
+### Specific Marketplace
 
 ```bash
-/plugin install github:username/plugin-repo
+claude plugin install <plugin-name>@<marketplace-name>
 ```
 
-### From Local Path (Development)
+For third-party or custom marketplaces.
+
+### Examples
 
 ```bash
-/plugin install file:/path/to/plugin
-```
+# Official marketplace (default)
+claude plugin install ralph-wiggum
 
-### From Git URL
-
-```bash
-/plugin install git:https://github.com/user/plugin.git
-```
-
-### From NPM
-
-```bash
-/plugin install npm:package-name
+# Specific marketplace (if you had one)
+claude plugin install my-custom-plugin@company-marketplace
 ```
 
 ---
 
-## Evaluating Plugins
+## Evaluating New Plugins
 
-Before installing a plugin, consider:
+Before installing a new plugin, consider:
 
-### 1. Does It Solve a Real Problem?
+### 1. What Problem Does It Solve?
 
-- Does it automate something you do repeatedly?
+- Does it automate something you do manually?
 - Does it prevent mistakes you've made?
-- Does it provide integration with external tools you need?
-- Could you solve it with custom commands/skills instead?
+- Does it enforce standards you care about?
 
-### 2. What's the Performance Impact?
+**Example:** hookify solves PREFIX naming violations
 
-**Lower Overhead:**
-- LSP servers (passive, only active when editing specific languages)
-- Commands (only run when invoked)
-- Conditional hooks (only trigger on specific events)
+### 2. What's the Token Cost?
 
-**Higher Overhead:**
-- SessionStart hooks (run every session startup)
-- Always-active skills (loaded in every context)
-- Heavy MCP servers (continuous connections)
+**High Cost:**
+- SessionStart hooks (run every session): explanatory-output-style
+- Always-active skills: Some aggressive linters
+
+**Low Cost:**
+- Commands (only when invoked): commit-commands
+- Conditional hooks (only when triggered): security-guidance
+- PreToolUse hooks (only before dangerous actions): hookify
 
 <Callout type="warning">
-**Token Budget:** SessionStart hooks and auto-invoked skills add context overhead. Use them when the value justifies the cost.
+**Token Budget:** SessionStart hooks add overhead to EVERY session. Use sparingly. PreToolUse and command-based plugins are more efficient.
 </Callout>
 
-### 3. Is It Compatible?
+### 3. Does It Conflict?
 
-**Check for conflicts:**
-- Multiple plugins providing same commands
-- Overlapping hook functionality
-- Duplicate MCP server connections
+**Conflicting plugins:**
+- code-review ↔ pr-review-toolkit (both do PR review)
+- Multiple commit automation plugins
+- Overlapping security scanners
 
-**Verify compatibility:**
+**Check before installing:**
 ```bash
-# In the REPL
-/plugin list  # See what's already installed
+# See what's installed
+/help
+# Look for similar functionality
 ```
 
 ### 4. Is It Maintained?
 
-For community plugins:
-- Check last commit date
-- Review open issues/PRs
-- Verify active maintenance
-- Read documentation quality
+Check the official repo:
+- Last updated date
+- Number of issues/PRs
+- Community activity
 
 ---
 
-## Building Custom Components
-
-### Custom Commands (Easiest)
-
-**When to use:** Frequent workflows, team-specific operations
-
-**Create:** `.claude/commands/my-command.md`
-
-```markdown
----
-description: Brief description
-allowed-tools: Bash, Read
----
-
-Instructions for Claude...
-
-!bash command to run
-```
-
-**Result:** `/my-command` available in REPL
-
-### Custom Skills (Auto-invoked)
-
-**When to use:** Recurring patterns, auto-triggered assistance
-
-**Create:** `.claude/skills/skill-name/SKILL.md`
-
-```markdown
----
-name: skill-name
-description: When to auto-invoke this skill
-allowed-tools: Read, Edit
----
-
-Instructions for Claude when skill is activated...
-```
-
-**Result:** Claude auto-invokes when request matches description
-
-### Custom Agents (Specialized)
-
-**When to use:** Complex multi-step workflows, specialized expertise
-
-**Create:** `.claude/agents/agent-name.md`
-
-```markdown
----
-name: agent-name
-description: What this agent does
-tools: Read, Grep, Bash
-model: sonnet
----
-
-You are a specialized agent for...
-```
-
-**Result:** Available via `/agents` interface
-
-### Custom Hooks (Lifecycle Events)
-
-**When to use:** Enforcement, validation, automation on specific events
-
-**Create:** `.claude/hooks/hooks.json`
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash(git push:*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash -c 'validation script'",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-**Result:** Hook runs before matched tool executions
-
-<Callout type="success">
-**Start Simple:** Try custom commands and skills first. They're easier to create and maintain than full plugins.
-</Callout>
-
----
-
-## Building Full Plugins
+## Building Your Own Plugins
 
 ### When to Build a Plugin
 
 **Good reasons:**
-- Distributing to team or community
-- Combining multiple components (commands + skills + agents + hooks)
-- Packaging with dependencies and scripts
-- Need version management and updates
+- Workflow specific to your multi-repository setup
+- Enforcement rule unique to your conventions
+- Integration with internal tools
+- Pattern repeated across projects
 
-**Alternatives (simpler):**
-- Single command → Custom command file
-- Single skill → Custom skill directory
-- Team sharing → Commit `.claude/` directory to repo
-- Personal use → User-level `.claude/` directory
+**Bad reasons:**
+- One-off task (just do it directly)
+- Already exists in marketplace
+- Workflow still evolving (standardize first)
 
-### Plugin Structure
+### Plugin Anatomy
 
 **Minimum structure:**
-
 ```
 my-plugin/
 ├── .claude-plugin/
-│   └── plugin.json         # Required: Plugin manifest
-├── commands/               # Optional: Slash commands
-│   └── example.md
-├── skills/                 # Optional: Auto-invoked skills
-│   └── skill-name/
-│       └── SKILL.md
-├── agents/                 # Optional: Specialized agents
-│   └── agent-name.md
-├── hooks/                  # Optional: Lifecycle hooks
-│   └── hooks.json
-├── .mcp.json              # Optional: MCP server config
-├── .lsp.json              # Optional: LSP server config
-└── README.md              # Required: Documentation
+│   └── plugin.json         # Manifest
+├── commands/               # Slash commands (optional)
+│   └── my-command.sh
+├── skills/                 # Auto-invoked skills (optional)
+│   └── my-skill.json
+├── agents/                 # Specialized agents (optional)
+│   └── my-agent.py
+├── hooks/                  # Lifecycle hooks (optional)
+│   └── pre-tool-use.sh
+└── README.md
 ```
 
-### Plugin Manifest (plugin.json)
-
-**Required fields:**
-
-```json
-{
-  "name": "my-plugin"
-}
-```
-
-**Complete schema:**
-
+**plugin.json example:**
 ```json
 {
   "name": "my-plugin",
   "version": "1.0.0",
-  "description": "Brief description",
-  "author": {
-    "name": "Your Name",
-    "email": "you@example.com"
-  },
-  "homepage": "https://docs.example.com",
-  "repository": "https://github.com/user/plugin",
-  "license": "MIT",
-  "keywords": ["keyword1", "keyword2"],
-
-  "commands": "./commands/",
-  "agents": "./agents/",
-  "skills": "./skills/",
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json",
-  "lspServers": "./.lsp.json"
+  "description": "Does something useful",
+  "commands": ["commands/my-command.sh"],
+  "skills": ["skills/my-skill.json"],
+  "hooks": {
+    "PreToolUse": "hooks/pre-tool-use.sh"
+  }
 }
 ```
 
-**Key rules:**
-- All paths relative to plugin root
-- `.claude-plugin/` contains ONLY `plugin.json`
-- Component directories at plugin root
-- Use `${CLAUDE_PLUGIN_ROOT}` for script references
+### Using plugin-dev
+
+For building distributable plugins:
+
+```bash
+# Install plugin-dev
+claude plugin install plugin-dev
+
+# Create new plugin
+/plugin-dev:create-plugin
+
+# Follow interactive workflow:
+# 1. Choose plugin type
+# 2. Select features
+# 3. Generate structure
+# 4. Implement functionality
+# 5. Test locally
+# 6. Package for distribution
+```
 
 <Callout type="info">
-**Component Paths:** Paths supplement default directories. Claude loads both plugin components and user/project components.
+**plugin-dev vs agent-sdk-dev:** plugin-dev builds entire plugins (commands, hooks, agents). agent-sdk-dev builds just agents. For most users, agent-sdk-dev is sufficient.
 </Callout>
 
 ---
 
-## Testing Your Plugin
+## Custom Plugin Ideas for Your Workflow
 
-### Local Testing
+### 1. Cross-Repo Documentation Syncer
 
-**Install from local path:**
+**Problem:** CLAUDE.md files across 6 repos get out of sync
 
-```bash
-claude
-/plugin install file:~/dev/my-plugin
-```
+**Solution:** Plugin that:
+- Scans all repos for CLAUDE.md changes
+- Identifies drift from workspace standards
+- Suggests syncs
+- Auto-updates with approval
 
-**Verify components loaded:**
+**Type:** Command + Agent
 
-```bash
-/help  # Check if commands appear
-/agents  # Check if agents appear
-```
+### 2. PREFIX Consistency Checker
 
-**Test functionality:**
+**Problem:** Different PREFIX patterns across repos
 
-```bash
-/my-command  # Test command
-# Trigger skill via request
-# Check hook behavior
-```
+**Solution:** Plugin that:
+- Validates PREFIX files in all repos
+- Checks sequential numbering
+- Ensures title presence
+- Reports violations
 
-### Debug Mode
+**Type:** Command (or use ralph-wiggum with hookify)
 
-```bash
-claude --debug plugin
-```
+### 3. Multi-Repo Test Runner
 
-Shows plugin loading, component registration, and hook execution.
+**Problem:** Running tests across 6 repos manually
+
+**Solution:** Plugin that:
+- Detects test frameworks in each repo
+- Runs tests in parallel
+- Aggregates results
+- Reports failures
+
+**Type:** Command
+
+### 4. Dependency Audit Reporter
+
+**Problem:** Tracking outdated dependencies across repos
+
+**Solution:** Plugin that:
+- Scans package.json, Cargo.toml, pyproject.toml
+- Checks for outdated deps
+- Reports security vulnerabilities
+- Suggests updates
+
+**Type:** Skill (auto-invoked when dependencies change)
+
+<Callout type="success">
+**Most of these can be solved with ralph-wiggum + existing tools!** Build custom plugins only if you need persistent automation.
+</Callout>
 
 ---
 
 ## Publishing Plugins
 
-### Team Distribution (Private)
+### Internal Use (Your 6 Repos)
 
-**Option 1: Git Repository**
-
+**Option 1: User-level installation**
 ```bash
-# Team members install via:
-/plugin install git:https://github.com/company/internal-plugin.git
+# Copy plugin to:
+~/.claude/plugins/my-plugin/
+
+# Claude Code auto-detects it
 ```
 
-**Option 2: Custom Marketplace**
-
-Configure in `settings.json`:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "team-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "company/plugins"
-      }
-    }
-  }
-}
-```
-
-Team members install via:
-
+**Option 2: Repo-level installation**
 ```bash
-/plugin install plugin-name@team-marketplace
+# Copy plugin to each repo:
+~/projects/data-pipeline/.claude/plugins/my-plugin/
+~/projects/content-system/.claude/plugins/my-plugin/
+# etc.
 ```
 
-### Public Distribution (Community)
+### Public Distribution
 
 **Steps:**
-1. Create comprehensive README with examples
-2. Add tests and documentation
-3. Ensure security (no hardcoded credentials)
-4. Submit to community channels
-5. Maintain and respond to issues
+1. Create plugin following structure
+2. Test thoroughly
+3. Write comprehensive README
+4. Submit PR to official marketplace repo
+5. Wait for review and merge
 
-**Distribution methods:**
-- GitHub repository (most common)
-- NPM package
-- Official marketplace (if accepted)
-
----
-
-## Integration with MCP and LSP
-
-### MCP Servers vs Plugins
-
-**MCP Servers:**
-- Provide external tools and data to Claude
-- Run as separate processes
-- Connect to APIs, databases, services
-- Use Model Context Protocol
-
-**Plugins:**
-- Extend Claude Code behavior
-- Add commands, skills, agents, hooks
-- Can include MCP server configurations
-- Distributed as packages
-
-**They work together:**
-
-```
-Plugin
-  ├── Custom command
-  ├── Custom skill
-  └── MCP server config
-       └── Exposes external API to Claude
-```
-
-### LSP Servers in Plugins
-
-Plugins can bundle LSP server configurations:
-
-**.lsp.json in plugin:**
-
-```json
-{
-  "mylanguage": {
-    "command": "${CLAUDE_PLUGIN_ROOT}/bin/language-server",
-    "args": ["--stdio"],
-    "extensionToLanguage": {
-      "mylang": "mylanguage"
-    }
-  }
-}
-```
-
-When plugin is installed, LSP server is automatically available.
-
----
-
-## Real-World Plugin Examples
-
-### Example 1: Code Review Plugin
-
-**Components:**
-- Skill: Auto-invoked after code changes
-- Agent: Specialized review agent
-- Command: Manual review trigger
-
-**Structure:**
-```
-code-review-plugin/
-├── .claude-plugin/plugin.json
-├── skills/code-review/SKILL.md
-├── agents/reviewer.md
-└── commands/review.md
-```
-
-### Example 2: Team Standards Plugin
-
-**Components:**
-- Hooks: Enforce naming conventions
-- Commands: Generate compliant files
-- Skills: Auto-check standards
-
-**Structure:**
-```
-team-standards/
-├── .claude-plugin/plugin.json
-├── hooks/hooks.json
-├── commands/generate-doc.md
-└── skills/standards-check/SKILL.md
-```
-
-### Example 3: Database Integration Plugin
-
-**Components:**
-- MCP server: PostgreSQL connection
-- Commands: Query shortcuts
-- Skills: Schema analysis
-
-**Structure:**
-```
-db-plugin/
-├── .claude-plugin/plugin.json
-├── .mcp.json
-├── commands/query.md
-└── skills/schema-analyzer/SKILL.md
-```
+**Requirements:**
+- Clear documentation
+- Test coverage
+- Security review
+- Maintainer commitment
 
 ---
 
 ## Plugin Maintenance
 
-### Updating Installed Plugins
+### Updating Your Installed Plugins
 
 ```bash
-/plugin update <plugin-name>
+# Update all plugins
+claude plugin update <plugin-name>
+
+# Check for updates
+# Visit: https://github.com/anthropics/claude-code/tree/main/plugins
 ```
 
-### Disabling Temporarily
-
-**In settings.json:**
-
-```json
-{
-  "enabledPlugins": {
-    "plugin-name": false
-  }
-}
-```
-
-### Uninstalling
+### Removing Unused Plugins
 
 ```bash
-/plugin uninstall <plugin-name>
+# Disable temporarily
+claude plugin disable <plugin-name>
+
+# Uninstall permanently
+claude plugin uninstall <plugin-name>
 ```
 
 <Callout type="info">
-**Disable First:** Try disabling plugins before uninstalling. Helps determine if you actually need them.
+**Disable vs Uninstall:** Disable keeps the plugin installed but inactive. Uninstall removes it completely. Use disable first to test if you miss it.
 </Callout>
+
+---
+
+## Integration with MCP Servers
+
+**MCP (Model Context Protocol) Servers** provide external integrations:
+- Database connections
+- API access
+- File system extensions
+- Custom tools
+
+**Plugins vs MCP:**
+- **Plugins:** Extend Claude Code behavior (commands, hooks, agents)
+- **MCP Servers:** Provide external data/tools to Claude
+
+**They work together:**
+```
+Plugin (ralph-wiggum)
+  → Calls MCP Server (database)
+  → Retrieves data
+  → Processes it iteratively
+```
+
+**MCP documentation:** See `/help` or Claude Code docs for MCP server setup.
 
 ---
 
 ## Next Steps
 
-**Explore the marketplace:**
-- Use `/plugin` interface in REPL
-- Search GitHub for `claude-code-plugin`
-- Check Claude Code documentation
+**Explore marketplace:**
+Visit https://github.com/anthropics/claude-code/tree/main/plugins
 
-**Start small:**
-1. Create a custom command for a frequent workflow
-2. Add a skill for recurring patterns
-3. Build a custom agent for specialized tasks
-4. Combine into a plugin if sharing with team
+**Try other plugins:**
+- code-review (alternative PR review)
+- plugin-dev (if building custom plugins)
 
-**Share with community:**
-- Open source your useful plugins
-- Contribute to existing plugins
-- Help others in discussions
+**Build your own:**
+Use `/plugin-dev:create-plugin` if you have a specific workflow to automate
+
+**Share feedback:**
+- GitHub issues for bug reports
+- PRs for improvements
+- Discussions for feature requests
 
 <Callout type="success">
-**You're Ready!** You understand the plugin system, know how to evaluate and install plugins, and can build custom components or full plugins for your needs.
+**You're Ready!** You have 8 powerful plugins installed and know how to use them. Start with ralph-wiggum for autonomous work, hookify for enforcement, and the essential plugins for daily workflows.
 </Callout>

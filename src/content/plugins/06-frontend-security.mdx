@@ -1,0 +1,280 @@
+---
+title: "Frontend & Security"
+section: 6
+description: "Automatic plugins - frontend-design and security-guidance"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## Automatic Plugins
+
+These plugins work automatically - no commands to remember, just install and they activate when needed.
+
+---
+
+## frontend-design
+
+Auto-invoked skill that enforces your design system and prevents generic AI aesthetics.
+
+### How It Works
+
+The plugin automatically activates when you're working on frontend code. It references:
+- Your design system documentation
+- Shared font library
+- Spacing standards
+- Component patterns
+
+<Callout type="info">
+**Activation:** The skill detects frontend work based on file patterns (`.tsx`, `.jsx`, CSS files, component directories) and activates contextually.
+</Callout>
+
+### What It Enforces
+
+**Typography:**
+- Suggests fonts from your shared library
+- Recommends: Satoshi, Cabinet Grotesk, General Sans, Switzer
+- Prevents: Generic system fonts, Arial, Helvetica
+
+**Spacing:**
+- References design standards documentation
+- Enforces app-type appropriate spacing:
+  - Dashboard: 4-8-12px gaps
+  - SaaS: 8-12-16px gaps
+  - Marketing: 16-24px+ gaps
+- Prevents: Arbitrary spacing values, inconsistent gaps
+
+**Design Tokens:**
+- Encourages using design token systems
+- Suggests Tailwind config integration
+- Prevents: Hardcoded colors, magic numbers
+
+**Component Structure:**
+- Follows established patterns in your repos
+- Maintains consistency across components
+- Avoids generic AI component aesthetics
+
+### Active Repos
+
+The plugin is particularly useful in:
+- **dashboard-v2** (most advanced frontend)
+- **audio-editor-app** (C++ app with UI)
+- **task-app** (task management UI)
+- **personal-portfolio** (marketing site)
+- **data-dashboard** (3D visualization)
+- **dictionary-app** (reference UI)
+
+### Example Interaction
+
+**You:** "Create a button component"
+
+**Claude (with frontend-design):**
+```tsx
+// Uses Cabinet Grotesk from your font library
+// Applies 12px spacing from your standards
+// Follows your existing component patterns
+
+import { Button } from './components/Button';
+
+export function PrimaryButton({ children }) {
+  return (
+    <button className="font-cabinet text-base px-4 py-3 rounded-lg">
+      {children}
+    </button>
+  );
+}
+```
+
+Instead of generic:
+```tsx
+<button style="font-family: Arial; padding: 10px;">Click me</button>
+```
+
+<Callout type="success">
+**No Configuration Needed:** Just install. The plugin reads your workspace-asset-standards.md and shared-fonts/ automatically.
+</Callout>
+
+---
+
+## security-guidance
+
+PreToolUse hook that monitors for security vulnerabilities before code execution.
+
+### How It Works
+
+Before Claude uses tools that could introduce security issues, this hook:
+1. Scans the planned action
+2. Checks against 9 security patterns
+3. Warns if dangerous patterns detected
+4. Allows you to approve or reject
+
+<Callout type="warning">
+**Hook Type:** PreToolUse - activates BEFORE potentially dangerous actions, giving you a chance to prevent them.
+</Callout>
+
+### 9 Security Patterns Monitored
+
+**1. Command Injection**
+```javascript
+// ❌ Dangerous
+exec(`rm -rf ${userInput}`);
+
+// Warning: "Potential command injection - sanitize userInput first"
+```
+
+**2. XSS Vulnerabilities**
+```javascript
+// ❌ Dangerous
+element.innerHTML = userContent;
+
+// Warning: "XSS risk - use textContent or sanitize HTML"
+```
+
+**3. eval() Usage**
+```javascript
+// ❌ Dangerous
+eval(userCode);
+
+// Warning: "eval() is dangerous - use safer alternatives like Function() or JSON.parse()"
+```
+
+**4. Dangerous HTML**
+```javascript
+// ❌ Dangerous
+dangerouslySetInnerHTML={{ __html: untrustedHTML }}
+
+// Warning: "Sanitize HTML before using dangerouslySetInnerHTML"
+```
+
+**5. Python Pickle Deserialization**
+```python
+# ❌ Dangerous
+pickle.load(untrusted_file)
+
+# Warning: "Pickle deserialization from untrusted sources is dangerous"
+```
+
+**6. os.system() Calls**
+```python
+# ❌ Dangerous
+os.system(f"process {user_input}")
+
+# Warning: "os.system() with user input risks command injection - use subprocess with shell=False"
+```
+
+**7. SQL Injection**
+```python
+# ❌ Dangerous
+cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
+
+# Warning: "SQL injection risk - use parameterized queries"
+```
+
+**8. Path Traversal**
+```javascript
+// ❌ Dangerous
+fs.readFile(`./files/${userFilename}`)
+
+// Warning: "Path traversal risk - validate filename doesn't contain ../"
+```
+
+**9. Unsafe Regex**
+```javascript
+// ❌ Dangerous (ReDoS vulnerability)
+/^(a+)+$/
+
+// Warning: "Regex may be vulnerable to ReDoS - test with long inputs"
+```
+
+### Multi-Language Support
+
+Security-guidance works across your entire stack:
+- **Python:** data-pipeline (pandas, data processing)
+- **TypeScript/Node:** content-system, knowledge-base, task-app
+- **Rust:** dict-app (safer by default, but still monitors)
+- **C++:** audio-lib (additional C++-specific checks)
+
+### What Happens When Triggered
+
+**Scenario:** Claude tries to add code with potential SQL injection
+
+**security-guidance activates:**
+```
+⚠️ Security Warning
+
+Potential security issue detected:
+  Pattern: SQL Injection
+  Location: src/database/queries.py:42
+  Issue: String interpolation in SQL query
+
+Suggested fix:
+  Use parameterized queries instead:
+  cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+
+Proceed anyway? [y/N]
+```
+
+You can:
+- **Reject:** Claude will use the safer approach
+- **Approve:** Claude proceeds with original code (if you have a good reason)
+
+<Callout type="success">
+**Learning Tool:** Over time, you'll learn to spot these patterns yourself. The warnings are educational, not just restrictive.
+</Callout>
+
+---
+
+## No Action Required
+
+Both plugins work automatically:
+
+**frontend-design:**
+- Install: ✓
+- Configure: Not needed (reads your workspace docs)
+- Use: Automatic when working on frontend
+
+**security-guidance:**
+- Install: ✓
+- Configure: Not needed (monitors all languages)
+- Use: Automatic when potentially dangerous code is written
+
+### Verification
+
+**Test frontend-design:**
+```bash
+# Create a new component in any frontend repo
+cd ~/projects/task-app
+# Ask Claude to create a button component
+# Notice: Uses Cabinet Grotesk, proper spacing, no generic styles
+```
+
+**Test security-guidance:**
+```bash
+# Try adding code with potential security issue
+cd ~/projects/data-pipeline
+# Ask Claude to add database query with string interpolation
+# Notice: Warning appears before code is written
+```
+
+---
+
+## Disabling If Needed
+
+If a plugin becomes intrusive:
+
+```bash
+# Temporarily disable
+claude plugin disable frontend-design
+# or
+claude plugin disable security-guidance
+
+# Re-enable later
+claude plugin enable <plugin-name>
+```
+
+But in practice, these plugins are non-intrusive:
+- **frontend-design** just improves suggestions
+- **security-guidance** only warns on actual security issues
+
+<Callout type="info">
+**Recommendation:** Keep both enabled. They prevent mistakes without slowing you down.
+</Callout>

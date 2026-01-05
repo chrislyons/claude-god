@@ -1,0 +1,296 @@
+---
+title: "Ralph Wiggum"
+section: 4
+description: "Master autonomous iteration loops for complex tasks"
+---
+
+import Callout from '../../components/Callout.astro';
+
+## The Game Changer
+
+Ralph Wiggum enables **autonomous iteration loops** where Claude reads its own previous work and iteratively improves it until a task is complete. This is production-tested technology that has:
+
+- Built entire repositories overnight
+- Completed $50k contracts for $297 in API costs
+- Created programming languages over months of iterations
+
+<Callout type="warning">
+**Power Tool:** Ralph Wiggum is powerful but requires understanding of prompting best practices. Read this entire section before using.
+</Callout>
+
+---
+
+## How It Works
+
+Ralph uses a **Stop hook** that intercepts Claude's exit attempts and re-feeds the same prompt automatically:
+
+```
+You run ONCE → /ralph-loop "task" --max-iterations 50
+
+Then Claude:
+1. Works on task
+2. Tries to exit
+3. Stop hook blocks exit
+4. Re-feeds prompt
+5. Claude reads own work
+6. Improves it
+7. Repeat until done
+```
+
+This creates a **self-referential feedback loop** where each iteration sees:
+- File changes from previous iterations
+- Git commit history
+- Test results and build output
+- The unchanged original prompt
+
+---
+
+## Command Syntax
+
+```bash
+/ralph-loop "<task description>" \
+  --max-iterations <N> \
+  --completion-promise "<text>"
+```
+
+### Parameters
+
+**`<task description>`** (required)
+- Clear description of what to accomplish
+- Include success criteria
+- Specify verification steps
+
+**`--max-iterations <N>`** (required)
+- Maximum number of iterations before stopping
+- **CRITICAL:** Always set this as a safety net
+- Start small (10-20) before overnight runs (50-100)
+
+**`--completion-promise "<text>"`** (required)
+- Exact phrase Claude outputs when done
+- Typically: `COMPLETE`, `DONE`, `SUCCESS`
+- Must appear in prompt so Claude knows what to output
+
+---
+
+## Real Examples for Your Workflow
+
+### PREFIX Doc Compliance Sweep
+
+```bash
+/ralph-loop "Scan all docs/ folders across all repositories.
+Find any PREFIX files not matching pattern: {PREFIX###} Descriptive Title.md.
+Fix the filenames to include descriptive titles.
+List all modified files.
+When all PREFIX docs are compliant, output <promise>COMPLETE</promise>" \
+--max-iterations 20 \
+--completion-promise "COMPLETE"
+```
+
+### Overnight Refactoring with Test Validation
+
+```bash
+/ralph-loop "Refactor audio-lib/apps/editor following patterns in ARCHITECTURE.md.
+After EACH change:
+1. Run tests with: cd audio-lib && npm test
+2. If tests fail, debug and fix
+3. Commit the change if tests pass
+4. Move to next refactoring task
+
+When all patterns are applied AND all tests pass, output <promise>COMPLETE</promise>" \
+--max-iterations 50 \
+--completion-promise "COMPLETE"
+```
+
+### TDD Feature Development
+
+```bash
+/ralph-loop "Implement user authentication in knowledge-base with TDD approach:
+1. Write failing test
+2. Implement minimal code to pass test
+3. Refactor if needed
+4. Repeat for next feature
+
+Requirements:
+- Session-based auth (not JWT)
+- Login, logout, session validation
+- Test coverage must be >80%
+- Update .claude/implementation_progress.md when done
+
+Output <promise>COMPLETE</promise> when feature is complete with passing tests and docs updated." \
+--max-iterations 60 \
+--completion-promise "COMPLETE"
+```
+
+### Cross-Repo Pattern Enforcement
+
+```bash
+/ralph-loop "Apply spacing standards from ~/workspace/docs/design-standards.md to frontend CSS.
+Repos to update: dashboard-v2, dict-app, task-app, portfolio, data-viz.
+For each repo:
+1. Update CSS to match spacing standards
+2. Run build: npm run build
+3. Fix any build errors
+4. Commit changes
+5. Move to next repo
+
+When all repos are updated with consistent spacing AND all builds pass, output <promise>COMPLETE</promise>" \
+--max-iterations 40 \
+--completion-promise "COMPLETE"
+```
+
+<Callout type="success">
+**Best Practice:** Include verification steps (run tests, run build) in your prompt. This allows Ralph to self-correct when tests fail.
+</Callout>
+
+---
+
+## Prompting Best Practices
+
+### 1. Clear Completion Criteria
+
+❌ **Bad:** "Build a todo API and make it good."
+
+✅ **Good:**
+```
+Build a REST API for todos.
+
+When complete:
+- All CRUD endpoints working
+- Input validation in place
+- Tests passing (coverage > 80%)
+- README with API docs
+- Output: <promise>COMPLETE</promise>
+```
+
+### 2. Incremental Goals
+
+❌ **Bad:** "Create a complete e-commerce platform."
+
+✅ **Good:**
+```
+Phase 1: User authentication (JWT, tests)
+Phase 2: Product catalog (list/search, tests)
+Phase 3: Shopping cart (add/remove, tests)
+
+Output <promise>COMPLETE</promise> when all phases done.
+```
+
+### 3. Self-Correction Loop
+
+Include verification:
+
+```
+Implement feature X following TDD:
+1. Write failing tests
+2. Implement feature
+3. Run tests
+4. If any fail, debug and fix  ← Self-correction
+5. Refactor if needed
+6. Repeat until all green
+7. Output: <promise>COMPLETE</promise>
+```
+
+### 4. Safety Mechanisms
+
+**ALWAYS set `--max-iterations`:**
+
+```bash
+/ralph-loop "Complex task" --max-iterations 20
+# Not: /ralph-loop "Complex task"  ← Will run indefinitely!
+```
+
+**In your prompt, add fallback behavior:**
+
+```
+After 15 iterations, if not complete:
+- Document what's blocking progress
+- List what was attempted
+- Suggest alternative approaches
+```
+
+<Callout type="danger">
+**Safety Net:** The `--completion-promise` uses exact string matching. ALWAYS rely on `--max-iterations` as your primary safety mechanism.
+</Callout>
+
+---
+
+## When to Use Ralph Wiggum
+
+✅ **Perfect For:**
+- Well-defined tasks with automatic verification (tests, builds)
+- Refactoring with test suites
+- Documentation compliance sweeps
+- TDD workflows
+- Overnight/weekend work sessions
+
+❌ **Avoid For:**
+- Unclear requirements or goals
+- Tasks requiring human judgment
+- Design decisions without clear criteria
+- One-shot operations (just do them normally)
+- Exploratory/research tasks
+
+---
+
+## Monitoring Ralph Loops
+
+While Ralph runs, you can:
+
+- **Watch file changes** in your editor
+- **Monitor git commits** (if you instructed commits)
+- **Check test output** (if tests are running)
+- **Cancel anytime:** `/cancel-ralph`
+
+### Cancel Command
+
+```bash
+/cancel-ralph
+```
+
+Immediately stops the active Ralph loop.
+
+---
+
+## Advanced: Pairing with Hookify
+
+**hookify prevents future violations, ralph fixes existing ones.**
+
+Example workflow:
+
+```bash
+# First: Create hook to prevent bad PREFIX files
+/hookify
+# Create rule: Block Write if filename matches docs/**/[A-Z]{3,4}\d{3,4}\.md$ without space
+
+# Then: Use ralph to fix all existing violations
+/ralph-loop "Fix all existing PREFIX files..." --max-iterations 20
+```
+
+This ensures:
+1. Ralph fixes all current violations
+2. Hookify prevents new violations going forward
+
+---
+
+## Testing Your First Ralph Loop
+
+Start small to learn the pattern:
+
+```bash
+/ralph-loop "Create a simple test file at /tmp/ralph-test.txt with the word 'Hello'.
+Then read the file to verify it exists.
+Output <promise>COMPLETE</promise> when file exists with correct content." \
+--max-iterations 5 \
+--completion-promise "COMPLETE"
+```
+
+Watch how Ralph:
+1. Creates the file
+2. Reads it back
+3. Verifies content
+4. Outputs COMPLETE
+5. Stops
+
+<Callout type="success">
+**Pro Tip:** Start with `--max-iterations 10-20` for first attempts. Once you trust your prompt, increase to 50-100 for overnight runs.
+</Callout>
