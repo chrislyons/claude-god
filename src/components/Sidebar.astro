@@ -65,9 +65,10 @@ const allGuides = Object.entries(GUIDES).map(([id, guide]) => ({
           <ul class="list-none p-0 pl-4 mt-2" role="list">
             {guide.navigation.map(item => {
               const isHashLink = guide.id === guideId;
+              // Always use absolute paths with /claude-god/ prefix to prevent relative path navigation
               const href = isHashLink
                 ? `#${item.id}`
-                : `${base}${guide.route.slice(1)}#${item.id}`;
+                : `/claude-god${guide.route}#${item.id}`;
 
               return (
                 <li class="my-1">
