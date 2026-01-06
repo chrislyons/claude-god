@@ -29,3 +29,8 @@
   opacity: 0.8;
   margin-bottom: 3rem;
 }
+
+/* Chevron rotation for accordion - needed for dynamic class additions */
+.rotate-90 {
+  transform: rotate(90deg);
+}

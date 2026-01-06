@@ -8,8 +8,12 @@ aside a:hover {
 }
 
 aside a.active {
-  background-color: var(--color-primary-accent);
-  color: white;
+  background-color: var(--color-code-bg);
+  color: var(--color-text);
+  font-weight: 500;
+  opacity: 1;
+  border-left: 2px solid var(--color-primary-accent);
+  margin-left: -2px;
 }
 
 /* Directory Tree */

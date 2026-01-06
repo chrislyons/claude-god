@@ -52,12 +52,12 @@ const { diagram } = Astro.props;
 
     await mermaid.run();
 
-    // After rendering, ensure SVGs are responsive
+    // Fix viewBox to include all content (Mermaid sometimes miscalculates)
     document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
-      svg.removeAttribute('height');
-      (svg as HTMLElement).style.width = '100%';
-      (svg as HTMLElement).style.maxWidth = '100%';
-      (svg as HTMLElement).style.height = 'auto';
+      const bbox = (svg as SVGSVGElement).getBBox();
+      const padding = 20;
+      const newViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`;
+      svg.setAttribute('viewBox', newViewBox);
     });
   }
 
@@ -94,12 +94,12 @@ const { diagram } = Astro.props;
 
     await mermaid.run();
 
-    // Ensure SVGs are responsive
+    // Fix viewBox to include all content (Mermaid sometimes miscalculates)
     document.querySelectorAll('.mermaid-wrapper svg').forEach((svg) => {
-      svg.removeAttribute('height');
-      (svg as HTMLElement).style.width = '100%';
-      (svg as HTMLElement).style.maxWidth = '100%';
-      (svg as HTMLElement).style.height = 'auto';
+      const bbox = (svg as SVGSVGElement).getBBox();
+      const padding = 20;
+      const newViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`;
+      svg.setAttribute('viewBox', newViewBox);
     });
   }
 
@@ -134,20 +134,18 @@ const { diagram } = Astro.props;
     background-color: transparent;
     border: none;
     padding: 0;
-    width: 100%;
-    max-width: 100%;
   }
 
   .mermaid-wrapper {
-    width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Make Mermaid SVGs responsive and fill container */
+  /* Let Mermaid SVGs render at natural size */
   .mermaid-wrapper :global(svg) {
-    width: 100% !important;
-    max-width: 100%;
-    height: auto !important;
     display: block;
+    height: auto;
+    max-width: none;
   }
 </style>

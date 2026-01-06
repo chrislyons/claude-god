@@ -12,9 +12,9 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 ### The Relationship
 
 <MermaidDiagram diagram={`graph TB
-    A["Claude API(Messages API)(Raw API)"]
-    B["Agent SDK(Python/TypeScript)(Framework you import)"]
-    C["Claude Code CLI(Runtime/execution engine)"]
+    A[Claude API]
+    B[Agent SDK]
+    C[Claude Code CLI]
 
     A --> B
     B --> C

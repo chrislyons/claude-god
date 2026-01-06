@@ -1,4 +1,11 @@
+// Use a flag to prevent multiple initialization
+let mobileMenuInitialized = false;
+
 export function initMobileMenu() {
+  if (mobileMenuInitialized) {
+    return;
+  }
+
   const menu = document.querySelector('[data-mobile-menu]') as HTMLElement;
   const toggle = document.querySelector('[data-mobile-menu-toggle]') as HTMLButtonElement;
   const backdrop = document.querySelector('[data-mobile-menu-backdrop]') as HTMLElement;
@@ -10,6 +17,8 @@ export function initMobileMenu() {
     console.warn('Mobile menu elements not found');
     return;
   }
+
+  mobileMenuInitialized = true;
 
   let isOpen = false;
   let isAnimating = false;
@@ -24,7 +33,7 @@ export function initMobileMenu() {
     menu.classList.remove('hidden');
     toggle.setAttribute('aria-expanded', 'true');
 
-    // Trigger animation
+    // Trigger animation (slide in from left)
     requestAnimationFrame(() => {
       backdrop.style.opacity = '1';
       panel.style.transform = 'translateX(0)';
@@ -48,7 +57,7 @@ export function initMobileMenu() {
     isOpen = false;
 
     backdrop.style.opacity = '0';
-    panel.style.transform = 'translateX(100%)';
+    panel.style.transform = 'translateX(-100%)';  // Slide back to left
     toggle.setAttribute('aria-expanded', 'false');
 
     // Remove from DOM after animation
@@ -76,6 +85,7 @@ export function initMobileMenu() {
   });
 
   // Handle mobile menu accordion
+  // Mobile accordion uses separate IDs (mobile-accordion-content-*) to avoid conflicts with desktop
   const mobileAccordions = panel.querySelectorAll('[data-mobile-menu-accordion]');
   mobileAccordions.forEach(accordion => {
     accordion.addEventListener('click', () => {
@@ -98,7 +108,7 @@ export function initMobileMenu() {
         }
       });
 
-      // Toggle current
+      // Toggle current accordion
       if (isExpanded) {
         accordion.setAttribute('aria-expanded', 'false');
         accordion.classList.remove('accordion-active');

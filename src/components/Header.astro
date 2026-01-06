@@ -13,18 +13,13 @@ const pageTitle = currentGuide?.title || 'Claude CLI';
 ---
 
 <header
-  class="fixed top-0 left-sidebar right-0 h-header flex items-center justify-between px-8 z-[100] transition-all theme-bg theme-border-bottom"
+  class="fixed top-0 left-sidebar right-0 h-header flex items-center px-8 z-[100] transition-all theme-bg theme-border-bottom"
   role="banner"
 >
-  <!-- Left: Page Title -->
-  <h1 class="font-display text-xl font-bold theme-text" style="line-height: 28px;">
-    {pageTitle}
-  </h1>
-
-  <!-- Right: Mobile menu button (hidden on desktop) -->
+  <!-- Mobile: Hamburger on left (hidden on desktop) -->
   <button
     data-mobile-menu-toggle
-    class="md:hidden p-2 rounded hover:bg-opacity-10 hover:bg-black transition-colors theme-text"
+    class="md:hidden p-2 rounded hover:bg-opacity-10 hover:bg-black transition-colors theme-text mr-3"
     aria-label="Toggle mobile menu"
     aria-expanded="false"
   >
@@ -32,4 +27,29 @@ const pageTitle = currentGuide?.title || 'Claude CLI';
       <path d="M3 12h18M3 6h18M3 18h18"/>
     </svg>
   </button>
+
+  <!-- Page Title -->
+  <h1 class="font-display text-xl font-bold theme-text" style="line-height: 28px;" data-header-title>
+    {pageTitle}
+  </h1>
 </header>
+
+<script>
+  /**
+   * Dynamic Header Title Sync
+   *
+   * Listens for 'accordion:change' events from AccordionManager
+   * and updates the page title in the header to match the selected guide.
+   */
+
+  // Listen for accordion changes
+  document.addEventListener('accordion:change', ((event: CustomEvent) => {
+    const { title } = event.detail;
+
+    // Update header title if a guide is selected
+    const headerTitle = document.querySelector('[data-header-title]');
+    if (headerTitle && title) {
+      headerTitle.textContent = title;
+    }
+  }) as EventListener);
+</script>

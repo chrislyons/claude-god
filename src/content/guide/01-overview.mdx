@@ -17,19 +17,13 @@ clean separation between user-level automation and project-specific configuratio
 
 <MermaidDiagram diagram={`
 graph TD
-    A[User Level<br/>~/.claude/] --> B[Personal Config]
-    A --> C[Applies to ALL projects]
+    A[User Level<br/>~/.claude/] --> B[Personal Config<br/>Applies to ALL projects]
+    D[Repo Level<br/>repo/.claude/] --> E[Team-Shared Config<br/>Committed to git]
+    G[Local Level<br/>repo/.claude/*.local.*] --> H[Personal Overrides<br/>Gitignored]
 
-    D[Repo Level<br/>repo/.claude/] --> E[Team-Shared Config]
-    D --> F[Committed to git]
-
-    G[Local Level<br/>repo/.claude/*.local.*] --> H[Personal Overrides]
-    G --> I[Gitignored]
-
-    B --> J[Resolution Order]
+    B --> J[Resolution Order<br/>Local > Repo > User]
     E --> J
     H --> J
-    J --> K[Local > Repo > User]
 
     style A fill:#F55036,color:#fff
     style D fill:#3B82F6,color:#fff

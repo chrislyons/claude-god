@@ -1,10 +1,22 @@
+// Use a flag to prevent multiple initialization
+let copyCommandsInitialized = false;
+
 export function initCopyCommands() {
+  if (copyCommandsInitialized) {
+    return;
+  }
+
   // Find all bash code blocks
   const bashBlocks = document.querySelectorAll('pre code.language-bash, pre code.language-sh');
 
   bashBlocks.forEach((code) => {
     const pre = code.parentElement as HTMLElement;
     if (!pre) return;
+
+    // Skip if already initialized (prevent duplicate listeners)
+    if (pre.classList.contains('copyable-command')) {
+      return;
+    }
 
     // Make the entire code block clickable
     pre.style.cursor = 'pointer';
@@ -33,4 +45,6 @@ export function initCopyCommands() {
       }
     });
   });
+
+  copyCommandsInitialized = true;
 }

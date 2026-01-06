@@ -78,27 +78,31 @@ if (!guide) {
       import { initCopyCommands } from '../scripts/copy-commands';
       import { initKeyboardNav } from '../scripts/keyboard-nav';
       import { initMobileMenu } from '../scripts/mobile-menu';
-      import { initAccordion } from '../scripts/accordion';
+      import { initAccordion, cleanupAccordion, syncAccordionWithUrl } from '../scripts/accordion-manager';
 
-      // Initialize after DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          initThemeToggle();
-          initActiveNav();
-          initCopyCommands();
-          initKeyboardNav();
-          initMobileMenu();
-          initAccordion();
-        });
-      } else {
-        // DOM already loaded
+      // Initialize all interactive features
+      function initializePage() {
         initThemeToggle();
         initActiveNav();
         initCopyCommands();
         initKeyboardNav();
         initMobileMenu();
-        initAccordion();
+        initAccordion(); // Now safe - has internal guard against double init
+        syncAccordionWithUrl(); // Sync accordion state with current page URL
       }
+
+      // Initialize immediately (Astro scripts run after DOM ready)
+      initializePage();
+
+      // Cleanup before navigation (View Transitions)
+      document.addEventListener('astro:before-swap', () => {
+        cleanupAccordion();
+      });
+
+      // Reinitialize after navigation
+      document.addEventListener('astro:after-swap', () => {
+        initializePage();
+      });
     </script>
   </body>
 </html>

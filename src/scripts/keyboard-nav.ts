@@ -1,8 +1,12 @@
-export function initKeyboardNav() {
-  // Map number keys to guide navigation via accordion
-  const accordionHeaders = Array.from(document.querySelectorAll('.accordion-header[data-accordion-toggle]')) as HTMLButtonElement[];
+// Use a flag to prevent multiple initialization
+let keyboardNavInitialized = false;
 
-  document.addEventListener('keydown', (e) => {
+export function initKeyboardNav() {
+  if (keyboardNavInitialized) {
+    return;
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
     // Ignore if user is typing in an input/textarea
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
       return;
@@ -11,6 +15,9 @@ export function initKeyboardNav() {
     // Number keys 1-5 for guide navigation
     if (e.key >= '1' && e.key <= '5') {
       const index = parseInt(e.key) - 1;
+      // Query accordion headers dynamically each time (handles View Transitions)
+      const accordionHeaders = Array.from(document.querySelectorAll('.accordion-header[data-accordion-toggle]')) as HTMLButtonElement[];
+
       if (accordionHeaders[index]) {
         e.preventDefault();
         // Click the accordion header to expand and navigate
@@ -19,18 +26,17 @@ export function initKeyboardNav() {
         // Get the guide route and navigate
         const guideId = accordionHeaders[index].getAttribute('data-accordion-toggle');
         if (guideId) {
-          // Find the guide route from the config
-          const baseUrl = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/');
+          // Route mapping for all guides (with /claude-god/ prefix)
           const routes: Record<string, string> = {
-            'quick-start': '/guides/quick-start/',
-            'no-code': '/guides/no-code/',
-            'claude-cli': '/',
-            'agent-sdk': '/guides/agent-sdk/',
-            'plugins': '/guides/plugins/'
+            'quickStart': '/claude-god/quick-start',
+            'noCode': '/claude-god/no-code',
+            'architecture': '/claude-god/',
+            'agentSdk': '/claude-god/agent-sdk',
+            'plugins': '/claude-god/plugins'
           };
           const route = routes[guideId];
           if (route) {
-            window.location.href = baseUrl + route;
+            window.location.href = route;
           }
         }
       }
@@ -44,5 +50,8 @@ export function initKeyboardNav() {
         brandToggle.click();
       }
     }
-  });
+  };
+
+  document.addEventListener('keydown', handleKeyDown);
+  keyboardNavInitialized = true;
 }

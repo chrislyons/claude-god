@@ -1,4 +1,11 @@
+// Use a flag to prevent multiple initialization
+let themeToggleInitialized = false;
+
 export function initThemeToggle() {
+  if (themeToggleInitialized) {
+    return;
+  }
+
   const toggle = document.querySelector('[data-brand-toggle]');
 
   if (!toggle) {
@@ -16,7 +23,7 @@ export function initThemeToggle() {
   document.documentElement.setAttribute('data-theme', initialTheme);
 
   // Cycle through themes: light → dark → ember → light
-  toggle.addEventListener('click', () => {
+  const handleThemeToggle = () => {
     const current = document.documentElement.getAttribute('data-theme');
     let newTheme: string;
 
@@ -32,5 +39,8 @@ export function initThemeToggle() {
     setTimeout(() => {
       document.documentElement.style.transition = '';
     }, 200);
-  });
+  };
+
+  toggle.addEventListener('click', handleThemeToggle);
+  themeToggleInitialized = true;
 }
