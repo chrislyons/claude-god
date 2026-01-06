@@ -58,6 +58,10 @@ const { diagram } = Astro.props;
       const padding = 20;
       const newViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`;
       svg.setAttribute('viewBox', newViewBox);
+
+      // Remove explicit width/height to allow CSS to control scaling
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
     });
   }
 
@@ -100,6 +104,10 @@ const { diagram } = Astro.props;
       const padding = 20;
       const newViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`;
       svg.setAttribute('viewBox', newViewBox);
+
+      // Remove explicit width/height to allow CSS to control scaling
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
     });
   }
 
