@@ -155,21 +155,12 @@ button:focus:not(:focus-visible) {
 }
 
 [data-theme="dark"] {
-  --color-bg: #1A1514;
-  --color-text: #E8E6E3;
-  --color-code-bg: #2A2421;
-  --color-border: #3A3330;
-
-  color-scheme: dark;
-}
-
-[data-theme="ember"] {
   /* Deep warm background with high contrast */
   --color-bg: #1C0F0A;
   --color-text: #FFF8F0;
   --color-code-bg: #2D1810;
   --color-border: #4A2818;
-  --color-primary-accent: #FF6B4A; /* Brighter ember orange */
+  --color-primary-accent: #FF6B4A; /* Bright ember orange */
 
   color-scheme: dark;
 }

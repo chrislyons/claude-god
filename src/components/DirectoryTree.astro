@@ -17,6 +17,6 @@ function processTree(text: string): string {
 const processedContent = processTree(content);
 ---
 
-<div class="tree bg-code-bg-light dark:bg-code-bg-dark p-6 rounded-lg my-6 font-code text-sm leading-relaxed overflow-x-auto">
-  <pre class="!bg-transparent !p-0 !m-0"><code set:html={processedContent} /></pre>
+<div class="tree w-full bg-code-bg-light dark:bg-code-bg-dark p-6 rounded-lg my-6 font-code text-sm leading-relaxed overflow-x-auto">
+  <pre class="!bg-transparent !p-0 !m-0 whitespace-pre-wrap break-words"><code set:html={processedContent} /></pre>
 </div>

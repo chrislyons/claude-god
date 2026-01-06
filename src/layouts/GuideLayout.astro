@@ -66,9 +66,9 @@ if (!guide) {
 
     <script is:inline>
       // Set theme immediately to prevent flash
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      const validThemes = ['light', 'dark', 'ember'];
-      const theme = validThemes.includes(savedTheme) ? savedTheme : 'light';
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      const validThemes = ['light', 'dark'];
+      const theme = validThemes.includes(savedTheme) ? savedTheme : 'dark';
       document.documentElement.setAttribute('data-theme', theme);
     </script>
 

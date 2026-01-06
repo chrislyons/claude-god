@@ -137,15 +137,18 @@ const { diagram } = Astro.props;
   }
 
   .mermaid-wrapper {
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Let Mermaid SVGs render at natural size */
+  /* Make Mermaid SVGs responsive and auto-scale to container */
   .mermaid-wrapper :global(svg) {
     display: block;
+    width: 100%;
     height: auto;
-    max-width: none;
+    max-width: 100%;
   }
 </style>

@@ -13,23 +13,19 @@ export function initThemeToggle() {
     return;
   }
 
-  // Load saved theme or default to light
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  // Load saved theme or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
 
   // Validate saved theme
-  const validThemes = ['light', 'dark', 'ember'];
-  const initialTheme = validThemes.includes(savedTheme) ? savedTheme : 'light';
+  const validThemes = ['light', 'dark'];
+  const initialTheme = validThemes.includes(savedTheme) ? savedTheme : 'dark';
 
   document.documentElement.setAttribute('data-theme', initialTheme);
 
-  // Cycle through themes: light → dark → ember → light
+  // Toggle between light and dark themes
   const handleThemeToggle = () => {
     const current = document.documentElement.getAttribute('data-theme');
-    let newTheme: string;
-
-    if (current === 'light') newTheme = 'dark';
-    else if (current === 'dark') newTheme = 'ember';
-    else newTheme = 'light';
+    const newTheme = current === 'light' ? 'dark' : 'light';
 
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
