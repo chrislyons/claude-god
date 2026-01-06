@@ -66,10 +66,17 @@ if (!guide) {
 
     <script is:inline>
       // Set theme immediately to prevent flash
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      const validThemes = ['light', 'dark'];
-      const theme = validThemes.includes(savedTheme) ? savedTheme : 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const validThemes = ['light', 'dark'];
+        const theme = validThemes.includes(savedTheme) ? savedTheme : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+
+      applyTheme();
+
+      // Re-apply theme after View Transitions
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
 
     <script>
