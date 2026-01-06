@@ -8,7 +8,7 @@ validateGuideConfig();
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://boot.industries/claude-god/',
+  site: 'https://claude-god.pages.dev/',
   base: '/claude-god/',
   integrations: [
     tailwind({
