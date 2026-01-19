@@ -11,24 +11,24 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ### CLAUDE.md Hierarchy
 
-CLAUDE.md files define rules and conventions. They are resolved in this order:
+CLAUDE.md files define rules and conventions. They are resolved in precedence order (highest priority first):
 
 <MermaidDiagram diagram={`
 graph LR
-    A[Code Behavior] --> B[Repo CLAUDE.md]
-    B --> C[Workspace CLAUDE.md]
-    C --> D[Global CLAUDE.md]
+    A[Repo CLAUDE.md] --> B[Workspace CLAUDE.md]
+    B --> C[Global CLAUDE.md]
+    C --> D[Code Behavior]
 
-    style A fill:#2D7A4F,color:#fff
-    style B fill:#3B82F6,color:#fff
-    style C fill:#F59E0B,color:#fff
-    style D fill:#F55036,color:#fff
+    style A fill:#F55036,color:#fff
+    style B fill:#F59E0B,color:#fff
+    style C fill:#3B82F6,color:#fff
+    style D fill:#2D7A4F,color:#fff
 `} />
 
-1. **Actual code behavior** (ground truth)
-2. **Repo CLAUDE.md** (`<repo>/CLAUDE.md`) - Project-specific rules
-3. **Workspace CLAUDE.md** (`~/workspace/CLAUDE.md`) - Multi-repo conventions
-4. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - Universal rules
+1. **Repo CLAUDE.md** (`<repo>/CLAUDE.md`) - Project-specific rules (highest priority)
+2. **Workspace CLAUDE.md** (`~/workspace/CLAUDE.md`) - Multi-repo conventions
+3. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - Universal rules
+4. **Actual code behavior** (fallback when no config specified)
 
 ### settings.json vs settings.local.json
 

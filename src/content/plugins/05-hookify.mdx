@@ -6,6 +6,10 @@ description: "Create custom rules and enforcement for your workflow"
 
 import Callout from '../../components/Callout.astro';
 
+<Callout type="warning" title="Conceptual / Custom Implementation">
+**Note:** Hookify is a conceptual pattern, not an official Claude Code plugin. The actual hooks system uses JSON configuration files (`~/.claude/hooks.json` or `<repo>/.claude/hooks.json`) rather than interactive commands. This document describes a custom skill that could be built on top of the hooks system.
+</Callout>
+
 ## Custom Rule Enforcement
 
 Hookify lets you create custom hooks that prevent unwanted behaviors before they happen. Think of it as "linting for Claude's actions."
